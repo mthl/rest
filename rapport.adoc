@@ -14,14 +14,26 @@ Ces améliorations devront être réalisées en interaction avec les projets cli
 
 === Architecture REST
 
-Liens donnés par Nicolas
+_Representational State Transfer_ (REST) est un style architectural décrit par Roy Fielding dans sa thèse de doctorat <<fielding2000architectural>> dont l'idée principale est la communication « *stateless* » au travers de la notion de ressources accessibles au moyen d'un nombre réduit d'actions.
+Ces ressources sont liées entre elles par des liens Hypertextes sensé permettre leur découvrabilité.
+La découvrabilité des ressources est décrite par le principe _Hypermedia As The Engine Of Application State_ (HATEOAS).
 
-* https://www.infoq.com/articles/rest-introduction
-* http://apidoc.adility.com/submission-api
-* https://issues.apache.org/jira/browse/OFBIZ-4274
-* http://blog.pilotsystems.net/2012/septembre/les-api-rest
+// Liens donnés par Nicolas
+//
+// * https://www.infoq.com/articles/rest-introduction
+// * http://apidoc.adility.com/submission-api
+// * https://issues.apache.org/jira/browse/OFBIZ-4274
+// * http://blog.pilotsystems.net/2012/septembre/les-api-rest
 
-Thèse de Roy Fielding <<fielding2000architectural>>
+=== Protocole HTTP
+
+Le protocole HTTP est un protocole texte utilisé sur le Web pour transmettre les ressources HTML, CSS, Javascript.
+L'accès aux ressources se fait au moyen de 4 méthodes principales `GET`, `POST`, `HEAD`, `DELETE` mais également de 5 autres méthodes moins courantes `OPTIONS`, `CONNECT`, `TRACE`, `PUT`, `PATCH`.
+
+=== Format de données
+
+Lors d'une requête, il est possible pour le client de spécifier le type contenu souhaité au moyen du header `Accept` cependant il faut que le serveur recevant cette requête soit en mesure de fournir le format de donnée souhaité.
+Dans la pratique les formats XML est JSON sont les plus courant pour la transmission de données structurées.
 
 :numbered!:
 [bibliography]
