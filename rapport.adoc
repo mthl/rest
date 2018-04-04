@@ -29,3 +29,4 @@ Thèse de Roy Fielding <<fielding2000architectural>>
 
 [bibliography]
 - [[[fielding2000architectural]]] Roy Fielding. 'Architectural styles and the design of network-based software architectures'. Addison-Wesley. University of California, Irvine Doctoral dissertation . 2000
+// https://www.ics.uci.edu/~fielding/pubs/dissertation/fielding_dissertation.pdf
