@@ -97,3 +97,9 @@ Dans la pratique les formats XML est JSON sont les plus courant pour la transmis
 [bibliography]
 - [[[fielding2000architectural]]] Roy Fielding. 'Architectural styles and the design of network-based software architectures'. Addison-Wesley. University of California, Irvine Doctoral dissertation . 2000
 // https://www.ics.uci.edu/~fielding/pubs/dissertation/fielding_dissertation.pdf
+
+- [[[rfc2616]]] Roy Fielding, Jim Gettys, Jeffrey Mogul, et al. 'Hypertext transfer protocol--HTTP/1.1' . 1999
+
+- [[[modern-web-archi]]] Roy Fielding et Richard Taylor 'Principled design of the modern Web architecture'. ACM Transactions on Internet Technology (TOIT), 2002, vol. 2, no 2, p. 115-150.
+
+- [[[rest-misconception]]] Stefan Tilkov 'REST: I don't Think it Means What You Think it Does' https://www.infoq.com/presentations/rest-misconceptions Mars 2015.  visité le 05/04/2018.
