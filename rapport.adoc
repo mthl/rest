@@ -72,9 +72,10 @@ digraph G {
 // * https://issues.apache.org/jira/browse/OFBIZ-4274
 // * http://blog.pilotsystems.net/2012/septembre/les-api-rest
 
-=== Protocole HTTP
+==== Protocole HTTP
 
 Le protocole HTTP est un protocole texte utilisé sur le Web pour transmettre les ressources HTML, CSS, Javascript.
+Ce protocole suit les contraintes définies par le style architectural REST.
 L'accès aux ressources se fait au moyen de 4 méthodes principales `GET`, `POST`, `HEAD`, `DELETE` mais également de 5 autres méthodes moins courantes `OPTIONS`, `CONNECT`, `TRACE`, `PUT`, `PATCH`.
 
 === Format de données
