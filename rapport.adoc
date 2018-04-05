@@ -4,7 +4,7 @@ Mathieu Lirzin <mathieu.lirzin@nereide.fr>
 
 :numbered!:
 == Introduction
-Dans le cadre d'une amélioration du progiciel de gestion intégré Apache OFBiz nous souhaitons mettre en place une API HTTP basée sur lestyle d'architecture REST pour les échanges entre les différents
+Dans le cadre d'une amélioration du progiciel de gestion intégré Apache OFBiz nous souhaitons mettre en place une API HTTP basée sur le style d'architecture REST pour les échanges entre les différents
 composants logiciels de type service. Il sera demandé au stagiaire dans un premier temps de réaliser un état de l'art de l'utilisation de ce style architectural, puis d'étudier les principes d'architectures orientées services (SOA) utilisés dans le framework Apache OFBiz.
 
 Après cette phase d'analyse, l'API HTTP basée sur le style REST devra être implementée dans le framework Apache OFBiz en suivant les principes SOA.
