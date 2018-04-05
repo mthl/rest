@@ -1,4 +1,5 @@
-= Implémentation d'une API HTTP de style REST pour Apache OFBiz
+Implémentation d'une API HTTP de style REST pour Apache OFBiz
+=============================================================
 Mathieu Lirzin <mathieu.lirzin@nereide.fr>
 
 :numbered!:
