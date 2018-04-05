@@ -19,6 +19,52 @@ _Representational State Transfer_ (REST) est un style architectural décrit par 
 Ces ressources sont liées entre elles par des liens Hypertextes sensé permettre leur découvrabilité.
 La découvrabilité des ressources est décrite par le principe _Hypermedia As The Engine Of Application State_ (HATEOAS).
 
+["graphviz"]
+------------
+digraph G {
+  layout=dot
+  node [shape=box, style=rounded];
+  rankdir="LR";
+  splines=spline;
+
+
+  subgraph cluster_client {
+    rank=min;
+    client [shape=egg];
+  }
+
+  subgraph cluster_api {
+    style=dashed
+    label="API";
+    id1;
+    id2;
+    id3;
+    id4;
+    color=grey
+    rank=same;
+  }
+
+  subgraph cluster_ressources {
+    data1;
+    data2;
+    data3;
+    label = "ressources";
+    color=blue;
+    rank=max
+  }
+
+  client -> id1 [label="GET", style=dotted];
+  client -> id3 [label="POST", style=dotted];
+  client -> id4 [label="POST", style=dotted];
+  id1 -> { data1 data2 data3 };
+  id2 -> data2;
+  id3 -> data2;
+  id4 -> data3;
+  nodesep=0.25
+  ranksep=0.8
+}
+----
+
 // Liens donnés par Nicolas
 //
 // * https://www.infoq.com/articles/rest-introduction
