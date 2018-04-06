@@ -36,7 +36,7 @@ digraph G {
      rankdir="TB"
      label="Représentations";
      {rank=same; r1; r2; r3; r4};
-    r1 -> {r3 r4} [arrowtail="odot",dir=back];
+    r1 -> {r3 r4} [arrowtail="odot",dir=both];
   }
 
   subgraph cluster_ressources {
@@ -54,10 +54,10 @@ digraph G {
   r3 -> C [arrowtail="tee",dir=back];
   r1 -> A [arrowtail="tee",dir=back];
   edge [arrowhead="vee"]
-    r1 -> client [label="GET", style=dotted, weight=10];
-    client -> r2 [label="POST", style=dotted];
-    r4 -> client [label="GET", style=dotted];
-  nodesep=0.2
+    r1 -> client [style=dotted, weight=10];
+    client -> r2 [style=dotted];
+    r4 -> client [style=dotted];
+  nodesep=0.3
   ranksep=1.0
 }
 ----
