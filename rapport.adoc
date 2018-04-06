@@ -17,7 +17,8 @@ Ces améliorations devront être réalisées en interaction avec les projets cli
 
 _Representational State Transfer_ (REST) est un style architectural ayant émergé au début de l'année 1995.  Il s'agit d'un modèle idéalisé décrivant comment le _Web_ devrait fonctionner <<modern-web-archi>>.
 Il a été affiné pendant 5 ans jusqu'à être décrite en détails par Roy Fielding dans sa thèse de doctorat <<fielding2000architectural>> en 2000.
-Un style architectural est un ensemble de contraintes placées sur une architecture logicielle c'est à dire une abstraction décrivant l'organisation et les interactions au sein d'un système. REST est composé des 6 contraintes suivantes:
+Un style architectural est un ensemble de contraintes placées sur une architecture logicielle c'est à dire une abstraction décrivant l'organisation et les interactions au sein d'un système <<soft-archi>>.
+REST est composé des 6 contraintes suivantes:
 
 Client-Serveur::
 Cette contrainte permet la séparation des préoccupations entre le(s) serveur(s) et le(s) client(s).  Typiquement il est important de ne pas lier une interface utilisateur aux services rendus par le serveur, pour permettre la réutilisabilité des services et la variété des interfaces utilisateurs.
@@ -135,6 +136,7 @@ Passage à l'échelle anarchique.
 
 - [[[rest-misconception]]] Stefan Tilkov 'REST: I don't Think it Means What You Think it Does' https://www.infoq.com/presentations/rest-misconceptions Mars 2015.  visité le 05/04/2018.
 
+- [[[soft-archi]]] Dewayne E. Perry, and Alexander L. Wolf. 'Foundations for the study of software architecture'. ACM SIGSOFT Software engineering notes 17.4 (1992): 40-52.
 // Liens donnés par Nicolas
 //
 // * https://www.infoq.com/articles/rest-introduction
