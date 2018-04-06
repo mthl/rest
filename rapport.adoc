@@ -82,6 +82,11 @@ digraph G {
 }
 ----
 
+=== Architecture Web
+
+L'architecture Web est une instance du style architectural REST.
+En fait REST a été conceptualisé conjointement au World Wide Web pour permettre de décrire de manière abstraite les enjeux d'un tel système.
+
 ==== Protocole HTTP
 
 Le protocole HTTP est un protocole texte utilisé sur le Web pour transmettre les ressources HTML, CSS, Javascript.
