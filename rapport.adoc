@@ -95,6 +95,7 @@ Ceci est réalisable avec des méchanismes de cache à différents points du ré
 
 - [[[rfc7234]]] Roy Fielding, Mark Nottingham, and Julian Reschke. 'Hypertext transfer protocol (HTTP/1.1): Caching'. No. RFC 7234. 2014.
 // https://www.rfc-editor.org/rfc/rfc7234.txt
+// https://tools.ietf.org/html/rfc7234
 
 - [[[modern-web-archi]]] Roy Fielding et Richard Taylor 'Principled design of the modern Web architecture'. ACM Transactions on Internet Technology (TOIT), 2002, vol. 2, no 2, p. 115-150.
 // https://www.ics.uci.edu/~taylor/documents/2002-REST-TOIT.pdf
