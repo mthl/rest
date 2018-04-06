@@ -19,49 +19,46 @@ _Representational State Transfer_ (REST) est un style architectural décrit par 
 Ces ressources sont liées entre elles par des liens Hypertextes sensé permettre leur découvrabilité.
 La découvrabilité des ressources est décrite par le principe _Hypermedia As The Engine Of Application State_ (HATEOAS).
 
+.Distinction entre ressources et représentations
 ["graphviz"]
-------------
+-----
 digraph G {
-  layout=dot
-  node [shape=box, style=rounded];
+  layout=dot;
   rankdir="LR";
-  splines=spline;
-
-
-  subgraph cluster_client {
-    rank=min;
+  style="rounded"
+  subgraph client {
+     rank=min;
     client [shape=egg];
   }
 
-  subgraph cluster_api {
-    style=dashed
-    label="API";
-    id1;
-    id2;
-    id3;
-    id4;
-    color=grey
-    rank=same;
+  subgraph cluster_repr {
+     node [shape="circle"]
+     rankdir="TB"
+     label="Représentations";
+     {rank=same; r1; r2; r3; r4};
+    r1 -> {r3 r4} [arrowtail="odot",dir=back];
   }
 
   subgraph cluster_ressources {
-    data1;
-    data2;
-    data3;
-    label = "ressources";
-    color=blue;
+    node [shape=box, style="filled,rounded"]
+     A;
+     B;
+     C;
+    style=rounded
+    label = "Ressources";
     rank=max
   }
 
-  client -> id1 [label="GET", style=dotted];
-  client -> id3 [label="POST", style=dotted];
-  client -> id4 [label="POST", style=dotted];
-  id1 -> { data1 data2 data3 };
-  id2 -> data2;
-  id3 -> data2;
-  id4 -> data3;
-  nodesep=0.25
-  ranksep=0.8
+  r2 -> B [arrowtail="tee",dir=back];
+  r4 -> B [arrowtail="tee",dir=back];
+  r3 -> C [arrowtail="tee",dir=back];
+  r1 -> A [arrowtail="tee",dir=back];
+  edge [arrowhead="vee"]
+    r1 -> client [label="GET", style=dotted, weight=10];
+    client -> r2 [label="POST", style=dotted];
+    r4 -> client [label="GET", style=dotted];
+  nodesep=0.2
+  ranksep=1.0
 }
 ----
 
