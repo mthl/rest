@@ -68,6 +68,13 @@ Le protocole HTTP est un protocole texte utilisé sur le Web pour transmettre le
 Ce protocole suit les contraintes définies par le style architectural REST.
 L'accès aux ressources se fait au moyen de 4 méthodes principales `GET`, `POST`, `HEAD`, `DELETE` mais également de 5 autres méthodes moins courantes `OPTIONS`, `CONNECT`, `TRACE`, `PUT`, `PATCH`.
 
+----
+GET /hello.txt HTTP/1.1
+Host: www.example.com
+Connection: upgrade
+Upgrade: HTTP/2.0, SHTTP/1.3, IRC/6.9, RTA/x11
+----
+
 La standardisation des types de méthodes permettent à des clients génériques de faire des suppositions sur le propriétés de ces méthodes.
 Par exemple de la méthode `GET` est nullpotent c'est à dire qu'elle ne doit pas modifier l'état des ressources, et la méthode `POST` est idempotent c'est à dire que la réception de plusieurs message ne doit produire qu'une seule action.
 
