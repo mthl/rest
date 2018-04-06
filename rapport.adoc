@@ -91,6 +91,7 @@ Dans la pratique les formats XML est JSON sont les plus courant pour la transmis
 
 L'objectif de REST est de minimiser la quantité de communications réseaux ainsi que la latence à laquelle elles sont soumises <<modern-web-archi>>.
 Ceci est réalisable avec des méchanismes de cache à différents points du réseau <<rfc7234>>.
+Passage à l'échelle anarchique.
 
 :numbered!:
 [bibliography]
