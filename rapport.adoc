@@ -62,13 +62,6 @@ digraph G {
 }
 ----
 
-// Liens donnés par Nicolas
-//
-// * https://www.infoq.com/articles/rest-introduction
-// * http://apidoc.adility.com/submission-api
-// * https://issues.apache.org/jira/browse/OFBIZ-4274
-// * http://blog.pilotsystems.net/2012/septembre/les-api-rest
-
 ==== Protocole HTTP
 
 Le protocole HTTP est un protocole texte utilisé sur le Web pour transmettre les ressources HTML, CSS, Javascript.
@@ -107,3 +100,10 @@ Ceci est réalisable avec des méchanismes de cache à différents points du ré
 // https://www.ics.uci.edu/~taylor/documents/2002-REST-TOIT.pdf
 
 - [[[rest-misconception]]] Stefan Tilkov 'REST: I don't Think it Means What You Think it Does' https://www.infoq.com/presentations/rest-misconceptions Mars 2015.  visité le 05/04/2018.
+
+// Liens donnés par Nicolas
+//
+// * https://www.infoq.com/articles/rest-introduction
+// * http://apidoc.adility.com/submission-api
+// * https://issues.apache.org/jira/browse/OFBIZ-4274
+// * http://blog.pilotsystems.net/2012/septembre/les-api-rest
