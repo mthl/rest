@@ -62,7 +62,7 @@ Chaque requête envoyé par le client doit pouvoir être traitée de manière in
 Cela impose de transmettre dans chacune des requêtes les données permettant d'authentifier le client.  Cela rend l'architecture robuste dans la mesure où cela limite les contraintes d'ordre dans l'envoi de messages.  Dans un contexte avec plusieurs serveurs cela permet de passer simplement à l'échelle.  Cependant cette redondance d'informations entre les requêtes impose un surcout de transfert de données.
 
 Possible mise en cache::
-Pour contrecarrer ce sur-coût, REST imporse de pouvoir spécifier dans les messages si les informations qu'ils contiennent peuvent être garder en cache et ainsi limiter le nombre de messages transmis sur le réseau.
+Pour contrecarrer ce sur-coût, REST impose de pouvoir spécifier dans les messages si les informations qu'ils contiennent peuvent être garder en cache et ainsi limiter le nombre de messages transmis sur le réseau.
 
 Interface uniforme::
 
