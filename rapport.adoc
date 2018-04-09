@@ -137,6 +137,16 @@ Passage à l'échelle anarchique.
 - [[[rest-misconception]]] Stefan Tilkov 'REST: I don't Think it Means What You Think it Does' https://www.infoq.com/presentations/rest-misconceptions Mars 2015.  visité le 05/04/2018.
 
 - [[[soft-archi]]] Dewayne E. Perry, and Alexander L. Wolf. 'Foundations for the study of software architecture'. ACM SIGSOFT Software engineering notes 17.4 (1992): 40-52.
+
+- [[[rest-hypertext]]] Roy T. Fielding . 'REST APIs must be hypertext-driven'. Untangled musings of Roy T. Fielding (2008): 24.
+// http://roy.gbiv.com/untangled/2008/rest-apis-must-be-hypertext-driven
+
+- [[[rfc-3986]]] Berners-Lee, Tim, Roy Fielding, and Larry Masinter. 'RFC 3986, uniform resource identifier (uri): Generic syntax' (2005).
+// https://tools.ietf.org/html/rfc3986
+
+// REST, l'architecture incomprise
+// https://www.youtube.com/watch?v=u_jDzcXCimM
+
 // Liens donnés par Nicolas
 //
 // * https://www.infoq.com/articles/rest-introduction
