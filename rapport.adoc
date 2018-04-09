@@ -32,6 +32,7 @@ Possible mise en cache::
 Pour contrecarrer ce sur-coût, REST imporse de pouvoir spécifier dans les messages si les informations qu'ils contiennent peuvent être garder en cache et ainsi limiter le nombre de messages transmis sur le réseau.
 
 Interface uniforme::
+
 Cette contrainte est centrale à REST et consiste dans la manipulation des ressources uniquement par leur(s) représentation(s), l'utilisation de messages auto-descriptif, et l'utilisation de _l'hypermédia comme moteur de l'état de l'application_ footnote:[plus connu sous sa forme anglaise _Hypermedia As The Engine Of Application State_(HATEOAS)]
 
 En couches::
@@ -39,49 +40,6 @@ Cette contrainte permet de limiter la complexité de l'architecture en revanche 
 
 Code à la demande::
 Ceci est une contrainte optionelle permettant au serveur d'étendre les fonctionnalités du client.
-
-.Distinction entre ressources et représentations
-["graphviz"]
------
-digraph G {
-  layout=dot;
-  rankdir="LR";
-  style="rounded"
-  subgraph client {
-     rank=min;
-    client [shape=egg];
-  }
-
-  subgraph cluster_repr {
-     node [shape="circle"]
-     rankdir="TB"
-     label="Représentations";
-     {rank=same; r1; r2; r3; r4};
-    r1 -> {r3 r4} [arrowtail="odot",dir=both];
-  }
-
-  subgraph cluster_ressources {
-    node [shape=box, style="filled,rounded"]
-     A;
-     B;
-     C;
-    style=rounded
-    label = "Ressources";
-    rank=max
-  }
-
-  r2 -> B [arrowtail="tee",dir=back];
-  r4 -> B [arrowtail="tee",dir=back];
-  r3 -> C [arrowtail="tee",dir=back];
-  r1 -> A [arrowtail="tee",dir=back];
-  edge [arrowhead="vee"]
-    r1 -> client [style=dotted, weight=10];
-    client -> r2 [style=dotted];
-    r4 -> client [style=dotted];
-  nodesep=0.3
-  ranksep=1.0
-}
-----
 
 === Architecture Web
 
@@ -109,6 +67,21 @@ En pratique cela qu'il faut privélégier la récupération d'URL dans les paylo
 //Comment traiter le versioning?
 
 ==== Format de données
+
+[rep-res]
+.Commnunication à travers des représentations
+["graphviz"]
+-----
+digraph G {
+  rankdir=LR;
+  node [shape=box, style=rounded]
+  layout=dot;
+  clients[shape=egg];
+  clients -> représentations [label="<<envoi>>"]
+  représentations -> clients [label="<<reçoit>>"]
+  représentations -> ressources [dir=both label="<<met à jour>>"]
+}
+----
 
 Lors d'une requête, il est possible pour le client de spécifier le type contenu souhaité au moyen du header `Accept` cependant il faut que le serveur recevant cette requête soit en mesure de fournir le format de donnée souhaité.
 Dans la pratique les formats XML est JSON sont les plus courant pour la transmission de données structurées.
