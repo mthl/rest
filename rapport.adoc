@@ -78,10 +78,11 @@ Ceci est une contrainte optionelle permettant au serveur d'étendre les fonction
 
 L'architecture Web est une instance du style architectural REST.
 En fait REST a été conceptualisé conjointement au World Wide Web pour permettre de décrire de manière abstraite les enjeux d'un tel système.
+Nous présentons ici les différents composants que sont le protocole HTTP, les URI, et les formats de données tels HTML, XML, et JSON.
 
 ==== Protocole HTTP
 
-Le protocole HTTP est un protocole texte utilisé sur le Web pour transmettre les ressources HTML, CSS, Javascript.
+Le protocole _Hypertext Transfer Protocol_ (HTTP) est un protocole texte utilisé sur le Web pour transmettre les ressources HTML, CSS, Javascript.
 Ce protocole suit les contraintes définies par le style architectural REST.
 L'accès aux ressources se fait au moyen de 4 méthodes principales `GET`, `POST`, `HEAD`, `DELETE` mais également de 5 autres méthodes moins courantes `OPTIONS`, `CONNECT`, `TRACE`, `PUT`, `PATCH`.
 
@@ -99,7 +100,15 @@ l'URI ne doit pas être l'API mais la représentation des données identifié pa
 En pratique cela qu'il faut privélégier la récupération d'URL dans les payloads plutôt que concaténer des chaînes de caractères qui est un signe que l'URL est l'API.
 //Comment traiter le versioning?
 
-==== Format de données
+Les méchanismes de cache à différents points du réseau <<rfc7234>>.
+
+==== Uniform Resource Identifier
+
+Les _Uniform Resource Identifiers_ (URI) servent à nommer toute sorte des ressources (document, images, service, ...) <<rfc-3986>>.
+Les URI ne sont pas des emplacements et donc ne sont pas liées à un serveur spécifique ce qui permet d'utiliser des proxies.
+Comme montré par la <<rep-res,figure 2>> les URI permettent uniquement d'accéder à des représentations et non directement à des ressources.
+Cette distinction permet une forme de polymorphisme en associant plusieurs représentations à une même ressource.
+En pratique l'accès à ces représentations se fait au moyen du header `Accept` présent dans la requête émise vers une URI, qui dispatche alors vers la représentation la plus adaptée.
 
 [rep-res]
 .Commnunication à travers des représentations
@@ -116,14 +125,27 @@ digraph G {
 }
 ----
 
+==== Formats de données
+
 Lors d'une requête, il est possible pour le client de spécifier le type contenu souhaité au moyen du header `Accept` cependant il faut que le serveur recevant cette requête soit en mesure de fournir le format de donnée souhaité.
 Dans la pratique les formats XML est JSON sont les plus courant pour la transmission de données structurées.
 
-==== Performance
+=== Hypermédia
 
-L'objectif de REST est de minimiser la quantité de communications réseaux ainsi que la latence à laquelle elles sont soumises <<modern-web-archi>>.
-Ceci est réalisable avec des méchanismes de cache à différents points du réseau <<rfc7234>>.
-Passage à l'échelle anarchique.
+La notion d'_hypermédia_ est cruciale dans la réalisation d'une API RESTful.
+
+==== Origines
+
+Hypermédia/Hypertexte
+
+==== Bénéfices
+
+Découvrabilité, faible couplage, mise à jour simplifié.
+
+==== Problèmes récurrents
+
+* Accès aux ressources par concaténation de chaines de caractères
+
 
 :numbered!:
 [bibliography]
