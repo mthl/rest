@@ -1,9 +1,9 @@
-Implémentation d'une API HTTP de style REST pour Apache OFBiz
-=============================================================
+= Implémentation d’une API HTTP de style REST pour Apache OFBiz
 Mathieu Lirzin <mathieu.lirzin@nereide.fr>
 
 :numbered!:
 == Introduction
+
 Dans le cadre d'une amélioration du progiciel de gestion intégré Apache OFBiz nous souhaitons mettre en place une API HTTP basée sur le style d'architecture REST pour les échanges entre les différents
 composants logiciels de type service. Il sera demandé au stagiaire dans un premier temps de réaliser un état de l'art de l'utilisation de ce style architectural, puis d'étudier les principes d'architectures orientées services (SOA) utilisés dans le framework Apache OFBiz.
 
@@ -18,6 +18,39 @@ Ces améliorations devront être réalisées en interaction avec les projets cli
 _Representational State Transfer_ (REST) est un style architectural ayant émergé au début de l'année 1995.  Il s'agit d'un modèle idéalisé décrivant comment le _Web_ devrait fonctionner <<modern-web-archi>>.
 Il a été affiné pendant 5 ans jusqu'à être décrite en détails par Roy Fielding dans sa thèse de doctorat <<fielding2000architectural>> en 2000.
 Un style architectural est un ensemble de contraintes placées sur une architecture logicielle c'est à dire une abstraction décrivant l'organisation et les interactions au sein d'un système <<soft-archi>>.
+
+[rest-cons]
+.Dérivation des contraintes REST
+["graphviz"]
+-----
+digraph F {
+ node [shape=box, style=rounded]
+ {rank=same; RR CS LS VM U }
+ {rank=same; "$" CSS LCS COD }
+ {rank=same; "C$SS" "LC$SS" "LCODC$SS" REST }
+  o [label="", shape=point, width="0.2"]
+  o -> RR [label="replicated"]
+  o -> CS [label="separated"]
+  o -> LS [label="layered"]
+  o -> VM [label="programmable"]
+  o -> U [label="uniform interface"]
+  RR -> "$" [label="on-demand", weight=10]
+  CS -> CSS [label="stateless", weight=10]
+  CS -> LCS [label="intermediate processing"]
+  CS -> COD [label="mobile"]
+  LS -> LCS [weight=10]
+  VM -> COD [weight=10]
+  "$" -> "C$SS" [label="cacheable"]
+  CSS -> "C$SS" [label="reliable", weight=10]
+  LCS -> "LC$SS" [label="shared", weight=10]
+  COD -> "LCODC$SS" [label="extensible", weight=10]
+  U -> REST [label="simple visible\nreusable", weight=10]
+  "C$SS" -> "LC$SS" [label="scalable"]
+  "LC$SS" -> "LCODC$SS" [label="multi-org"]
+  "LCODC$SS" -> REST
+}
+----
+
 REST est composé des 6 contraintes suivantes:
 
 Client-Serveur::
