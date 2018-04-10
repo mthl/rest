@@ -36,7 +36,7 @@ digraph F {
   o -> U [label="uniform interface"]
   RR -> "$" [label="on-demand", weight=10]
   CS -> CSS [label="stateless", weight=10]
-  CS -> LCS [label="intermediate processing"]
+  CS -> LCS [label="intermediate\nprocessing"]
   CS -> COD [label="mobile"]
   LS -> LCS [weight=10]
   VM -> COD [weight=10]
