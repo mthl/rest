@@ -125,6 +125,12 @@ digraph G {
 }
 ----
 
+Les URI peuvent à la fois référencer des ressources statiques ou des ressources dynamiques.
+Une ressource latexmath:[$R$] est un fonction latexmath:[$M_r(t)$] associant à un temps latexmath:[$t$] une entité ou valeurs.
+L'ensemble des entités ou valeurs appartenant au codomaine sont équivalentes en terme de leur sémantique.
+Même si ces ressources pointent sur la même valeur il s'agit bien de 2 ressources distinctes.
+Ce qui identifie une ressource c'est la sémantique associé à son URI.
+
 ==== Formats de données
 
 Lors d'une requête, il est possible pour le client de spécifier le type contenu souhaité au moyen du header `Accept` cependant il faut que le serveur recevant cette requête soit en mesure de fournir le format de donnée souhaité.
