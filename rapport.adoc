@@ -84,6 +84,7 @@ Nous présentons ici les différents composants que sont le protocole HTTP, les 
 
 Le protocole _Hypertext Transfer Protocol_ (HTTP) est un protocole texte utilisé sur le Web pour transmettre les ressources HTML, CSS, Javascript.
 Ce protocole suit les contraintes définies par le style architectural REST.
+Il a un rôle particulier dans l'architecture _Web_ puisqu'il sert à la fois à la communications entre les composants _Web_ et est l'unique protocole intégrant la notion de représentations de ressources.
 L'accès aux ressources se fait au moyen de 4 méthodes principales `GET`, `POST`, `HEAD`, `DELETE` mais également de 5 autres méthodes moins courantes `OPTIONS`, `CONNECT`, `TRACE`, `PUT`, `PATCH`.
 
 ----
