@@ -53,25 +53,25 @@ digraph F {
 
 REST est composé des 6 contraintes suivantes:
 
-Client-Serveur::
+Client-Serveur _(CS)_::
 Cette contrainte permet la séparation des préoccupations entre le(s) serveur(s) et le(s) client(s).  Typiquement il est important de ne pas lier une interface utilisateur aux services rendus par le serveur, pour permettre la réutilisabilité des services et la variété des interfaces utilisateurs.
 Dans un contexte distribué cela permet au client et au serveur d'évoluer indépendamment. 
 
-Serveur sans état::
+Serveur sans état _(CSS)_::
 Chaque requête envoyé par le client doit pouvoir être traitée de manière indépendante.
 Cela impose de transmettre dans chacune des requêtes les données permettant d'authentifier le client.  Cela rend l'architecture robuste dans la mesure où cela limite les contraintes d'ordre dans l'envoi de messages.  Dans un contexte avec plusieurs serveurs cela permet de passer simplement à l'échelle.  Cependant cette redondance d'informations entre les requêtes impose un surcout de transfert de données.
 
-Possible mise en cache::
+Possible mise en cache _(\$)_::
 Pour contrecarrer ce sur-coût, REST impose de pouvoir spécifier dans les messages si les informations qu'ils contiennent peuvent être garder en cache et ainsi limiter le nombre de messages transmis sur le réseau.
 
-Interface uniforme::
+Interface uniforme _(U)_::
 
 Cette contrainte est centrale à REST et consiste dans la manipulation des ressources uniquement par leur(s) représentation(s), l'utilisation de messages auto-descriptif, et l'utilisation de _l'hypermédia comme moteur de l'état de l'application_ footnote:[plus connu sous sa forme anglaise _Hypermedia As The Engine Of Application State_(HATEOAS)]
 
-En couches::
+En couches _(LS)_::
 Cette contrainte permet de limiter la complexité de l'architecture en revanche elle a l'inconvénient d'avoir un surcôut en terme d'exécution.
 
-Code à la demande::
+Code à la demande _(COD)_::
 Ceci est une contrainte optionelle permettant au serveur d'étendre les fonctionnalités du client.
 
 === Architecture Web
