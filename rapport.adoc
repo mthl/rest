@@ -15,9 +15,10 @@ Ces améliorations devront être réalisées en interaction avec les projets cli
 
 === Representational State Transfer
 
-_Representational State Transfer_ (REST) est un style architectural ayant émergé au début de l'année 1995.  Il s'agit d'un modèle idéalisé décrivant comment le _Web_ devrait fonctionner <<modern-web-archi>>.
-Il a été affiné pendant 5 ans jusqu'à être décrite en détails par Roy Fielding dans sa thèse de doctorat <<fielding2000architectural>> en 2000.
-Un style architectural est un ensemble de contraintes placées sur une architecture logicielle c'est à dire une abstraction décrivant l'organisation et les interactions au sein d'un système <<soft-archi>>.
+_Representational State Transfer_ (REST) est un style architectural ayant émergé au début de l'année 1995.
+Il s'agit d'un modèle idéalisé décrivant comment le _Web_ devrait fonctionner <<modern-web-archi>>.
+Il a été affiné pendant 5 ans jusqu'à être décrit en détails par Roy Fielding dans sa thèse de doctorat <<fielding2000architectural>> en 2000.
+Un style architectural est un ensemble de contraintes placées sur une architecture logicielle c'est à dire une abstraction décrivant les processus, les connecteurs, ainsi que les données présents au sein d'un système <<soft-archi>>.
 
 [rest-cons]
 .Dérivation des contraintes REST
