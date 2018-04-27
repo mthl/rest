@@ -159,6 +159,33 @@ Découvrabilité, faible couplage, mise à jour simplifié.
 
 * Accès aux ressources par concaténation de chaines de caractères
 
+== OFBiz
+
+OFBiz est un framework Web orienté progiciel de gestion intégré.
+Ce framework fournit un ensemble de composants ...
+
+=== Architecture orientée Service
+
+Ofbiz est basé sur une architecture orientée service (SOA).
+La notion de moteur de service (Service Engine) est définit par l'interface Java `GenericEngine`.
+
+Un service peut être appelé en lui passant un ensemble de valeur en entrée, il renvoie alors un ensemble de valeurs en sortie.
+Il est possible d'exécuter un service soit de manière synchrone soit de manière asynchrone.
+Il peut être implémenté dans n'importe quel langage de programmation dans la mesure ou les paramètres et résultats doivent être sérialisable.
+Les services peuvent être ordonnancé.
+Ils peuvent appeler d'autres services.
+
+On parle d'événements OFBiz pour les requêtes HTTP envoyés au serveur OFBiz, mais aussi d'événement de service qui correspondent à différentes phase de l'exécution d'un service.
+Les différentes phases existantes sont "auth", "in-validate", "out-validate", "invoke", "commit", or "return".
+
+L'ensemble des routes sont définit dans un fichier `controller.xml`.
+Seule les requêtes `POST` et `GET` sont traités du fait que le client est uniquement prévu pour être un navigateur.
+Il n'y a de différences dans le traitement des requêtes.
+Peu importe la méthode choisi cela à pour effet d'appeler l'evénement associé.
+
+Problème REST => faire correspondre les retours de service avec les codes d'erreur HTTP.
+Hypermédia? correspond à la vue.
+
 
 :numbered!:
 [bibliography]
