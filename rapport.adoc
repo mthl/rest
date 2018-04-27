@@ -185,6 +185,10 @@ Découvrabilité, faible couplage, mise à jour simplifié.
 - [[[rfc-3986]]] Berners-Lee, Tim, Roy Fielding, and Larry Masinter. 'RFC 3986, uniform resource identifier (uri): Generic syntax' (2005).
 // https://tools.ietf.org/html/rfc3986
 
+- [[[ofbiz-dev]]] Wong, Jonathon, and Rupert Howell. 'Apache OFBiz Development: The Beginner's Tutorial' . Packt Publishing Ltd, 2008.
+
+- [[[ofbiz-cookbook]]] Hoffman, Ruth. 'Apache OFBiz Cookbook'. Packt Publishing Ltd, 2010.
+
 // REST, l'architecture incomprise
 // https://www.youtube.com/watch?v=u_jDzcXCimM
 
