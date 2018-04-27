@@ -1,0 +1,343 @@
+\documentclass{beamer}
+\usefonttheme{serif}
+\beamertemplatenavigationsymbolsempty
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage[x11names, rgb]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{snakes,arrows,shapes,automata}
+\usepackage{amsmath}
+
+\title{Representational State Transfert}
+\author{Mathieu Lirzin}
+\institute{Néréide}
+\date{16 avril 2018}
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Introduction}
+  \emph{Representational State Transfert} (REST)
+  \begin{itemize}
+  \item Style architectural définit par Roy Fielding
+  \item Modèle idéalisé du \emph{World Wide Web}
+  \item Une API utilisant le style REST est dîte \emph{RESTful}
+  \item Buzzword!
+  \end{itemize}
+
+\end{frame}
+
+\section{Aperçu conceptuel}
+
+\subsection{Définitions}
+
+\begin{frame}{Architecture logicielle}
+  \begin{block}{Définition}
+    Une abstraction des élements s'exécutant dans une phase de
+    l'exécution d'un système.  Peut être décomposée en différents
+    niveaux d'abstraction et différentes phases.
+  \end{block}
+
+  \begin{block}{}
+    Une architecture logicielle est une configuration des élements
+    suivants:
+    \begin{itemize}
+    \item Composants
+      %% Un composant est une unité abstraite d'instructions
+      %% logicielles et d'une état internet qui peut être modifié via
+      %% son interface
+    \item Connecteurs
+      %% Mécanisme abstrait qui médiatise la communication,
+      %% coordination et coopération entre différents composants.
+    \item Données
+      %% Une donnée est un élément d'information qui est transmises
+      %% entre les composants par un connecteur
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}{Style architectural}
+  \begin{block}{Définition}
+    Un ensemble de contraintes architecturals qui restreignent les rôles
+    et possibilités des différents éléments architecturaux.
+  \end{block}
+
+  \begin{block}{}
+    Une architecture est une instance d'une combinaison de plusieurs
+    styles archecturaux qui peuvent être dérivés les uns des autres
+  \end{block}
+\end{frame}
+
+\section{Contexte Web}
+
+\subsection{Objectifs}
+
+\begin{frame}{Analyse des besoins}
+  Le style architectural REST doit correspondre de manière générique
+  aux besoins du Web.
+
+  \begin{itemize}
+  \item Système d'information partagé à l'échelle d'Internet
+  \item Adoption facile
+  \item Support de l'hétérogénéité des terminaux
+  \item Tolère la participation éphémère
+  \item Extensible
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Propriétés}
+  \begin{itemize}
+  \item Performance
+  \item Passage à l'échelle
+  \item Simplicité
+  \item Modifiable
+  \item Visibilité
+  \item Portabilité
+  \item Robustesse
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Contraintes}
+  \begin{itemize}
+  \item Client-Serveur
+  \item Sans connexion
+  \item Possible mise en cache
+  \item En couches
+  \item Code à la demande (optionel)
+  \item Interface uniforme
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Dérivation de contraintes}
+  \begin{center}
+    \begin{tikzpicture}
+      \tikzstyle{as}= [draw,rectangle,rounded corners=3pt]
+      \tikzstyle{asc}= [draw,rectangle,rounded corners=3pt, fill=blue!20]
+      \tikzstyle{cst}= [right,scale=0.7]
+      \node[as] (o) at (0, 10) [circle,fill] {};
+      \node[as] (RR) at (-5, 8) {RR};
+      \node[asc] (cache) at (-5, 6) {\$};
+
+      \node[asc] (CS) at (-3, 8) {CS};
+      \node[asc] (CSS) at (-3, 6) {CSS};
+      \node[as] (CcacheSS) at (-3, 4) {C\$SS};
+
+      \node[asc] (LS) at (0, 8) {LS};
+      \node[as] (LCS) at (0, 6) {LCS};
+      \node[as] (LCcacheSS) at (0, 4)  {LC\$SS};
+
+      \node[as] (VM) at (2.8, 8) {VM};
+      \node[asc] (COD) at (2.8, 6) {COD};
+      \node[as] (LCODCcacheSS) at (2.8, 4) {LCODC\$SS};
+
+      \node[asc] (U) at (5, 8)  {U};
+      \node[as] (REST) at (5, 4) {REST};
+
+      \draw[->] (o) edge [bend right=15] node[cst, left]{replicated} (RR);
+      \draw[->] (o) edge [bend right=10] node[cst]{separated} (CS);
+      \draw[->] (o) edge node[cst]{layered} (LS);
+      \draw[->] (o) edge [bend left=2] node[cst]{programmable} (VM);
+      \draw[->] (o) edge [bend left=15] node[cst,yshift=10]{uniform interface} (U);
+      \draw[->] (RR) edge node[cst]{on-demand} (cache);
+      \draw[->] (cache) edge node[cst, left]{cacheable} (CcacheSS);
+      \draw[->] (CS) edge node[cst]{stateless} (CSS);
+      \draw[->] (CSS) edge node[cst]{reliable} (CcacheSS);
+      \draw[->] (LS) edge (LCS);
+      \draw[->] (LCS) edge node[cst]{shared} (LCcacheSS);
+      \draw[->] (VM) edge (COD);
+      \draw[->] (COD) edge node[cst]{extensible} (LCODCcacheSS);
+      \draw[->] (U) edge node[cst, text width=3cm, left,xshift=25, yshift=30]{simple visible reusable} (REST);
+      \draw[->] (CS.east) edge node[cst, sloped, text
+        width=2cm, centered]{intermediate processing} (LCS);
+      \draw[->] (CS.east) edge[bend left=15, pos=0.75] node[cst]{mobile} (COD);
+      \draw[->] (CcacheSS) edge node[cst,centered, yshift=10]{scalable} (LCcacheSS);
+      \draw[->] (LCcacheSS) edge node[cst,left, text width=0.5cm]{multi-org} (LCODCcacheSS);
+      \draw[->] (LCODCcacheSS) edge  (REST);
+    \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Architecture Web}
+  Le \emph{World Wide Web} est une instance du style architectural
+  REST.
+
+  \begin{description}
+  \item [Composants] User Agent (Navigateur), Gateway, Proxy
+  \item [Connecteurs] client (XMLHttpRequest, fetch), serveur (httpd), cache, DNS, TLS
+  \item [Données] Ressource, URI, HTML, image, meta-donnée, media-type
+  \end{description}
+\end{frame}
+
+\begin{frame}{Données}
+  Les ressources sont identifiées par des URIs qui permettent
+  d'accéder aux différentes represéntations d'une ressource.
+
+  \begin{center}
+    \begin{tikzpicture}
+      \tikzstyle{n}= [draw,rectangle,rounded corners=3pt]
+      \node[n, circle] (c) at (0, 0) {Client};
+      \node[n] (rep) at (4, 0) {Représentation};
+      \node[n] (res) at (9, 0) {Ressource};
+      \draw[->] (c) edge [bend left] node [above] {envoit} (rep);
+      \draw[->] (rep) edge [bend left] node [below] {recoit} (c);
+      \draw[<->] (rep) edge node [above] {met à jour} (res);
+    \end{tikzpicture}
+  \end{center}
+
+  Les représentations sont caractérisées par un \emph{media-type}
+  définit dans le header de la réponse.
+\end{frame}
+
+\begin{frame}{Requêtes auto-descriptives}
+  Les verbes correspondants aux méthodes du procotole HTTP sont
+  porteurs d'une sémantique fixe:
+  \begin{center}
+    \begin{tabular}{lcc}
+      Méthodes & Idempotent & Sans effet \\
+      \hline
+      \verb#OPTIONS# & oui  &  oui \\
+      \verb#GET# & oui &  oui \\
+      \verb#HEAD# & oui & oui \\
+      \verb#PUT# & oui & non \\
+      \verb#POST# & non & non \\
+      \verb#DELETE# & oui & non \\
+      \verb#PATCH# & non & non \\
+      \verb#TRACE# & non & oui \\
+      \verb#CONNECT# & non & non \\
+    \end{tabular}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Réponses auto-descriptives}
+  Catégories de codes d'erreurs basées sur des nombres à 3 chiffres
+  avec le chiffre des dizaines et des unités servant à raffiner la
+  catégorie.
+
+  \begin{description}
+  \item [100] En attente
+  \item [200] Succès
+  \item [300] Redirection
+  \item [400] Non autorisé ou indisponible
+  \item [500] Erreur coté serveur
+  \end{description}
+\end{frame}
+
+\begin{frame}{Richardson maturity model}
+  \begin{center}
+    \begin{tikzpicture}
+      \tikzstyle{level}= [draw,rectangle,rounded corners=3pt,text width=6cm,fill=blue!20]
+      \node[level] (l0) at (0, 0) {Level 0: The swamp of POX};
+      \node[level] (l1) at (0, 1) {Level 1: Resources};
+      \node[level] (l2) at (0, 2) {Level 2: HTTP verbs};
+      \node[level] (l3) at (0, 3) {Level 3: Hypermedia controls};
+      \node (begin) at (4, 0) {};
+      \node (end) at (4, 4) {\textbf{The glory of REST}};
+      \draw[->] (begin.south) to (end);
+    \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Hypermédia}
+  Mécanisme simple et générique liant les ressources entre
+  elles au moyen de liens. Cela permet:
+  \begin{itemize}
+  \item Découvrabilité des ressources
+  \item Faible couplage
+  \item Maintenabilité
+  \end{itemize}
+
+  Pour supporter l'hypermédia, le format des données doit pouvoir
+  contenir des liens vers d'autres URI ainsi que les actions possibles
+  sur ces URI.
+\end{frame}
+
+\begin{frame}[fragile]{Format \verb#HTML#}
+  \scriptsize
+\begin{verbatim}
+<html>
+  <head>
+    <script src="hello.js"></script>
+    <link rel="stylesheet" type="text/css" href="theme.css">
+  </head>
+  <body>
+    <img src="example.com/img.png">
+    ...
+    <form action="" method="post">
+      <fieldset>
+        <legend>Titre</legend>
+        <input type="radio" name="radio" id="radio">
+        <label for="radio">Cliquez moi</label>
+      </fieldset>
+    </form>
+  </body>
+</html>
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]{Format \verb#hal+json#}
+\scriptsize
+\begin{verbatim}
+{
+  "_links": {
+    "self": { "href": "http://example.com/api/book/hal-cookbook" },
+    "next": { "href": "http://example.com/api/book/hal-case-study" },
+    "prev": { "href": "http://example.com/api/book/json-and-beyond" },
+    "first": { "href": "http://example.com/api/book/catalog" },
+    "last": { "href": "http://example.com/api/book/upcoming-books" }
+  },
+ "_embedded": {
+    "author": {
+      "_links": {
+        "self": { "href": "http://author-example.com" }
+      },
+      "id": "shahadat",
+      "name": "Shahadat Hossain Khan"
+    }
+  },
+  "id": "hal-cookbook",
+  "name": "HAL Cookbook"
+}
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]{Hypermedia As The Engine Of the Application State}
+  \begin{center}
+    \resizebox{1.0\textwidth}{!} {%
+      \begin{tikzpicture}[shorten >=1pt,node distance=2cm,auto]
+        \tikzstyle{state}=[state with output]
+        \node[state,initial] (q_0) at (0, 0) {$q_0$ \nodepart{lower} $/$};
+        \node[state] (q_1) at (0, 3) {$q_1$ \nodepart{lower} $/users$};
+        \node[state] (q_2) at (5, 3) {$q_2$ \nodepart{lower} $/users/14$};
+        \node[state] (q_3) at (5, 0) {$q_3$ \nodepart{lower} $/users$};
+        \node[state] (q_4) at (9, 1.5) {$q_4$ \nodepart{lower} $/users/14$};
+        \path[->] (q_0) edge node {\texttt{POST /users}} (q_1)
+                        edge [loop below] node {\texttt{GET /}} ()
+                        edge [bend left] node {\texttt{GET /users}} (q_3)
+                  (q_1) edge [bend left] node {\texttt{GET /users/14}} (q_2)
+                        edge [loop above] node {\texttt{GET /users}}
+                        ()
+                  (q_2)  edge [bend left] node {\texttt{GET /users}} (q_1)
+                        edge[bend left] node {\texttt{PUT /users/14}} (q_4)
+                  (q_3) edge [bend left] node {\texttt{GET /}} (q_0)
+                  (q_4) edge [bend left] node {\texttt{DELETE /users/14}} (q_3)
+      \end{tikzpicture}%
+    }
+  \end{center}
+\end{frame}
+
+\begin{frame}{Le challenge sémantique}
+  Pour vraiment atteindre son objectif d'interopérabilité entre
+  différentes API, un problème ouvert est de définir des sémantiques
+  associées aux ressources.
+\end{frame}
+
+\begin{frame}{Fin}
+  Merci de votre attention. Questions?
+\end{frame}
+
+\end{document}
