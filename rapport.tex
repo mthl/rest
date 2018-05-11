@@ -293,6 +293,17 @@ codes d'erreur HTTP.  Hypermédia? correspond à la vue.
 
 \section{Choix techniques}
 
+Cela fait plusieurs années que l'intégration d'un moyen d'accéder aux
+services et entitées au moyen d'une API HTTP de style REST est en
+discussion au sein de la communauté des développeurs de OFBiz.  En
+effet c'est en 2011 qu'Adrian Crum proposa un premier
+prototype\footnote{https://issues.apache.org/jira/browse/OFBIZ-4274}. La
+première idée était de permettre de faire du \emph{CRUD} sur les
+entités aux travers des méthodes HTTP.  Il a été ensuite question de
+permettre d'appeler des services et de faire correspondre le
+dictionnaire d'entrée et de sorties du service avec les
+représentations JSON et XML.
+
 - Vert.x (polyglot, asynchrone)
 - JAX-RS (Spécification standard, intégré dans JavaEE, implémentation Apache CXF)
 
@@ -311,7 +322,6 @@ services and entities.
 %% Liens donnés par Nicolas
 %% https://www.infoq.com/articles/rest-introduction
 %% http://apidoc.adility.com/submission-api
-%% https://issues.apache.org/jira/browse/OFBIZ-4274
 %% http://blog.pilotsystems.net/2012/septembre/les-api-rest
 
 \bibliographystyle{plain}
