@@ -186,6 +186,16 @@ Peu importe la méthode choisi cela à pour effet d'appeler l'evénement associ�
 Problème REST => faire correspondre les retours de service avec les codes d'erreur HTTP.
 Hypermédia? correspond à la vue.
 
+=== Frameworks
+
+- Vert.x (polyglot, asynchrone)
+- JAX-RS (Spécification standard, intégré dans JavaEE, implémentation Apache CXF)
+
+Currently OFBiz is handling HTTP request via its `controlServlet` class which handles `GET` and `POST` request without distinction.  I like the idea proposed by Ean to use an alternate servlet which will be more aware of the semantics associated with HTTP methods.
+
+While Vert.x seems nice, it
+
+I am exploring the idea to use JAX-RS specification via Apache CXF implementation to provide an `/api` servlet to expose both services and entities.
 
 :numbered!:
 [bibliography]
@@ -215,6 +225,8 @@ Hypermédia? correspond à la vue.
 - [[[ofbiz-dev]]] Wong, Jonathon, and Rupert Howell. 'Apache OFBiz Development: The Beginner's Tutorial' . Packt Publishing Ltd, 2008.
 
 - [[[ofbiz-cookbook]]] Hoffman, Ruth. 'Apache OFBiz Cookbook'. Packt Publishing Ltd, 2010.
+
+- [[[jax-rs]]] Pericas-Geertsen, Santiago, and Marek Potociar. 'JAX-RS: Java API for RESTful Web Services'. Oracle Corporation, May 2013 (2013): 1-84.
 
 // REST, l'architecture incomprise
 // https://www.youtube.com/watch?v=u_jDzcXCimM
