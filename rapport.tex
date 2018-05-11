@@ -1,0 +1,320 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{snakes,arrows,shapes,automata}
+\usepackage{listings}
+
+
+\title{Implémentation d'une API HTTP de style REST pour Apache OFBiz}
+
+\author{Mathieu Lirzin}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+  ...
+\end{abstract}
+
+\section*{Introduction}
+
+Dans le cadre d'une amélioration du progiciel de gestion intégré
+Apache OFBiz nous souhaitons mettre en place une API HTTP basée sur le
+style d'architecture REST pour les échanges entre les différents
+composants logiciels de type service. Il sera demandé au stagiaire
+dans un premier temps de réaliser un état de l'art de l'utilisation de
+ce style architectural, puis d'étudier les principes d'architectures
+orientées services (SOA) utilisés dans le framework Apache OFBiz.
+
+Après cette phase d'analyse, l'API HTTP basée sur le style REST devra
+être implementée dans le framework Apache OFBiz en suivant les
+principes SOA.  Ces améliorations devront être réalisées en
+interaction avec les projets clients et la communauté Apache OFBiz
+afin de permettre leurs intégration dans le projet officiel.
+
+%% \chapter{État de l'art}
+
+\section{État de l'art}
+
+\subsection{Representational State Tranfer}
+
+\emph{Representational State Transfer} (REST) est un style
+architectural ayant émergé au début de l'année 1995.  Il s'agit d'un
+modèle idéalisé décrivant comment le \emph{Web} devrait fonctionner
+\cite{fielding2002principled}.  Il a été affiné pendant 5 ans jusqu'à
+être décrit en détails par Roy Fielding dans sa thèse de doctorat
+\cite{fielding2000architectural} en 2000.  Un style architectural est
+un ensemble de contraintes placées sur une architecture logicielle
+c'est à dire une abstraction décrivant les composants, les
+connecteurs, ainsi que les données présents au sein d'un système
+\cite{perry1992foundations}.
+
+\begin{center}
+  \begin{tikzpicture}
+    \tikzstyle{as}= [draw,rectangle,rounded corners=3pt]
+    \tikzstyle{asc}= [draw,rectangle,rounded corners=3pt, fill=black!10]
+    \tikzstyle{cst}= [right,scale=0.7]
+    \node[as] (o) at (0, 10) [circle,fill] {};
+    \node[as] (RR) at (-5, 8) {RR};
+    \node[asc] (cache) at (-5, 6) {\$};
+
+    \node[asc] (CS) at (-3, 8) {CS};
+    \node[asc] (CSS) at (-3, 6) {CSS};
+    \node[as] (CcacheSS) at (-3, 4) {C\$SS};
+
+    \node[asc] (LS) at (0, 8) {LS};
+    \node[as] (LCS) at (0, 6) {LCS};
+    \node[as] (LCcacheSS) at (0, 4)  {LC\$SS};
+
+    \node[as] (VM) at (2.8, 8) {VM};
+    \node[asc] (COD) at (2.8, 6) {COD};
+    \node[as] (LCODCcacheSS) at (2.8, 4) {LCODC\$SS};
+
+    \node[asc] (U) at (5, 8)  {U};
+    \node[as] (REST) at (5, 4) {REST};
+
+    \draw[->] (o) edge [bend right=15] node[cst, left]{replicated} (RR);
+    \draw[->] (o) edge [bend right=10] node[cst]{separated} (CS);
+    \draw[->] (o) edge node[cst]{layered} (LS);
+    \draw[->] (o) edge [bend left=2] node[cst]{programmable} (VM);
+    \draw[->] (o) edge [bend left=15] node[cst,yshift=10]{uniform interface} (U);
+    \draw[->] (RR) edge node[cst]{on-demand} (cache);
+    \draw[->] (cache) edge node[cst, left]{cacheable} (CcacheSS);
+    \draw[->] (CS) edge node[cst]{stateless} (CSS);
+    \draw[->] (CSS) edge node[cst]{reliable} (CcacheSS);
+    \draw[->] (LS) edge (LCS);
+    \draw[->] (LCS) edge node[cst]{shared} (LCcacheSS);
+    \draw[->] (VM) edge (COD);
+    \draw[->] (COD) edge node[cst]{extensible} (LCODCcacheSS);
+    \draw[->] (U) edge node[cst, text width=3cm, left,xshift=25, yshift=30]{simple visible reusable} (REST);
+    \draw[->] (CS.east) edge node[cst, sloped, text
+      width=2cm, centered]{intermediate processing} (LCS);
+    \draw[->] (CS.east) edge[bend left=15, pos=0.75] node[cst]{mobile} (COD);
+    \draw[->] (CcacheSS) edge node[cst,centered, yshift=10]{scalable} (LCcacheSS);
+    \draw[->] (LCcacheSS) edge node[cst,left, text width=0.5cm]{multi-org} (LCODCcacheSS);
+    \draw[->] (LCODCcacheSS) edge  (REST);
+  \end{tikzpicture}
+\end{center}
+
+REST est composé des 6 contraintes suivantes:
+
+\begin{description}
+\item[Client-Serveur (CS)] Cette contrainte permet la séparation des
+  préoccupations entre le(s) serveur(s) et le(s) client(s).
+  Typiquement il est important de ne pas lier une interface
+  utilisateur aux services rendus par le serveur, pour permettre la
+  réutilisabilité des services et la variété des interfaces
+  utilisateurs.  Dans un contexte distribué cela permet au client et
+  au serveur d'évoluer indépendamment.
+
+\item[Serveur sans état (CSS)] Chaque requête envoyé par le client
+  doit pouvoir être traitée de manière indépendante.  Cela impose de
+  transmettre dans chacune des requêtes les données permettant
+  d'authentifier le client.  Cela rend l'architecture robuste dans la
+  mesure où cela limite les contraintes d'ordre dans l'envoi de
+  messages.  Dans un contexte avec plusieurs serveurs cela permet de
+  passer simplement à l'échelle.  Cependant cette redondance
+  d'informations entre les requêtes impose un surcout de transfert de
+  données.
+
+\item [Possible mise en cache (\$)] Pour contrecarrer ce sur-coût,
+  REST impose de pouvoir spécifier dans les messages si les
+  informations qu'ils contiennent peuvent être garder en cache et
+  ainsi limiter le nombre de messages transmis sur le réseau.
+
+\item[Interface uniforme (U)] Cette contrainte est centrale à REST et
+  consiste dans la manipulation des ressources uniquement par leur(s)
+  représentation(s), l'utilisation de messages auto-descriptif, et
+  l'utilisation de \emph{l'hypermédia comme moteur de l'état de
+    l'application}\footnote{plus connu sous sa forme anglaise
+    \emph{Hypermedia As The Engine Of Application State} (HATEOAS)}
+
+\item[En couches (LS)] Cette contrainte permet de limiter la
+  complexité de l'architecture en revanche elle a l'inconvénient
+  d'avoir un surcôut en terme d'exécution.
+
+\item[Code à la demande (COD)] Ceci est une contrainte optionelle
+  permettant au serveur d'étendre les fonctionnalités du client.
+\end{description}
+
+\subsection{Architecture Web}
+
+L'architecture Web est une instance du style architectural REST.  En
+fait REST a été conceptualisé conjointement au World Wide Web pour
+permettre de décrire de manière abstraite les enjeux d'un tel système.
+Nous présentons ici les différents composants que sont le protocole
+HTTP, les URI, et les formats de données tels HTML, XML, et JSON.
+
+\subsubsection{Protocole HTTP}
+
+Le protocole \emph{Hypertext Transfer Protocol} (HTTP) est un
+protocole texte utilisé sur le Web pour transmettre les ressources
+HTML, CSS, Javascript.  Ce protocole suit les contraintes définies par
+le style architectural REST.  Il a un rôle particulier dans
+l'architecture \emph{Web} puisqu'il sert à la fois à la communications
+entre les composants \emph{Web} et est l'unique protocole intégrant la
+notion de représentations de ressources.  L'accès aux ressources se
+fait au moyen de 4 méthodes principales \verb=GET=, \verb=POST=,
+\verb=HEAD=, \verb=DELETE= mais également de 5 autres méthodes moins
+courantes \verb=OPTIONS=, \verb=CONNECT=, \verb=TRACE=, \verb=PUT=,
+\verb=PATCH=.
+
+\begin{verbatim}
+GET /hello.txt HTTP/1.1
+Host: www.example.com
+Connection: upgrade
+Upgrade: HTTP/2.0, SHTTP/1.3, IRC/6.9, RTA/x11
+\end{verbatim}
+
+La standardisation des types de méthodes permettent à des clients
+génériques de faire des suppositions sur le propriétés de ces
+méthodes.  Par exemple de la méthode \verb=GET= est nullpotent c'est à
+dire qu'elle ne doit pas modifier l'état des ressources, et la méthode
+\verb=POST= est idempotent c'est à dire que la réception de plusieurs
+message ne doit produire qu'une seule action.
+
+l'URI ne doit pas être l'API mais la représentation des données
+identifié par cette URI.  En pratique cela qu'il faut privélégier la
+récupération d'URL dans les payloads plutôt que concaténer des chaînes
+de caractères qui est un signe que l'URL est l'API.
+%% Comment traiter le versioning?
+
+Les méchanismes de cache à différents points du réseau
+\cite{fielding1999hypertext}.
+
+\subsubsection{Uniform Resource Identifier}
+
+Les \emph{Uniform Resource Identifiers} (URI) servent à nommer toute
+sorte des ressources (document, images, service, ...)
+\cite{masinter2005uniform}.  Les URI ne sont pas des emplacements et
+donc ne sont pas liées à un serveur spécifique ce qui permet
+d'utiliser des proxies.  Comme montré par la <<rep-res,figure 2>> les
+URI permettent uniquement d'accéder à des représentations et non
+directement à des ressources.  Cette distinction permet une forme de
+polymorphisme en associant plusieurs représentations à une même
+ressource.  En pratique l'accès à ces représentations se fait au moyen
+du header \verb=Accept= présent dans la requête émise vers une URI,
+qui dispatche alors vers la représentation la plus adaptée.
+
+\begin{center}
+  \begin{tikzpicture}
+    \tikzstyle{n}= [draw,rectangle,rounded corners=3pt]
+    \node[n, circle] (c) at (0, 0) {Client};
+    \node[n] (rep) at (4, 0) {Représentation};
+    \node[n] (res) at (9, 0) {Ressource};
+    \draw[->] (c) edge [bend left] node [above] {envoit} (rep);
+    \draw[->] (rep) edge [bend left] node [below] {recoit} (c);
+    \draw[<->] (rep) edge node [above] {met à jour} (res);
+  \end{tikzpicture}
+\end{center}
+
+Les URI peuvent à la fois référencer des ressources statiques ou des
+ressources dynamiques.  Une ressource $R$ est un fonction $M_r(t)$
+associant à un temps $t$ une entité ou valeurs.  L'ensemble des
+entités ou valeurs appartenant au codomaine sont équivalentes en terme
+de leur sémantique.  Même si ces ressources pointent sur la même
+valeur il s'agit bien de 2 ressources distinctes.  Ce qui identifie
+une ressource c'est la sémantique associé à son URI.
+
+\subsubsection{Formats de données}
+
+Lors d'une requête, il est possible pour le client de spécifier le
+type contenu souhaité au moyen du header \verb=Accept= cependant il
+faut que le serveur recevant cette requête soit en mesure de fournir
+le format de donnée souhaité.  Dans la pratique les formats XML est
+JSON sont les plus courant pour la transmission de données
+structurées.
+
+\subsubsection{Hypermédia}
+
+La notion d'\emph{hypermédia} est cruciale dans la réalisation d'une
+API RESTful bien qu'elle soit trop souvent négligé.  Cette notion est
+une extension du contexte d'\emph{hypertext} au formats d'image, de
+son, et de vidéos.  Il désigne un réseau d'information accessible de
+manière non-linéaire et interactive au moyen de liens.
+%% Hypermedia is defined by the presence of application control information embedded within, or as a layer above , the presentation of information  <<modern-web-archi>>.
+
+\subsubsection{Bénéfices}
+
+Dans le contexte du \emph{Web} l'hypermédia a été choisi pour sa
+simplicité et généricité.  Cela a été fait dans l'objectif de rendre
+la participation au \emph{Web} accessible au plus grand nombre.
+L'hypermedia permet également de stocker les différentes informations
+liées sur des serveurs différents et permet donc au \emph{Web} d'être
+distribué.
+
+Découvrabilité, faible couplage, mise à jour simplifié.
+
+\subsubsection{Problèmes récurrents}
+
+- Accès aux ressources par concaténation de chaines de caractères
+
+\section{OFBiz}
+
+OFBiz est un framework Web orienté progiciel de gestion intégré.  Ce
+framework fournit un ensemble de composants ...
+
+\subsection{Architecture Orientée Service}
+
+Ofbiz est basé sur une architecture orientée service (SOA).  La notion
+de moteur de service\footnote{souvent appelé dans la pratique
+  \emph{Service Engine}} est définit par l'interface Java
+\verb=GenericEngine=.
+
+Un service peut être appelé en lui passant un ensemble de valeur en
+entrée, il renvoie alors un ensemble de valeurs en sortie.  Il est
+possible d'exécuter un service soit de manière synchrone soit de
+manière asynchrone.  Il peut être implémenté dans n'importe quel
+langage de programmation dans la mesure ou les paramètres et résultats
+doivent être sérialisable.  Les services peuvent être ordonnancé.  Ils
+peuvent appeler d'autres services.
+
+On parle d'événements OFBiz pour les requêtes HTTP envoyés au serveur
+OFBiz, mais aussi d'événement de service qui correspondent à
+différentes phase de l'exécution d'un service.  Les différentes phases
+existantes sont "auth", "in-validate", "out-validate", "invoke",
+"commit", or "return".
+
+L'ensemble des routes sont définit dans un fichier
+\verb=controller.xml=.  Seule les requêtes \verb=POST= et \verb=GET=
+sont traités du fait que le client est uniquement prévu pour être un
+navigateur.  Il n'y a de différences dans le traitement des requêtes.
+Peu importe la méthode choisi cela à pour effet d'appeler l'evénement
+associé.
+
+Problème REST => faire correspondre les retours de service avec les
+codes d'erreur HTTP.  Hypermédia? correspond à la vue.
+
+\section{Choix techniques}
+
+- Vert.x (polyglot, asynchrone)
+- JAX-RS (Spécification standard, intégré dans JavaEE, implémentation Apache CXF)
+
+Currently OFBiz is handling HTTP request via its \verb=controlServlet=
+class which handles \verb=GET= and \verb=POST= request without
+distinction.  I like the idea proposed by Ean to use an alternate
+servlet which will be more aware of the semantics associated with HTTP
+methods.
+
+While Vert.x seems nice, it
+
+I am exploring the idea to use JAX-RS specification via Apache CXF
+implementation to provide an \verb=/api= servlet to expose both
+services and entities.
+
+%% Liens donnés par Nicolas
+%% https://www.infoq.com/articles/rest-introduction
+%% http://apidoc.adility.com/submission-api
+%% https://issues.apache.org/jira/browse/OFBIZ-4274
+%% http://blog.pilotsystems.net/2012/septembre/les-api-rest
+
+\bibliographystyle{plain}
+\bibliography{biblio}
+
+\end{document}
