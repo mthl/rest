@@ -311,13 +311,33 @@ Currently OFBiz is handling HTTP request via its \verb=controlServlet=
 class which handles \verb=GET= and \verb=POST= request without
 distinction.  I like the idea proposed by Ean to use an alternate
 servlet which will be more aware of the semantics associated with HTTP
-methods.
+methods.  Le problème étant de savoir comment convertir les types de
+résultats des résultats \emph{success}, \emph{error}, \emph{failure}
+en code d'erreur HTTP avec la sémantique adaptée.
 
 While Vert.x seems nice, it
+
+\subsection{JAX-RS}
 
 I am exploring the idea to use JAX-RS specification via Apache CXF
 implementation to provide an \verb=/api= servlet to expose both
 services and entities.
+
+\subsection{Vert.x}
+
+\emph{Vert.x} est un framework permettant de créer des API Web
+Asynchrone.  Il s'inspire grandement de ce qui a été fait dans
+\emph{Node.js} avec l'utilisation intensive de callback dans des
+requêtes HTTP et les appels vers la base de données.
+
+\subsection{Apache Camel}
+
+Apache camel est un framework implémentant un ensemble de patterns
+d'intégration décrit dans l'ouvrage « Enterprise Integration Patterns »
+\cite{hohpe2003enterprise}.
+
+Une solution intéressante proposé par ce framework est le langage
+spécifique REST transposable à la fois en Java et en XML.
 
 %% Liens donnés par Nicolas
 %% https://www.infoq.com/articles/rest-introduction
