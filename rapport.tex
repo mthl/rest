@@ -323,8 +323,6 @@ methods.  Le problème étant de savoir comment convertir les types de
 résultats des résultats \emph{success}, \emph{error}, \emph{failure}
 en code d'erreur HTTP avec la sémantique adaptée.
 
-While Vert.x seems nice, it
-
 \subsection{JAX-RS}
 
 I am exploring the idea to use JAX-RS specification via Apache CXF
@@ -336,7 +334,13 @@ services and entities.
 \emph{Vert.x} est un framework permettant de créer des API Web
 Asynchrone.  Il s'inspire grandement de ce qui a été fait dans
 \emph{Node.js} avec l'utilisation intensive de callback dans des
-requêtes HTTP et les appels vers la base de données.
+requêtes HTTP et les appels vers la base de données. Un point fort de
+Vert.x est le fait que les traitements asynchrone soit bien intégré à
+l'API. Cela permet d'écrire des traitements de requêtes de manière
+relativment déclaratives grâce à des callbacks tout en ayant de bonnes
+performances.  À la différence de JAX-RS, il n'y a pas de standard
+pouvant donner une bonne confiance dans la pérénnité de Vert.x
+d'autant que ce projet créé en 2011 reste relativement jeune.
 
 \subsection{Apache Camel}
 
