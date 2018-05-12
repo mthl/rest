@@ -3,9 +3,16 @@
 \usepackage[utf8]{inputenc}
 \usepackage[french]{babel}
 \usepackage{graphicx}
+\usepackage{caption}
+\DeclareCaptionLabelFormat{cont}{#1~#2\alph{ContinuedFloat}}
+\captionsetup[ContinuedFloat]{labelformat=cont}
 \usepackage{tikz}
 \usetikzlibrary{snakes,arrows,shapes,automata}
 \usepackage{listings}
+\lstset {
+  basicstyle=\footnotesize,
+  tabsize=2
+}
 
 
 \title{Implémentation d'une API HTTP de style REST pour Apache OFBiz}
@@ -332,18 +339,52 @@ requêtes HTTP et les appels vers la base de données.
 
 \subsection{Apache Camel}
 
-Apache camel est un framework implémentant un ensemble de patterns
-d'intégration décrit dans l'ouvrage « Enterprise Integration Patterns »
-\cite{hohpe2003enterprise}.
+Apache camel est un framework implémentant un ensemble de patterns de
+communications par envoi de messages décrits dans l'ouvrage «
+Enterprise Integration Patterns » \cite{hohpe2003enterprise}.
 
-Une solution intéressante proposé par ce framework est le langage
-spécifique REST transposable à la fois en Java et en XML.
+Une solution intéressante proposé par ce framework et montré dans la
+figure \ref{fig:restdsl} est la définition d'un langage spécifique REST
+transposable à la fois en Java et en XML permettant de décrire les
+routes et les handlers de traitement des types de requêtes associés à
+ces routes.
+
+\begin{figure}
+  \ContinuedFloat*
+  \begin{lstlisting}[language=java]
+rest("/customers/")
+  .get("/{id}").to("direct:customerDetail")
+  .get("/{id}/orders").to("direct:customerOrders")
+  .post("/neworder").to("direct:customerNewOrder");
+  \end{lstlisting}
+  \caption{REST DSL Java}
+\end{figure}
+
+\begin{figure}
+  \ContinuedFloat
+  \begin{lstlisting}[language=xml]
+<rest path="/customers/">
+  <get uri="/{id}">
+    <to uri="direct:customerDetail"/>
+  </get>
+  <get uri="/{id}/orders">
+    <to uri="direct:customerOrders"/>
+  </get>
+  <post uri="/neworder">
+    <to uri="direct:customerNewOrder"/>
+  </post>
+</rest>
+  \end{lstlisting}
+  \caption{REST DSL XML}
+  \label{fig:restdsl}
+\end{figure}
 
 %% Liens donnés par Nicolas
 %% https://www.infoq.com/articles/rest-introduction
 %% http://apidoc.adility.com/submission-api
 %% http://blog.pilotsystems.net/2012/septembre/les-api-rest
 
+\clearpage
 \bibliographystyle{plain}
 \bibliography{biblio}
 
