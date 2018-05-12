@@ -325,9 +325,21 @@ en code d'erreur HTTP avec la sémantique adaptée.
 
 \subsection{JAX-RS}
 
-I am exploring the idea to use JAX-RS specification via Apache CXF
-implementation to provide an \verb=/api= servlet to expose both
-services and entities.
+\emph{JAX-RS} est une API java permettant de créer des services Web «
+RESTful » \cite{pericas2013jax}. Cette spécification est intégrée dans
+\emph{JavaEE} et possède plusieurs implémentations dont Jersey qui est
+l'implémentation de référence, RESTeasy, Restlet, et Apache CXF.
+L'utilisation de Jersey est impossible du fait de l'incompatibilité de
+sa license avec celle d'OFBiz.  Du fait de son intégration dans la
+communauté Apache, CXF semble être une implémentation adapté à une
+utilisation dans OFBiz.  L'avantage de cette solution est une
+intégration et adoption forte dans l'univers JavaEE.  Du fait qu'OFBiz
+est déjà couplé au JDK ce choix ne présente pas un grand risque.
+
+Cette spécification utilise un système d'annotations comprenant les
+annotations \verb=@Path=, \verb=@GET=, \verb=@POST=, \verb=@Produces=,
+\verb=@Consumes= permettant de définir les méthodes à appeler pour une
+route et une méthode données.
 
 \subsection{Vert.x}
 
