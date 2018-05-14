@@ -306,22 +306,45 @@ première idée était de permettre de faire du \emph{CRUD} sur les
 entités aux travers des méthodes HTTP.  Il a été ensuite question de
 permettre d'appeler des services et de faire correspondre le
 dictionnaire d'entrée et de sorties du service avec les
-représentations JSON et XML.
+représentations JSON et XML.  Cependant la conversion des codes
+d'erreurs d'appel de services vers des codes d'erreur HTTP semble
+difficilement automatisable.  En effet les types d'errreur de services
+sont \emph{Success}, \emph{Fail}, et \emph{Error}.  Lorsque l'appel
+d'un service échoue du fait de la non-authentification de l'appelant
+le code de retour est \emph{Fail} ce qui implique qu'il ne peut être
+distinguer d'une erreur d'exécution et que donc il n'y a pas de moyen
+de mapper l'échec d'authentification vers le code d'erreur 401  et
 
+Pour satisfaire la contraintes d'interface uniforme de REST Il est
+nécessaire d'implémenter l'hypermédia pour rendre les services
+découvrables. Pour cela il a été proposé de combiner la méthode
+\verb=OPTIONS= pour décrire les actions possibles sur une ressource au
+moyen du header HTTP \verb=Allow= listant l'ensemble des Méthodes
+supportées avec des URIs dans le corps de la réponses.
 
-Problème REST => faire correspondre les retours de service avec les
-codes d'erreur HTTP.  Hypermédia? correspond à la vue.
+\begin{verbatim}
+$ curl -i -X OPTIONS http://example.com/resources/1
+HTTP/1.1 200 OK
+Allow: GET, HEAD, POST, DELETE, [...]
+Content-Length: 0
+\end{verbatim}
 
-- Vert.x (polyglot, asynchrone)
-- JAX-RS (Spécification standard, intégré dans JavaEE, implémentation Apache CXF)
+Actuellement OFBiz gère les requêtes HTTP grâce à une servlet Java
+\Cite{Chan2017servlet} définit dans la classe \verb=controlServlet=.
+Le traitement des requêtes HTTP considère les méthode \verb=GET= et
+\verb=POST= sans disctinction.
 
-Currently OFBiz is handling HTTP request via its \verb=controlServlet=
-class which handles \verb=GET= and \verb=POST= request without
-distinction.  I like the idea proposed by Ean to use an alternate
-servlet which will be more aware of the semantics associated with HTTP
-methods.  Le problème étant de savoir comment convertir les types de
-résultats des résultats \emph{success}, \emph{error}, \emph{failure}
-en code d'erreur HTTP avec la sémantique adaptée.
+En parallèle de cette discussion théorique et sur le language
+spécifique à utiliser, il a été également question d'utiliser certains
+framework pour accomplir cette tâche. Parmi ces frameworks ont été
+cité:
+
+\begin{itemize}
+\item JAX-RS
+\item Vert.x
+\item Apache Juneau
+\item Swagger.IO
+\end{itemize}
 
 \subsection{JAX-RS}
 
