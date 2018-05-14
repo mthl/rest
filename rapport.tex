@@ -29,6 +29,8 @@
   ...
 \end{abstract}
 
+\tableofcontents
+
 \section*{Introduction}
 
 Dans le cadre d'une amélioration du progiciel de gestion intégré
@@ -297,6 +299,8 @@ associé.
 
 \section{Choix techniques}
 
+\subsection{Propositions passées}
+
 Cela fait plusieurs années que l'intégration d'un moyen d'accéder aux
 services et entitées au moyen d'une API HTTP de style REST est en
 discussion au sein de la communauté des développeurs de OFBiz.  En
@@ -346,7 +350,7 @@ cité:
 \item Swagger.IO
 \end{itemize}
 
-\subsection{JAX-RS}
+\subsubsection{JAX-RS}
 
 \emph{JAX-RS} est une API java permettant de créer des services Web «
 RESTful » \cite{pericas2013jax}. Cette spécification est intégrée dans
@@ -364,7 +368,7 @@ annotations \verb=@Path=, \verb=@GET=, \verb=@POST=, \verb=@Produces=,
 \verb=@Consumes= permettant de définir les méthodes à appeler pour une
 route et une méthode données.
 
-\subsection{Vert.x}
+\subsubsection{Vert.x}
 
 \emph{Vert.x} est un framework permettant de créer des API Web
 Asynchrone.  Il s'inspire grandement de ce qui a été fait dans
@@ -377,7 +381,9 @@ performances.  À la différence de JAX-RS, il n'y a pas de standard
 pouvant donner une bonne confiance dans la pérénnité de Vert.x
 d'autant que ce projet créé en 2011 reste relativement jeune.
 
-\subsection{Apache Camel}
+\subsection{Proposition actuelle}
+
+\subsubsection{Apache Camel}
 
 Apache camel est un framework implémentant un ensemble de patterns de
 communications par envoi de messages décrits dans l'ouvrage «
