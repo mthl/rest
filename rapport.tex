@@ -30,7 +30,7 @@
 \end{abstract}
 
 \tableofcontents
-
+\clearpage
 \section*{Introduction}
 
 Dans le cadre d'une amélioration du progiciel de gestion intégré
@@ -47,7 +47,41 @@ principes SOA.  Ces améliorations devront être réalisées en
 interaction avec les projets clients et la communauté Apache OFBiz
 afin de permettre leurs intégration dans le projet officiel.
 
-%% \chapter{État de l'art}
+\section{Présentation de Néréide}
+
+
+\section{Présentation de OFBiz}
+
+OFBiz est un framework Web orienté progiciel de gestion intégré.  Ce
+framework fournit un ensemble de composants ...
+
+\subsection{Architecture Orientée Service}
+
+Ofbiz est basé sur une architecture orientée service (SOA).  La notion
+de moteur de service\footnote{souvent appelé dans la pratique
+  \emph{Service Engine}} est définit par l'interface Java
+\verb=GenericEngine=.
+
+Un service peut être appelé en lui passant un ensemble de valeur en
+entrée, il renvoie alors un ensemble de valeurs en sortie.  Il est
+possible d'exécuter un service soit de manière synchrone soit de
+manière asynchrone.  Il peut être implémenté dans n'importe quel
+langage de programmation dans la mesure ou les paramètres et résultats
+doivent être sérialisable.  Les services peuvent être ordonnancé.  Ils
+peuvent appeler d'autres services.
+
+On parle d'événements OFBiz pour les requêtes HTTP envoyés au serveur
+OFBiz, mais aussi d'événement de service qui correspondent à
+différentes phase de l'exécution d'un service.  Les différentes phases
+existantes sont "auth", "in-validate", "out-validate", "invoke",
+"commit", or "return".
+
+L'ensemble des routes sont définit dans un fichier
+\verb=controller.xml=.  Seule les requêtes \verb=POST= et \verb=GET=
+sont traités du fait que le client est uniquement prévu pour être un
+navigateur.  Il n'y a de différences dans le traitement des requêtes.
+Peu importe la méthode choisi cela à pour effet d'appeler l'evénement
+associé.
 
 \section{État de l'art}
 
@@ -263,39 +297,6 @@ Découvrabilité, faible couplage, mise à jour simplifié.
 \subsubsection{Problèmes récurrents}
 
 - Accès aux ressources par concaténation de chaines de caractères
-
-\section{OFBiz}
-
-OFBiz est un framework Web orienté progiciel de gestion intégré.  Ce
-framework fournit un ensemble de composants ...
-
-\subsection{Architecture Orientée Service}
-
-Ofbiz est basé sur une architecture orientée service (SOA).  La notion
-de moteur de service\footnote{souvent appelé dans la pratique
-  \emph{Service Engine}} est définit par l'interface Java
-\verb=GenericEngine=.
-
-Un service peut être appelé en lui passant un ensemble de valeur en
-entrée, il renvoie alors un ensemble de valeurs en sortie.  Il est
-possible d'exécuter un service soit de manière synchrone soit de
-manière asynchrone.  Il peut être implémenté dans n'importe quel
-langage de programmation dans la mesure ou les paramètres et résultats
-doivent être sérialisable.  Les services peuvent être ordonnancé.  Ils
-peuvent appeler d'autres services.
-
-On parle d'événements OFBiz pour les requêtes HTTP envoyés au serveur
-OFBiz, mais aussi d'événement de service qui correspondent à
-différentes phase de l'exécution d'un service.  Les différentes phases
-existantes sont "auth", "in-validate", "out-validate", "invoke",
-"commit", or "return".
-
-L'ensemble des routes sont définit dans un fichier
-\verb=controller.xml=.  Seule les requêtes \verb=POST= et \verb=GET=
-sont traités du fait que le client est uniquement prévu pour être un
-navigateur.  Il n'y a de différences dans le traitement des requêtes.
-Peu importe la méthode choisi cela à pour effet d'appeler l'evénement
-associé.
 
 \section{Choix techniques}
 
