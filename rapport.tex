@@ -1,7 +1,9 @@
-\documentclass[a4paper, 11pt]{article}
+\documentclass[a4paper, 11pt]{report}
+\usepackage[margin=2.5cm]{geometry}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[french]{babel}
+\usepackage{tikz-uml}
 \usepackage{graphicx}
 \usepackage{caption}
 \DeclareCaptionLabelFormat{cont}{#1~#2\alph{ContinuedFloat}}
@@ -15,11 +17,12 @@
 }
 
 
+
 \title{Implémentation d'une API HTTP de style REST pour Apache OFBiz}
 
 \author{Mathieu Lirzin}
 
-\date{\today}
+\date{30 août 2018}
 
 \begin{document}
 
@@ -31,7 +34,7 @@
 
 \tableofcontents
 \clearpage
-\section*{Introduction}
+\chapter*{Introduction}
 
 Dans le cadre d'une amélioration du progiciel de gestion intégré
 Apache OFBiz nous souhaitons mettre en place une API HTTP basée sur le
@@ -47,15 +50,36 @@ principes SOA.  Ces améliorations devront être réalisées en
 interaction avec les projets clients et la communauté Apache OFBiz
 afin de permettre leurs intégration dans le projet officiel.
 
-\section{Présentation de Néréide}
+\chapter{Présentation de l'entreprise}
 
+Néréide est un société de service en logiciel libre fondée en 2004
+spécialisée dans l'intégration du progiciel de gestion intégré Apache
+OFBiz.  Il s'agit d'une société coopérative et participative (SCOP)
+dont le siège social est situé à Tours.  Les activités de la société
+se décompose en différents axes:
 
-\section{Présentation de OFBiz}
+\begin{description}
+\item[Dévéloppement spécifique] L'intégration du framework OFBiz
+  implique généralement des développement spécifique pour s'adapter au
+  différents composants du système d'information existant.
+\item[Maintenance et support applicatif (TMA)] Prestation de support
+  et de maintenance corrective et/ou evolutive pour les développement
+  spécifiques précédemment fait
+\item[Administration système] mettre en place un élément système, un
+  réseau, intégrer et migrer des composant systèmes.
+\end{description}
+
+Néréide s'appuie sur le réseau Libre Entreprise dont elle fait partie
+pour proposer des services tels que l'hébergement, de formation.
+L'équipe est actuellement composée de 11 personnes, ayant pour point
+commun une expertise fonctionnelle sur OFBiz.
+
+\chapter{Présentation de OFBiz}
 
 OFBiz est un framework Web orienté progiciel de gestion intégré.  Ce
 framework fournit un ensemble de composants ...
 
-\subsection{Architecture Orientée Service}
+\section{Architecture Orientée Service}
 
 Ofbiz est basé sur une architecture orientée service (SOA).  La notion
 de moteur de service\footnote{souvent appelé dans la pratique
@@ -83,9 +107,9 @@ navigateur.  Il n'y a de différences dans le traitement des requêtes.
 Peu importe la méthode choisi cela à pour effet d'appeler l'evénement
 associé.
 
-\section{État de l'art}
+\chapter{État de l'art}
 
-\subsection{Representational State Tranfer}
+\section{Representational State Tranfer}
 
 \emph{Representational State Transfer} (REST) est un style
 architectural ayant émergé au début de l'année 1995.  Il s'agit d'un
@@ -99,6 +123,7 @@ connecteurs, ainsi que les données présents au sein d'un système
 \cite{perry1992foundations}.
 
 \begin{center}
+  \resizebox {0.8\columnwidth} {!} {
   \begin{tikzpicture}
     \tikzstyle{as}= [draw,rectangle,rounded corners=3pt]
     \tikzstyle{asc}= [draw,rectangle,rounded corners=3pt, fill=black!10]
@@ -143,6 +168,7 @@ connecteurs, ainsi que les données présents au sein d'un système
     \draw[->] (LCcacheSS) edge node[cst,left, text width=0.5cm]{multi-org} (LCODCcacheSS);
     \draw[->] (LCODCcacheSS) edge  (REST);
   \end{tikzpicture}
+}
 \end{center}
 
 REST est composé des 6 contraintes suivantes:
@@ -186,7 +212,7 @@ REST est composé des 6 contraintes suivantes:
   permettant au serveur d'étendre les fonctionnalités du client.
 \end{description}
 
-\subsection{Architecture Web}
+\section{Architecture Web}
 
 L'architecture Web est une instance du style architectural REST.  En
 fait REST a été conceptualisé conjointement au World Wide Web pour
@@ -194,7 +220,7 @@ permettre de décrire de manière abstraite les enjeux d'un tel système.
 Nous présentons ici les différents composants que sont le protocole
 HTTP, les URI, et les formats de données tels HTML, XML, et JSON.
 
-\subsubsection{Protocole HTTP}
+\subsection{Protocole HTTP}
 
 Le protocole \emph{Hypertext Transfer Protocol} (HTTP) est un
 protocole texte utilisé sur le Web pour transmettre les ressources
@@ -231,7 +257,7 @@ de caractères qui est un signe que l'URL est l'API.
 Les méchanismes de cache à différents points du réseau
 \cite{fielding1999hypertext}.
 
-\subsubsection{Uniform Resource Identifier}
+\subsection{Uniform Resource Identifier}
 
 Les \emph{Uniform Resource Identifiers} (URI) servent à nommer toute
 sorte des ressources (document, images, service, ...)
@@ -265,7 +291,7 @@ de leur sémantique.  Même si ces ressources pointent sur la même
 valeur il s'agit bien de 2 ressources distinctes.  Ce qui identifie
 une ressource c'est la sémantique associé à son URI.
 
-\subsubsection{Formats de données}
+\subsection{Formats de données}
 
 Lors d'une requête, il est possible pour le client de spécifier le
 type contenu souhaité au moyen du header \verb=Accept= cependant il
@@ -274,7 +300,7 @@ le format de donnée souhaité.  Dans la pratique les formats XML est
 JSON sont les plus courant pour la transmission de données
 structurées.
 
-\subsubsection{Hypermédia}
+\subsection{Hypermédia}
 
 La notion d'\emph{hypermédia} est cruciale dans la réalisation d'une
 API RESTful bien qu'elle soit trop souvent négligé.  Cette notion est
@@ -283,7 +309,7 @@ son, et de vidéos.  Il désigne un réseau d'information accessible de
 manière non-linéaire et interactive au moyen de liens.
 %% Hypermedia is defined by the presence of application control information embedded within, or as a layer above , the presentation of information  <<modern-web-archi>>.
 
-\subsubsection{Bénéfices}
+\subsection{Bénéfices}
 
 Dans le contexte du \emph{Web} l'hypermédia a été choisi pour sa
 simplicité et généricité.  Cela a été fait dans l'objectif de rendre
@@ -294,13 +320,13 @@ distribué.
 
 Découvrabilité, faible couplage, mise à jour simplifié.
 
-\subsubsection{Problèmes récurrents}
+\subsection{Problèmes récurrents}
 
 - Accès aux ressources par concaténation de chaines de caractères
 
-\section{Choix techniques}
+\chapter{Choix techniques}
 
-\subsection{Propositions passées}
+\section{Propositions passées}
 
 Cela fait plusieurs années que l'intégration d'un moyen d'accéder aux
 services et entitées au moyen d'une API HTTP de style REST est en
@@ -351,7 +377,7 @@ cité:
 \item Swagger.IO
 \end{itemize}
 
-\subsubsection{JAX-RS}
+\subsection{JAX-RS}
 
 \emph{JAX-RS} est une API java permettant de créer des services Web «
 RESTful » \cite{pericas2013jax}. Cette spécification est intégrée dans
@@ -369,7 +395,7 @@ annotations \verb=@Path=, \verb=@GET=, \verb=@POST=, \verb=@Produces=,
 \verb=@Consumes= permettant de définir les méthodes à appeler pour une
 route et une méthode données.
 
-\subsubsection{Vert.x}
+\subsection{Vert.x}
 
 \emph{Vert.x} est un framework permettant de créer des API Web
 Asynchrone.  Il s'inspire grandement de ce qui a été fait dans
@@ -382,9 +408,9 @@ performances.  À la différence de JAX-RS, il n'y a pas de standard
 pouvant donner une bonne confiance dans la pérénnité de Vert.x
 d'autant que ce projet créé en 2011 reste relativement jeune.
 
-\subsection{Proposition actuelle}
+\section{Proposition actuelle}
 
-\subsubsection{Apache Camel}
+\subsection{Apache Camel}
 
 Apache camel est un framework implémentant un ensemble de patterns de
 communications par envoi de messages décrits dans l'ouvrage «
