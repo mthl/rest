@@ -15,8 +15,7 @@
   basicstyle=\footnotesize,
   tabsize=2
 }
-
-
+\tikzumlset{fill class=black!5}
 
 \title{Implémentation d'une API HTTP de style REST pour Apache OFBiz}
 
@@ -119,7 +118,57 @@ langage de templating.
 
 \section{Le framework}
 
+Le framework fournit les éléments de base définissant l'architecture
+d'OFBiz.
+
 \subsection{Container}
+
+\begin{figure}
+  \centering
+  \begin{tikzpicture}
+    \umlinterface[]{Container}{}{
+      \umlvirt{+ init(cmds : List<StartupCommand>, name : String,
+        config : String) : void} \\
+      \umlvirt{+ start() : void} \\
+      \umlvirt{+ stop() : void} \\
+      \umlvirt{+ getName() : String}
+    }
+
+    \umlclass[x=5,y=-4]{StartupCommand}{
+      - name : String \\
+      - properties : Map<String, String>
+    }{
+      \umlvirt{+ getName() : String} \\
+      \umlvirt{+ getProperties() : Map<String, String>}
+    }
+
+    \umldep[geometry=|-]{Container}{StartupCommand}
+
+  \end{tikzpicture}
+  \caption{Définition du type container}
+\end{figure}
+
+Un container est l'élément de plus bas niveau que définit OFBiz.  Un
+container est processus tournant en tâche de fond pouvant être
+initialisé, démarré et arreté.  Concrètement cela est représenté par
+l'interface \verb=Container= représenté sur la figure  OFBiz ne définit par défault qu'un
+seul container dans un fichier \verb=ofbiz-container.xml= et il est
+possible pour chacun des composants de définir leur propres
+containers.  L'intérêt de cette abstraction est de permettre de lié
+l'exécution un daemon externe au lancement de OFBiz. Ainsi le plugin
+OFBiz Camel définit un container pour le runtime de Apache Camel en
+charge de faire communiquer les différents points de sorties.  Un
+container est paramétré par un ensemble de phases décrites dans
+l'attribut \verb=loaders= du container.  Cet attribut détermine à
+quelles phases ce container doit être démarré.  Les 3 phases suivantes
+sont définis:
+\begin{description}
+\item[main] la phase d'exécution de ofbiz
+\item[load-data] la phase de chargement des données dans la base de
+  données
+\item[test] la phase de lancement des tests d'intégrations
+\end{description}
+
 \subsection{Composants}
 \subsection{Applications Web}
 \subsection{Moteur d'entités}
