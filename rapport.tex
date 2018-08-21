@@ -90,7 +90,33 @@ de développement en logiciel libre. En janvier 2006 OFBiz a été accepté
 dans l'incubateur de la fondation Apache avant d'être accepté en tant
 que projet a part entière en décembre 2006.
 
-\section{Architecture Orientée Service}
+Techniquement OFBiz est basé sur la plateforme Java et sur
+l'utilisation de \emph{langage spécifique au domaine} (DSL) basé sur
+des grammaires XML.  Concenant le coeur du framework, les
+communications HTTP sont gérés par des Servlets \cite{Chan2017servlet}
+et les communications avec les base de données se font au moyen de
+l'API Java JDBC.  Au dessus de cela la déclaration des routes HTTP,
+des écrans et des services se fait dans des fichiers XML faisant
+référence à des implementations de services généralement en Java et
+Groovy.  Les écrans sont quant à eux basés sur Freemarker qui est un
+langage de templating.
+
+\section{Architecture globale}
+
+\begin{figure}
+  \centering
+  \begin{tikzpicture}
+  \end{tikzpicture}
+  \caption{Architecture globale de OFBiz}
+\end{figure}
+
+\section{Le framework}
+
+\subsection{Container}
+\subsection{Composants}
+\subsection{Applications Web}
+\subsection{Moteur d'entités}
+\subsection{Moteur de services}
 
 OFBiz est basé sur une architecture orientée service (SOA).  La notion
 de moteur de service est définit par l'interface Java
@@ -116,6 +142,10 @@ sont traités du fait que le client est uniquement prévu pour être un
 navigateur.  Il n'y a de différences dans le traitement des requêtes.
 Peu importe la méthode choisi cela à pour effet d'appeler l'evénement
 associé.
+
+\subsection{Moteur d'écrans}
+
+\section{Les applications}
 
 \chapter{État de l'art}
 
