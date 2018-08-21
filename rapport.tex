@@ -90,6 +90,15 @@ de développement en logiciel libre. En janvier 2006 OFBiz a été accepté
 dans l'incubateur de la fondation Apache avant d'être accepté en tant
 que projet a part entière en décembre 2006.
 
+\section{Architecture globale}
+
+OFBiz est structuré en séparant le framework, les applications, et les
+plugins.  Le framework fournit les méchanismes de communications
+réseau et d'interfacage entre les différentes applications.  Les
+plugins sont des applications spécifiques qui ont la spécificité de
+dépendre des applications de base mais dont aucune application de base
+ne dépend.
+
 Techniquement OFBiz est basé sur la plateforme Java et sur
 l'utilisation de \emph{langage spécifique au domaine} (DSL) basé sur
 des grammaires XML.  Concenant le coeur du framework, les
@@ -100,8 +109,6 @@ des écrans et des services se fait dans des fichiers XML faisant
 référence à des implementations de services généralement en Java et
 Groovy.  Les écrans sont quant à eux basés sur Freemarker qui est un
 langage de templating.
-
-\section{Architecture globale}
 
 \begin{figure}
   \centering
