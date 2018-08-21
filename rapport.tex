@@ -204,6 +204,17 @@ méta composants soient respectés comme cela est représenté sur la
 figure \ref{fig:compdep}.
 
 \subsection{Applications Web}
+
+Chaque composant peut définir des applications web correspondant à
+l'architecture des servlets qui sont monté d'un serveur d'application
+commun. Généralement un composant possède une application mais il est
+possible d'en avoir plusieurs dans un même composant.  Il est a noté
+que bien qu'OFBiz se base sur l'architecture des servlet il n'est pas
+possible de déployer les différentes applications Web dans un serveur
+d'application externe dans la mesure où le processus de compilation
+d'OFBiz embarque dans un même JAR l'ensemble des applications web
+ainsi que le serveur d'application.
+
 \subsection{Moteur d'entités}
 \subsection{Moteur de services}
 
