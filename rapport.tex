@@ -15,7 +15,7 @@
   basicstyle=\footnotesize,
   tabsize=2
 }
-\tikzumlset{fill class=black!5}
+\tikzumlset{fill class=black!5, fill component=white}
 
 \title{Implémentation d'une API HTTP de style REST pour Apache OFBiz}
 
@@ -179,6 +179,27 @@ La catégorie applications quant à elle se composent des composants:
 accounting, commonext, content, datamodel, humanres, manufacturing,
 marketing, order, party, product, securityext, workeffort.  Concernant
 les plugins, chaque plugin est associé à un composant.
+
+\begin{figure}
+  \centering
+  \begin{tikzpicture}
+    \umlbasiccomponent[y=1.5]{Plugins}
+    \umlbasiccomponent[x=5,y=3]{Applications}
+    \umlbasiccomponent[x=5]{Framework}
+    %% \umlassemblyconnector[interface=Fcs,
+    %%   geometry=-|]{Applications}{Framework}
+    \umldep{Applications}{Framework}
+    \umldep[geometry=-|-]{Plugins}{Applications}
+    \umldep[geometry=-|-]{Plugins}{Framework}
+  \end{tikzpicture}
+  \caption{Dépendance des composants}
+  \label{fig:compdep}
+\end{figure}
+
+Un point important de dans la relation entre ces différents composants
+est qu'il est important que les relations de dépendances entre les
+méta composants soient respectés comme cela est représenté sur la
+figure \ref{fig:compdep}.
 
 \subsection{Applications Web}
 \subsection{Moteur d'entités}
