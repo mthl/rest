@@ -466,7 +466,9 @@ Découvrabilité, faible couplage, mise à jour simplifié.
 
 - Accès aux ressources par concaténation de chaines de caractères
 
-\chapter{Choix techniques}
+\chapter{Réalisations}
+
+\section{Analyse des besoins}
 
 \section{Propositions passées}
 
@@ -487,6 +489,8 @@ d'un service échoue du fait de la non-authentification de l'appelant
 le code de retour est \emph{Fail} ce qui implique qu'il ne peut être
 distinguer d'une erreur d'exécution et que donc il n'y a pas de moyen
 de mapper l'échec d'authentification vers le code d'erreur 401  et
+
+\section{Choix techniques}
 
 Pour satisfaire la contraintes d'interface uniforme de REST Il est
 nécessaire d'implémenter l'hypermédia pour rendre les services
@@ -550,8 +554,6 @@ performances.  À la différence de JAX-RS, il n'y a pas de standard
 pouvant donner une bonne confiance dans la pérénnité de Vert.x
 d'autant que ce projet créé en 2011 reste relativement jeune.
 
-\section{Proposition actuelle}
-
 \subsection{Apache Camel}
 
 Apache camel est un framework implémentant un ensemble de patterns de
@@ -598,6 +600,10 @@ rest("/customers/")
 %% https://www.infoq.com/articles/rest-introduction
 %% http://apidoc.adility.com/submission-api
 %% http://blog.pilotsystems.net/2012/septembre/les-api-rest
+
+\section{Proposition}
+
+\chapter{Conclusion}
 
 \clearpage
 \bibliographystyle{plain}
