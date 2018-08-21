@@ -146,13 +146,15 @@ d'OFBiz.
 
   \end{tikzpicture}
   \caption{Définition du type container}
+  \label{fig:containertype}
 \end{figure}
 
 Un container est l'élément de plus bas niveau que définit OFBiz.  Un
 container est processus tournant en tâche de fond pouvant être
 initialisé, démarré et arreté.  Concrètement cela est représenté par
-l'interface \verb=Container= représenté sur la figure  OFBiz ne définit par défault qu'un
-seul container dans un fichier \verb=ofbiz-container.xml= et il est
+l'interface \verb=Container= représenté sur la figure
+\ref{fig:containertype}. OFBiz ne définit par défault qu'un seul
+container dans un fichier \verb=ofbiz-container.xml= et il est
 possible pour chacun des composants de définir leur propres
 containers.  L'intérêt de cette abstraction est de permettre de lié
 l'exécution un daemon externe au lancement de OFBiz. Ainsi le plugin
