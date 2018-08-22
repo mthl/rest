@@ -669,6 +669,28 @@ Le traitement des requêtes HTTP considère les méthode \verb=GET= et
 
 \section{Proposition}
 
+La première voie explorée a été de définir une servlet alternative à
+\verb=controlServlet=.  Cela avait été fait dans l'idée de définir des
+définir le support des méthodes HTTP et des templates d'URI au moyen
+de JAX-RS qui s'intègre bien avec le méchanisme de Servlet.  Il était
+également question de séparer les routes de l'API et les routes
+pointant vers les écrans.
+
+OFBiz fournit déjà un routeur HTTP avec l'ensemble des routes définis
+dans \verb=controller.xml= sans distinction de routes HTTP servant à
+appeler un service et celle correspondant à un écran.  De ce fait il a
+semblé pertinent d'adapté la grammaire XML du controlleur plutôt que
+de proposer une implémentation parallèle utilisant un paradigme de
+définition de routes différents des habitudes des développeurs OFBiz.
+
+Étant donné qu'il est hors de propos de déprécier le méchanisme de
+routage actuel, un telle solution étrangère aurait amené les
+développeurs a devoir se poser la question de l'endroit au définir une
+route HTTP qu'il souhaiterait ajouté.  Ainsi la solution qui a été
+approfondi a été celle d'adapter la grammaire XML définit par le
+schéma
+\href{http://ofbiz.apache.org/dtds/site-conf.xsd}{\verb#site-conf.xsd#}.
+
 \chapter{Conclusion}
 
 \clearpage
