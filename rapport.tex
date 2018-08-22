@@ -562,13 +562,13 @@ rest("/customers/")
   \begin{tikzpicture}
     \begin{umlsystem}[x=4]{API REST}
       \umlusecase[name=mrep, y=-1, width=2cm]{Manipuler\\représentation}
-      \umlusecase[name=crep, x=3, width=2cm]{Créer\\représentation}
+      \umlusecase[y=0.2, name=crep, x=3, width=2cm]{Créer\\représentation}
       \umlusecase[name=serv, y=-3.5, width=1.5cm]{Appeler\\service}
       \umlusecase[name=enti, x=3, y=-3.5,, width=1.5cm]{Manipuler\\entité}
-      \umlusecase[x=0.5,y=1.5, name=hyper, width=2.3cm]{Accèder à\\ une ressource}
+      \umlusecase[y=1.5, name=hyper, width=2.3cm]{Accèder à\\ une ressource}
     \end{umlsystem}
     \umlactor{Client HTTP}
-    \umlactor[x=11]{Générateur JSON}
+    \umlactor[x=11,y=0.2]{Générateur JSON}
     \umlassoc{Générateur JSON}{crep}
     \umlassoc{Client HTTP}{mrep}
     \umlassoc{Client HTTP}{hyper}
