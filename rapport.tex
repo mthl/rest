@@ -5,6 +5,7 @@
 \usepackage[french]{babel}
 \usepackage{tikz-uml}
 \usepackage{graphicx}
+\usepackage{hyperref}
 \usepackage{caption}
 \DeclareCaptionLabelFormat{cont}{#1~#2\alph{ContinuedFloat}}
 \captionsetup[ContinuedFloat]{labelformat=cont}
@@ -602,13 +603,38 @@ traitements.
 
 \subsection{Besoins non-fonctionnels}
 
+La solution proposés devra s'intégrer dans le framework. Ainsi il est
+important de peser tout ajout de dépendances.  En effet le fait de
+dépendre d'un autre framework a l'avantage de ne pas avoir à
+réimplémenter les services fournit par ce framework mais impose
+d'avoir une forte confiance quant à la pérénnité de cette dépendance
+autant en terme de qualité du code, et de la maintenance.  Ainsi
+certain framework bien que correspondant au critère technique seront
+négligé du fait de leur immaturité ou de l'instabilité de leur
+gouvernance.
+
+La solution proposé devra être validé étape après étape par la
+communauté au moyen de discussions sur la liste de diffusion
+\verb=dev@ofbiz.apache.org= et de revue de codes sur le gestionnaire
+de ticket
+JIRA\footnote{\url{https://issues.apache.org/jira/projects/OFBIZ}}. En cela
+le mode de développement de ce stage est agile dans la mesure les
+remarques emanant de la communauté peuvent arrivé à tout moment de ce
+stage et donc amené un changement de direction ou de besoins.
+
+Le code écrit devra être soumis à la licence Apache 2.0 avec une
+signature d'un accord de license de
+contributeur\footnote{\url{https://www.apache.org/licenses/icla.pdf}} (ICLA)
+permettant d'apporter des garanties en terme de « propriété
+intellectuelle ».
+
 \section{Propositions passées}
 
 Cela fait plusieurs années que l'intégration d'un moyen d'accéder aux
 services et entitées au moyen d'une API HTTP de style REST est en
 discussion au sein de la communauté des développeurs de OFBiz.  En
 effet c'est en 2011 qu'Adrian Crum proposa un premier
-prototype\footnote{https://issues.apache.org/jira/browse/OFBIZ-4274}. La
+prototype\footnote{\url{https://issues.apache.org/jira/browse/OFBIZ-4274}}. La
 première idée était de permettre de faire du \emph{CRUD} sur les
 entités aux travers des méthodes HTTP.  Il a été ensuite question de
 permettre d'appeler des services et de faire correspondre le
