@@ -98,14 +98,7 @@ de développement en logiciel libre. En janvier 2006 OFBiz a été accepté
 dans l'incubateur de la fondation Apache avant d'être accepté en tant
 que projet a part entière en décembre 2006.
 
-\section{Architecture globale}
-
-OFBiz est structuré en séparant le framework, les applications, et les
-plugins.  Le framework fournit les méchanismes de communications
-réseau et d'interfacage entre les différentes applications.  Les
-plugins sont des applications spécifiques qui ont la spécificité de
-dépendre des applications de base mais dont aucune application de base
-ne dépend.
+\section{Architecture générale}
 
 Techniquement OFBiz est basé sur la plateforme Java et sur
 l'utilisation de \emph{langage spécifique au domaine} (DSL) basé sur
@@ -118,12 +111,49 @@ référence à des implementations de services généralement en Java et
 Groovy.  Les écrans sont quant à eux basés sur Freemarker qui est un
 langage de templating.
 
+%% \begin{figure}
+%%   \centering
+%%   \begin{tikzpicture}
+%%   \end{tikzpicture}
+%%   \caption{Architecture globale de OFBiz}
+%% \end{figure}
+
 \begin{figure}
   \centering
   \begin{tikzpicture}
+    \umlbasiccomponent[y=1.5]{Plugins}
+    \umlbasiccomponent[x=5,y=3]{Applications}
+    \umlbasiccomponent[x=5]{Framework}
+    %% \umlassemblyconnector[interface=Fcs,
+    %%   geometry=-|]{Applications}{Framework}
+    \umldep{Applications}{Framework}
+    \umldep[geometry=-|-]{Plugins}{Applications}
+    \umldep[geometry=-|-]{Plugins}{Framework}
   \end{tikzpicture}
-  \caption{Architecture globale de OFBiz}
+  \caption{Dépendances entre les méta-composants}
+  \label{fig:compdep}
 \end{figure}
+
+OFBiz est structuré en séparant le framework, les applications, et les
+plugins.  Le framework fournit les méchanismes de communications
+réseau et d'interfacage entre les différentes applications.  Les
+plugins sont des applications spécifiques qui ont la spécificité de
+dépendre des applications de base mais dont aucune application de base
+ne dépend.  OFBiz est décomposé en plusieurs composants qui sont
+regroupés en plusieurs catégories ou meta-composants. Ainsi les
+composants fondamentaux définissant l'architecture d'OFBiz sont
+contenus dans l'ensemble de composants \emph{Framework}.  Les
+composants fonctionnels fondamentaux tels que la comptabilité, la
+facturation, ou la gestions des stock sont regroupés dans l'ensemble
+de composants \emph{Applications}.  Les composants spécifiques sont
+eux mis dans la catégories \emph{Plugins}. Un point important dans la
+relation entre ces différents composants est qu'il est important que
+les relations de dépendances entre les méta composants soient
+respectés comme cela est représenté sur la figure \ref{fig:compdep}.
+Cela permet entre autre de développer les plugins dans un dépôt
+externe.  Nous allons dans les sections suivantes détailler le contenu
+et l'architecture des deux méta-composants \emph{Framework} et
+\emph{Applications}.
 
 \section{Le framework}
 
@@ -190,27 +220,6 @@ La catégorie applications quant à elle se composent des composants:
 accounting, commonext, content, datamodel, humanres, manufacturing,
 marketing, order, party, product, securityext, workeffort.  Concernant
 les plugins, chaque plugin est associé à un composant.
-
-\begin{figure}
-  \centering
-  \begin{tikzpicture}
-    \umlbasiccomponent[y=1.5]{Plugins}
-    \umlbasiccomponent[x=5,y=3]{Applications}
-    \umlbasiccomponent[x=5]{Framework}
-    %% \umlassemblyconnector[interface=Fcs,
-    %%   geometry=-|]{Applications}{Framework}
-    \umldep{Applications}{Framework}
-    \umldep[geometry=-|-]{Plugins}{Applications}
-    \umldep[geometry=-|-]{Plugins}{Framework}
-  \end{tikzpicture}
-  \caption{Dépendance des composants}
-  \label{fig:compdep}
-\end{figure}
-
-Un point important de dans la relation entre ces différents composants
-est qu'il est important que les relations de dépendances entre les
-méta composants soient respectés comme cela est représenté sur la
-figure \ref{fig:compdep}.
 
 \subsection{Applications Web}
 
