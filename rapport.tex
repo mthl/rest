@@ -15,7 +15,7 @@
   basicstyle=\footnotesize,
   tabsize=2
 }
-\tikzumlset{fill class=black!5, fill component=white}
+\tikzumlset{fill class=black!5, fill component=white, fill usecase=black!10}
 
 \title{Implémentation d'une API HTTP de style REST pour Apache OFBiz}
 
@@ -469,6 +469,45 @@ Découvrabilité, faible couplage, mise à jour simplifié.
 \chapter{Réalisations}
 
 \section{Analyse des besoins}
+
+\begin{figure}
+  \centering
+  \begin{tikzpicture}
+    \begin{umlsystem}[x=4]{API REST}
+      \umlusecase[name=mrep, y=-1, width=2cm]{Manipuler\\représentation}
+      \umlusecase[name=crep, x=3, width=2cm]{Créer\\représentation}
+      \umlusecase[name=serv, y=-3.5, width=1.5cm]{Appeler\\service}
+      \umlusecase[name=enti, x=3, y=-3.5,, width=1.5cm]{Manipuler\\entité}
+      \umlusecase[x=0.5,y=1.5, name=hyper, width=2.3cm]{Accèder à\\ une ressource}
+    \end{umlsystem}
+    \umlactor{Client HTTP}
+    \umlactor[x=11]{Générateur JSON}
+    \umlassoc{Générateur JSON}{crep}
+    \umlassoc{Client HTTP}{mrep}
+    \umlassoc{Client HTTP}{hyper}
+    \umlinclude{mrep}{hyper}
+    \umlVHextend{enti}{mrep}
+    \umlextend{serv}{mrep}
+  \end{tikzpicture}
+  \caption{Représentation des cas d'utilisation}
+  \label{fig:needs}
+\end{figure}
+
+L'objectif de ce stage est de créer une API basé sur le protocole HTTP
+et suivant le style architectural REST.  Actuellement les services
+fournit par OFBiz sont fournit au travers du moteur de services et
+accessible au moyen d'une interface HTTP de type \emph{ Remote
+  Procedure Call} (RPC). L'objectif est donc de passer de ce modèle
+RPC à un modèle orienté ressources. Cela correspond au cas
+d'utilisation \textbf{Accéder à une ressource} de la figure
+\ref{fig:needs}.  Ces accès à des ressources peuvent avoir pour effet
+\textbf{d'appeler des service} ou de \textbf{manipuler des entités}.
+L'accès aux ressources se fera toujours au travers de représentation
+qui pour répondre au standard du Web seront basé sur le format JSON.
+La \textbf{Création des représentations} devra donc être délégué à un
+générateur JSON. Le fait de \textbf{Manipuler les représentations}
+permettera de récupérer des liens vers d'autres ressources permettant
+d'effectuer d'autres traitements.
 
 \section{Propositions passées}
 
