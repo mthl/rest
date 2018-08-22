@@ -557,6 +557,14 @@ rest("/customers/")
 
 \section{Analyse des besoins}
 
+L'objectif de ce stage est de créer une API basé sur le protocole HTTP
+et suivant le style architectural REST.  Actuellement les services
+fournit par OFBiz sont fournit au travers du moteur de services et
+accessible au moyen d'une interface HTTP de type \emph{ Remote
+  Procedure Call} (RPC).
+
+\subsection{Besoins fonctionnels}
+
 \begin{figure}
   \centering
   \begin{tikzpicture}
@@ -580,21 +588,19 @@ rest("/customers/")
   \label{fig:needs}
 \end{figure}
 
-L'objectif de ce stage est de créer une API basé sur le protocole HTTP
-et suivant le style architectural REST.  Actuellement les services
-fournit par OFBiz sont fournit au travers du moteur de services et
-accessible au moyen d'une interface HTTP de type \emph{ Remote
-  Procedure Call} (RPC). L'objectif est donc de passer de ce modèle
-RPC à un modèle orienté ressources. Cela correspond au cas
-d'utilisation \textbf{Accéder à une ressource} de la figure
-\ref{fig:needs}.  Ces accès à des ressources peuvent avoir pour effet
-\textbf{d'appeler des service} ou de \textbf{manipuler des entités}.
-L'accès aux ressources se fera toujours au travers de représentation
-qui pour répondre au standard du Web seront basé sur le format JSON.
-La \textbf{Création des représentations} devra donc être délégué à un
-générateur JSON. Le fait de \textbf{Manipuler les représentations}
-permettera de récupérer des liens vers d'autres ressources permettant
-d'effectuer d'autres traitements.
+L'objectif est de passer de ce modèle RPC à un modèle orienté
+ressources. Cela correspond au cas d'utilisation \textbf{Accéder à une
+  ressource} de la figure \ref{fig:needs}.  Ces accès à des ressources
+peuvent avoir pour effet \textbf{d'appeler des service} ou de
+\textbf{manipuler des entités}.  L'accès aux ressources se fera
+toujours au travers de représentation qui pour répondre au standard du
+Web seront basé sur le format JSON.  La \textbf{Création des
+  représentations} devra donc être délégué à un générateur JSON. Le
+fait de \textbf{Manipuler les représentations} permettera de récupérer
+des liens vers d'autres ressources permettant d'effectuer d'autres
+traitements.
+
+\subsection{Besoins non-fonctionnels}
 
 \section{Propositions passées}
 
@@ -614,7 +620,7 @@ sont \emph{Success}, \emph{Fail}, et \emph{Error}.  Lorsque l'appel
 d'un service échoue du fait de la non-authentification de l'appelant
 le code de retour est \emph{Fail} ce qui implique qu'il ne peut être
 distinguer d'une erreur d'exécution et que donc il n'y a pas de moyen
-de mapper l'échec d'authentification vers le code d'erreur 401  et
+de mapper l'échec d'authentification vers le code d'erreur 401 et
 
 \section{Choix techniques}
 
