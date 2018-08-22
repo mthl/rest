@@ -466,89 +466,7 @@ Découvrabilité, faible couplage, mise à jour simplifié.
 
 - Accès aux ressources par concaténation de chaines de caractères
 
-\chapter{Réalisations}
-
-\section{Analyse des besoins}
-
-\begin{figure}
-  \centering
-  \begin{tikzpicture}
-    \begin{umlsystem}[x=4]{API REST}
-      \umlusecase[name=mrep, y=-1, width=2cm]{Manipuler\\représentation}
-      \umlusecase[name=crep, x=3, width=2cm]{Créer\\représentation}
-      \umlusecase[name=serv, y=-3.5, width=1.5cm]{Appeler\\service}
-      \umlusecase[name=enti, x=3, y=-3.5,, width=1.5cm]{Manipuler\\entité}
-      \umlusecase[x=0.5,y=1.5, name=hyper, width=2.3cm]{Accèder à\\ une ressource}
-    \end{umlsystem}
-    \umlactor{Client HTTP}
-    \umlactor[x=11]{Générateur JSON}
-    \umlassoc{Générateur JSON}{crep}
-    \umlassoc{Client HTTP}{mrep}
-    \umlassoc{Client HTTP}{hyper}
-    \umlinclude{mrep}{hyper}
-    \umlVHextend{enti}{mrep}
-    \umlextend{serv}{mrep}
-  \end{tikzpicture}
-  \caption{Représentation des cas d'utilisation}
-  \label{fig:needs}
-\end{figure}
-
-L'objectif de ce stage est de créer une API basé sur le protocole HTTP
-et suivant le style architectural REST.  Actuellement les services
-fournit par OFBiz sont fournit au travers du moteur de services et
-accessible au moyen d'une interface HTTP de type \emph{ Remote
-  Procedure Call} (RPC). L'objectif est donc de passer de ce modèle
-RPC à un modèle orienté ressources. Cela correspond au cas
-d'utilisation \textbf{Accéder à une ressource} de la figure
-\ref{fig:needs}.  Ces accès à des ressources peuvent avoir pour effet
-\textbf{d'appeler des service} ou de \textbf{manipuler des entités}.
-L'accès aux ressources se fera toujours au travers de représentation
-qui pour répondre au standard du Web seront basé sur le format JSON.
-La \textbf{Création des représentations} devra donc être délégué à un
-générateur JSON. Le fait de \textbf{Manipuler les représentations}
-permettera de récupérer des liens vers d'autres ressources permettant
-d'effectuer d'autres traitements.
-
-\section{Propositions passées}
-
-Cela fait plusieurs années que l'intégration d'un moyen d'accéder aux
-services et entitées au moyen d'une API HTTP de style REST est en
-discussion au sein de la communauté des développeurs de OFBiz.  En
-effet c'est en 2011 qu'Adrian Crum proposa un premier
-prototype\footnote{https://issues.apache.org/jira/browse/OFBIZ-4274}. La
-première idée était de permettre de faire du \emph{CRUD} sur les
-entités aux travers des méthodes HTTP.  Il a été ensuite question de
-permettre d'appeler des services et de faire correspondre le
-dictionnaire d'entrée et de sorties du service avec les
-représentations JSON et XML.  Cependant la conversion des codes
-d'erreurs d'appel de services vers des codes d'erreur HTTP semble
-difficilement automatisable.  En effet les types d'errreur de services
-sont \emph{Success}, \emph{Fail}, et \emph{Error}.  Lorsque l'appel
-d'un service échoue du fait de la non-authentification de l'appelant
-le code de retour est \emph{Fail} ce qui implique qu'il ne peut être
-distinguer d'une erreur d'exécution et que donc il n'y a pas de moyen
-de mapper l'échec d'authentification vers le code d'erreur 401  et
-
-\section{Choix techniques}
-
-Pour satisfaire la contraintes d'interface uniforme de REST Il est
-nécessaire d'implémenter l'hypermédia pour rendre les services
-découvrables. Pour cela il a été proposé de combiner la méthode
-\verb=OPTIONS= pour décrire les actions possibles sur une ressource au
-moyen du header HTTP \verb=Allow= listant l'ensemble des Méthodes
-supportées avec des URIs dans le corps de la réponses.
-
-\begin{verbatim}
-$ curl -i -X OPTIONS http://example.com/resources/1
-HTTP/1.1 200 OK
-Allow: GET, HEAD, POST, DELETE, [...]
-Content-Length: 0
-\end{verbatim}
-
-Actuellement OFBiz gère les requêtes HTTP grâce à une servlet Java
-\cite{Chan2017servlet} définit dans la classe \verb=controlServlet=.
-Le traitement des requêtes HTTP considère les méthode \verb=GET= et
-\verb=POST= sans disctinction.
+\section{Implementations existantes}
 
 En parallèle de cette discussion théorique et sur le language
 spécifique à utiliser, il a été également question d'utiliser certains
@@ -634,6 +552,91 @@ rest("/customers/")
   \caption{REST DSL XML}
   \label{fig:restdsl}
 \end{figure}
+
+\chapter{Réalisations}
+
+\section{Analyse des besoins}
+
+\begin{figure}
+  \centering
+  \begin{tikzpicture}
+    \begin{umlsystem}[x=4]{API REST}
+      \umlusecase[name=mrep, y=-1, width=2cm]{Manipuler\\représentation}
+      \umlusecase[name=crep, x=3, width=2cm]{Créer\\représentation}
+      \umlusecase[name=serv, y=-3.5, width=1.5cm]{Appeler\\service}
+      \umlusecase[name=enti, x=3, y=-3.5,, width=1.5cm]{Manipuler\\entité}
+      \umlusecase[x=0.5,y=1.5, name=hyper, width=2.3cm]{Accèder à\\ une ressource}
+    \end{umlsystem}
+    \umlactor{Client HTTP}
+    \umlactor[x=11]{Générateur JSON}
+    \umlassoc{Générateur JSON}{crep}
+    \umlassoc{Client HTTP}{mrep}
+    \umlassoc{Client HTTP}{hyper}
+    \umlinclude{mrep}{hyper}
+    \umlVHextend{enti}{mrep}
+    \umlextend{serv}{mrep}
+  \end{tikzpicture}
+  \caption{Représentation des cas d'utilisation}
+  \label{fig:needs}
+\end{figure}
+
+L'objectif de ce stage est de créer une API basé sur le protocole HTTP
+et suivant le style architectural REST.  Actuellement les services
+fournit par OFBiz sont fournit au travers du moteur de services et
+accessible au moyen d'une interface HTTP de type \emph{ Remote
+  Procedure Call} (RPC). L'objectif est donc de passer de ce modèle
+RPC à un modèle orienté ressources. Cela correspond au cas
+d'utilisation \textbf{Accéder à une ressource} de la figure
+\ref{fig:needs}.  Ces accès à des ressources peuvent avoir pour effet
+\textbf{d'appeler des service} ou de \textbf{manipuler des entités}.
+L'accès aux ressources se fera toujours au travers de représentation
+qui pour répondre au standard du Web seront basé sur le format JSON.
+La \textbf{Création des représentations} devra donc être délégué à un
+générateur JSON. Le fait de \textbf{Manipuler les représentations}
+permettera de récupérer des liens vers d'autres ressources permettant
+d'effectuer d'autres traitements.
+
+\section{Propositions passées}
+
+Cela fait plusieurs années que l'intégration d'un moyen d'accéder aux
+services et entitées au moyen d'une API HTTP de style REST est en
+discussion au sein de la communauté des développeurs de OFBiz.  En
+effet c'est en 2011 qu'Adrian Crum proposa un premier
+prototype\footnote{https://issues.apache.org/jira/browse/OFBIZ-4274}. La
+première idée était de permettre de faire du \emph{CRUD} sur les
+entités aux travers des méthodes HTTP.  Il a été ensuite question de
+permettre d'appeler des services et de faire correspondre le
+dictionnaire d'entrée et de sorties du service avec les
+représentations JSON et XML.  Cependant la conversion des codes
+d'erreurs d'appel de services vers des codes d'erreur HTTP semble
+difficilement automatisable.  En effet les types d'errreur de services
+sont \emph{Success}, \emph{Fail}, et \emph{Error}.  Lorsque l'appel
+d'un service échoue du fait de la non-authentification de l'appelant
+le code de retour est \emph{Fail} ce qui implique qu'il ne peut être
+distinguer d'une erreur d'exécution et que donc il n'y a pas de moyen
+de mapper l'échec d'authentification vers le code d'erreur 401  et
+
+\section{Choix techniques}
+
+Pour satisfaire la contraintes d'interface uniforme de REST Il est
+nécessaire d'implémenter l'hypermédia pour rendre les services
+découvrables. Pour cela il a été proposé de combiner la méthode
+\verb=OPTIONS= pour décrire les actions possibles sur une ressource au
+moyen du header HTTP \verb=Allow= listant l'ensemble des Méthodes
+supportées avec des URIs dans le corps de la réponses.
+
+\begin{verbatim}
+$ curl -i -X OPTIONS http://example.com/resources/1
+HTTP/1.1 200 OK
+Allow: GET, HEAD, POST, DELETE, [...]
+Content-Length: 0
+\end{verbatim}
+
+Actuellement OFBiz gère les requêtes HTTP grâce à une servlet Java
+\cite{Chan2017servlet} définit dans la classe \verb=controlServlet=.
+Le traitement des requêtes HTTP considère les méthode \verb=GET= et
+\verb=POST= sans disctinction.
+
 
 %% Liens donnés par Nicolas
 %% https://www.infoq.com/articles/rest-introduction
