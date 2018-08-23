@@ -589,11 +589,12 @@ rest("/customers/")
 
 \section{Analyse des besoins}
 
-L'objectif de ce stage est de créer une API basé sur le protocole HTTP
-et suivant le style architectural REST.  Actuellement les services
-fournit par OFBiz sont fournit au travers du moteur de services et
-accessible au moyen d'une interface HTTP de type \emph{ Remote
-  Procedure Call} (RPC).
+Afin de répondre au mieux aux besoins de ce stage, nous avons effectué
+une analyse des besoins décomposer d'une part dans des besoins
+fonctionnels pour décrire les fonctionnalités que devra avoir l'API
+REST, et les besoins non-fonctionnels d'autre part pour décrire des
+besoins qualitatifs ou des contraintes d'environnement ou de
+développement.
 
 \subsection{Besoins fonctionnels}
 
@@ -601,36 +602,43 @@ accessible au moyen d'une interface HTTP de type \emph{ Remote
   \centering
   \begin{tikzpicture}
     \begin{umlsystem}[x=4]{API REST}
-      \umlusecase[name=mrep, y=-1, width=2cm]{Manipuler\\représentation}
-      \umlusecase[y=0.2, name=crep, x=3, width=2cm]{Créer\\représentation}
-      \umlusecase[name=serv, y=-3.5, width=1.5cm]{Appeler\\service}
-      \umlusecase[name=enti, x=3, y=-3.5,, width=1.5cm]{Manipuler\\entité}
-      \umlusecase[y=1.5, name=hyper, width=2.3cm]{Accèder à\\ une ressource}
+      \umlusecase[name=enti]{Manipuler entité}
+      \umlusecase[name=hyper, y=-2, width=1.8cm]{Accèder à\\ une URI}
+      \umlusecase[name=serv, y=-4]{Appeler service}
+      \umlusecase[name=mrep, y=-5.5, width=2.5cm]{Recevoir/Envoyer\\représentation}
     \end{umlsystem}
-    \umlactor{Client HTTP}
-    \umlactor[x=11,y=0.2]{Générateur JSON}
-    \umlassoc{Générateur JSON}{crep}
+    \umlactor[y=-4]{Client HTTP}
     \umlassoc{Client HTTP}{mrep}
     \umlassoc{Client HTTP}{hyper}
-    \umlinclude{mrep}{hyper}
-    \umlVHextend{enti}{mrep}
-    \umlextend{serv}{mrep}
+    \umlinclude{hyper}{enti}
+    \umlinclude{hyper}{serv}
   \end{tikzpicture}
   \caption{Représentation des cas d'utilisation}
   \label{fig:needs}
 \end{figure}
 
-L'objectif est de passer de ce modèle RPC à un modèle orienté
-ressources. Cela correspond au cas d'utilisation \textbf{Accéder à une
-  ressource} de la figure \ref{fig:needs}.  Ces accès à des ressources
-peuvent avoir pour effet \textbf{d'appeler des service} ou de
-\textbf{manipuler des entités}.  L'accès aux ressources se fera
-toujours au travers de représentation qui pour répondre au standard du
-Web seront basé sur le format JSON.  La \textbf{Création des
-  représentations} devra donc être délégué à un générateur JSON. Le
-fait de \textbf{Manipuler les représentations} permettera de récupérer
-des liens vers d'autres ressources permettant d'effectuer d'autres
-traitements.
+L'objectif de ce stage est de créer une API basée sur le protocole
+HTTP et suivant le style architectural REST.  Actuellement les
+traitements mis à disposition par OFBiz sont fournis au travers du
+moteur de services accessible au moyen d'une interface HTTP de type
+\emph{Remote Procedure Call} (RPC) et du moteur d'entités qui lui
+n'est pas directement accessible par le réseau.  Le besoin premier
+sous jacent à la création d'une API REST est de fournir une interface
+orienté ressources aux moteurs de services et d'entités.  L'accès aux
+ressources se fait au moyen d'une \emph{Uniform Resource Identifier}
+(URI) à laquelle le client HTTP envoit une requête HTTP avec une
+méthode (GET/POST/PUT...) adapté à la sémantique du traitement que le
+client HTTP veut effectué.  Les requêtes utilisant les méthodes
+POST/PUT incluent une charge utile prenant la forme d'une
+représentation de ressource, permettant de créer ou modifier des
+données sur le serveur.  Lors du traitement d'une requête par le
+serveur, cela a pour effet d'appeler des services OFBiz et/ou de faire
+des accès en base de données au moyen du moteur d'entités pour
+manipuler des entités.  À partir de ces traitements le serveur envoit
+ensuite une représentation de la ressource requêtée avec un code
+d'erreur adapté à la sémantique du traitement effectué.  Ceci est
+représenté de manière simplifié par le diagramme des cas d'utilisation
+de la figure \ref{fig:needs}.
 
 \subsection{Besoins non-fonctionnels}
 
