@@ -262,15 +262,51 @@ serve à fournir des données d'exemples.
 
 \subsection{Applications Web}
 
-Chaque composant peut définir des applications web correspondant à
-l'architecture des servlets qui sont monté d'un serveur d'application
-commun. Généralement un composant possède une application mais il est
-possible d'en avoir plusieurs dans un même composant.  Il est a noté
-que bien qu'OFBiz se base sur l'architecture des servlet il n'est pas
-possible de déployer les différentes applications Web dans un serveur
-d'application externe dans la mesure où le processus de compilation
-d'OFBiz embarque dans un même JAR l'ensemble des applications web
-ainsi que le serveur d'application.
+Chaque composant peut définir des applications web qui sont une
+extension du modèle des servlets sont monté dans un serveur
+d'applications partagé par tous les composants. Généralement un
+composant possède une application mais il est possible d'en avoir
+plusieurs dans un même composant.  Dans le cas du méta-composant
+\emph{Framework} il n'y a qu'une seule application Web qui est associé
+au composant \emph{Webtools}. Les composants contenu dans
+\emph{Applications} on presque tous au moins une application Web
+associé.  Il est a noté que bien qu'OFBiz soit basé sur l'architecture
+des servlets il n'est pas possible de déployer les différentes
+applications Web dans un serveur d'application externe dans la mesure
+où le processus de compilation d'OFBiz embarque dans un même JAR
+l'ensemble des applications web ainsi que le serveur d'application.
+Classiquement la définitions des routes pour les servlet se fait dans
+un fichier \verb=web.xml=.  Dans le cas d'OFBiz ce routage est délégué
+à un fichier \verb=controller.xml= associant les différents
+traitements à des routes HTTP ainsi que les écrans qui seront
+retournée suite à ces traitements.
+
+\begin{figure}
+  \begin{lstlisting}[language=xml]
+<site-conf xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns="http://ofbiz.apache.org/Site-Conf"
+	   xsi:schemaLocation="http://ofbiz.apache.org/Site-Conf...">
+  <include location="component://common/webcommon/WEB-INF/common-controller.xml"/>
+  <include location="component://common/webcommon/WEB-INF/portal-controller.xml"/>
+  <include location="component://common/webcommon/WEB-INF/security-controller.xml"/>
+  <include location="component://common/webcommon/WEB-INF/tempexpr-controller.xml"/>
+  <description>WebTools Site Configuration File</description>
+  <handler name="ftl" type="view"
+           class="org.apache.ofbiz.webapp.ftl.FreeMarkerViewHandler"/>
+  ...
+  <request-map uri="ping">
+    <event type="service" invoke="ping"/>
+    <response name="error" type="view" value="ping"/>
+    <response name="success" type="view" value="ping"/>
+  </request-map>
+  ...
+  <view-map name="ping" type="ftl" page="component://webtools/template/Ping.ftl"/>
+  ...
+</site-conf>
+  \end{lstlisting}
+  \caption{Définition du contrôleur de Webtools}
+  \label{fig:controller}
+\end{figure}
 
 \subsection{Moteur d'entités}
 \subsection{Moteur de services}
