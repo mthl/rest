@@ -215,14 +215,50 @@ sont définis:
 
 \subsection{Composants}
 
-Un composant est l'abstraction permettant de compartimenter les
-différentes fonctionnalités de OFBiz.  Ainsi le framework possède les
-composants: base, catalina, common, datafile, entity, entityext,
-minilang, security, service, testtools, webapp, webtools, et widget.
-La catégorie applications quant à elle se composent des composants:
-accounting, commonext, content, datamodel, humanres, manufacturing,
-marketing, order, party, product, securityext, workeffort.  Concernant
-les plugins, chaque plugin est associé à un composant.
+Un composant est une abstraction permettant de séparer les différentes
+fonctionnalités de OFBiz. Un composant est une agglomération de
+containers, entités, services, écrans, et applications Web.  Un
+composant est définit au moyen d'un structure XML stocké dans le
+fichier \verb=ofbiz-component.xml= qui est à la racine du répertoire
+contenant l'ensemble des définitions qu'il contient.  La figure
+\ref{fig:ofbizcomponent} montre l'exemple du composant \emph{Webtools}
+qui fait référence à deux fichiers contenant des définitions
+d'entités, à un fichier de service et à une application Web.
+
+\begin{figure}
+  \begin{lstlisting}[language=xml]
+<ofbiz-component name="webtools"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/ofbiz-component.xsd">
+  <resource-loader name="main" type="component"/>
+  <classpath type="dir" location="config"/>
+
+  <entity-resource type="data" reader-name="seed" loader="main"
+                   location="data/WebtoolsSecurityPermissionSeedData.xml"/>
+  <entity-resource type="data" reader-name="demo" loader="main"
+                   location="data/WebtoolsSecurityGroupDemoData.xml"/>
+  <service-resource type="model" loader="main" location="servicedef/services.xml"/>
+  <webapp name="webtools"
+          title="WebTools"
+          menu-name="secondary"
+          server="default-server"
+          location="webapp/webtools"
+          base-permission="OFBTOOLS,WEBTOOLS"
+          mount-point="/webtools"/>
+</ofbiz-component>
+  \end{lstlisting}
+  \caption{Définition du composant Webtools}
+  \label{fig:ofbizcomponent}
+\end{figure}
+
+l'élément \verb=resource-loader= définit de quelle manière ce
+composant sera chargé par OFBiz. L'élément \verb=classpath= définit le
+chemin vers des ressources tel que les traductions de label contenu
+dans le dossier pointé par l'attribut \verb=location=.  Concernant les
+éléments \verb=entity-resource= il est possible d'avoir des types
+"model" ou "data". La différence étant que "model" contient des
+définitions d'entités et "data" contient des exemples de données qui
+serve à fournir des données d'exemples.
 
 \subsection{Applications Web}
 
