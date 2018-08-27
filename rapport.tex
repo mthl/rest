@@ -470,9 +470,42 @@ couramment appelés \emph{événements} dans le contexte d'OFBiz.
 
 \section{Les applications}
 
-La catégorie applications se composent des composants suivant:
-accounting, commonext, content, datamodel, humanres, manufacturing,
-marketing, order, party, product, securityext, workeffort.
+Après avoir décrit les éléments définis dans le méta-composant
+\emph{Framework}, nous présentons le méta-composant
+\emph{Applications} contenant des composants métiers c'est à dire des
+composants associé à un type d'application fonctionnels.  Ainsi nous
+avons les composants suivants:
+
+\begin{description}
+\item[accounting] définit des services et écrans pour effectuer de la
+  comptabilité.
+\item[commonext] est une extension du composant \emph{common} du
+  \emph{Framework} contenant des dépendances fonctionnelles
+\item[content] définit des service et écrans pour créer des contenus
+  divers tel que des articles, photos, vidéos, pour par exemple
+  maintenir un blog.
+\item[datamodel] contient la définition des entités
+  applicatives et des relations entre ces entités.
+\item[humanres] définit des service et écrans pour la gestion du
+  personnel
+\item[manufacturing] définit des service et écrans pour la gestion des
+  processus industriel et de stockage.
+\item[marketing] définit des service et écrans pour la communication
+  d'entreprise
+\item[order] définit des service et écrans pour le traitement des commandes
+\item[party] définit des service et écrans pour la gestions des
+  partenaires et clients.
+\item[product] définit des service et écrans pour la gestions du
+  catalogue de produit et services.
+\item[securityext] est une extension du composant \emph{security} qui
+  définit des services ayant des dépendances fonctionnelles.
+\item[workeffort] définit des services et écrans pour la gestion de
+  projet et le suivi de tâches (pointage).
+\end{description}
+
+Cet ensemble de composants est le coeur fonctionnel d'OFBiz, il sert
+de socle pour les composants spécifiques qui sont définit dans au
+niveau des plugins.
 
 \chapter{État de l'art}
 
