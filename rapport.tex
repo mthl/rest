@@ -121,9 +121,9 @@ langage de templating.
 \begin{figure}
   \centering
   \begin{tikzpicture}
-    \umlbasiccomponent[y=1.5]{Plugins}
-    \umlbasiccomponent[x=5,y=3]{Applications}
-    \umlbasiccomponent[x=5]{Framework}
+    \umlbasiccomponent[x=5, y=1.5]{Plugins}
+    \umlbasiccomponent[y=3]{Applications}
+    \umlbasiccomponent{Framework}
     %% \umlassemblyconnector[interface=Fcs,
     %%   geometry=-|]{Applications}{Framework}
     \umldep{Applications}{Framework}
