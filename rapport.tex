@@ -279,7 +279,11 @@ Classiquement la définitions des routes pour les servlet se fait dans
 un fichier \verb=web.xml=.  Dans le cas d'OFBiz ce routage est délégué
 à un fichier \verb=controller.xml= associant les différents
 traitements à des routes HTTP ainsi que les écrans qui seront
-retournée suite à ces traitements. La figure \ref{fig:controller}
+retournée suite à ces traitements. Seules les requêtes \verb=POST= et
+\verb=GET= sont traités du fait que le client est uniquement prévu
+pour être un navigateur.  Il n'y a de différences dans le traitement
+des requêtes.  Peu importe la méthode choisi cela à pour effet
+d'appeler l'evénement associé.  La figure \ref{fig:controller}
 présente une partie du fichier \verb=controller.xml= du composant
 \emph{Webtools}.
 
@@ -311,32 +315,112 @@ présente une partie du fichier \verb=controller.xml= du composant
 \end{figure}
 
 \subsection{Moteur d'entités}
+
+\begin{figure}
+  \centering
+  \begin{tikzpicture}
+    \umlclass[]{GenericEntity}{
+      - internalDelegator : Delegator
+    }{}
+
+    \umlsimpleclass[x=6]{Delegator}
+
+    \umlclass[y=-4]{GenericValue}{
+    }{
+      \umlvirt{+ store() : void} \\
+      \umlvirt{+ remove() : void} \\
+      \umlvirt{+ refresh() : void} \\
+      \umlvirt{+ refreshFromCache() : void} \\
+      \umlvirt{+ getRelated(field: String) : List<GenericValue>} \\
+      ...
+    }
+
+    \umlinherit[geometry=-|]{GenericValue}{GenericEntity}
+    \umldep{GenericEntity}{Delegator}
+
+  \end{tikzpicture}
+  \caption{Définition du type valeur générique}
+  \label{fig:genericvalue}
+\end{figure}
+
+Un point crucial d'un framework comme OFBiz est l'accès aux bases de
+données.  Pour cela OFBiz possède un moteur d'entités pour communiquer
+à les système de base de données relationnelles.  Ce moteur d'entités
+permet à la fois de définir des schémas adaptés au différent SGBD au
+moyen d'un modèle entité-relation avec des types de données génériques
+associé à des types concrets adaptés à l'implémnentation cible. Un
+deuxième aspect est la construction de requêtes SQL au sein des
+programmes Java et Groovy au moyen d'un DSL utilisant le pattern
+\emph{builder} \cite{gamma1993design}. Lors que ces requêtes sont
+envoyés, leur résultat retourne des valeurs « actives » c'est à dire
+gardant une référence sur la connexion à la base de données pour
+pouvoir sauvegarder en base les modifications faites en sur ces
+objets.  Cela correspond au pattern architectural \emph{active record}
+\cite{fowler2002patterns}.  La figure \ref{fig:genericvalue}
+représente les relations entre ces valeurs « actives » représenté par
+la classe \verb=GenericValue= et la connexion à la base de données
+représenté par la classe \verb=Delegator=.
+
 \subsection{Moteur de services}
+
+\begin{figure}
+  \centering
+  \begin{tikzpicture}
+    \umlinterface[]{GenericEngine}{}{
+      \umlvirt{+ runSync(name : String, m : ModelService,
+        context : Map)} \\
+      \umlvirt{+ runSyncIgnore(name : String, m : ModelService,
+        context : Map)} \\
+      \umlvirt{+ runAsync(name : String, m : ModelService,
+        context : Map, r : GenericRequester,
+        persist : boolean)} \\
+      \umlvirt{+ runAsync(localName : String, m : ModelService,
+        context : Map, persist : boolean)} \\
+      \umlvirt{+ sendCallBacks(m : ModelService,
+        context : Map, mode : int)} \\
+      \umlvirt{+ sendCallBacks(m : ModelService,
+        context : Map, result : Map,
+        mode : int)} \\
+      \umlvirt{+ sendCallBacks(m : ModelService,
+        context : Map, t : Throwable, mode : int)} \\
+    }
+  \end{tikzpicture}
+  \caption{Définition du type service}
+  \label{fig:serviceengine}
+\end{figure}
 
 OFBiz est basé sur une architecture orientée service (SOA).  La notion
 de moteur de service est définit par l'interface Java
-\verb=GenericEngine=.
+\verb=GenericEngine= représenté sur la figure \ref{fig:serviceengine}.
+Un service peut être appelé en lui passant un contexte en entrée, il
+renvoie alors une \emph{Map} permettant de récupérer le type de retour
+conventionnellement nommé "success", "error", ou "fail" ainsi que les
+données renvoyées par le service.  Il est possible d'exécuter un
+service soit de manière synchrone avec les méthodes \verb=runSync= ou
+\verb=runSyncIgnore= soit de manière asynchrone avec les méthodes
+\verb=runAsync=.  Les méthodes \verb=sendCallBacks= permettent
+d'exécuter des traitements associé de manière \emph{ad hoc} à un
+service. Ces méthodes sont considéré comme obsolètes et on été
+remplacée par l'utilisation des \emph{Event Condition Access} (ECA)
+décrit plutard. Dans la pratique les services sont exécutés la plupart
+du temps de manière synchrone.  Un service à accès au moteur d'entités
+pour manipulés les données et au moteur de services pour appeler
+d'autres services.
 
-Un service peut être appelé en lui passant un ensemble de valeur en
-entrée, il renvoie alors un ensemble de valeurs en sortie.  Il est
-possible d'exécuter un service soit de manière synchrone soit de
-manière asynchrone.  Il peut être implémenté dans n'importe quel
-langage de programmation dans la mesure ou les paramètres et résultats
-doivent être sérialisable.  Les services peuvent être ordonnancé.  Ils
-peuvent appeler d'autres services.
+Il existe plusieurs implémentations de cette interface parmi
+lesquelles on trouve les classes \texttt{EntityAutoEngine},
+\texttt{StandardJavaEngine}, et \texttt{GroovyEngine}.  Cela permet
+d'écrire des services dans différents langages de programmation ou
+même par des services distant ce qui est le cas du moteur de services
+\verb=XMLRPCClientEngine=. Il est possible pour les plugins de fournir
+leur propre implémentation de services à fin de faire communiquer
+OFBiz avec d'autres composants logiciels.
 
-On parle d'événements OFBiz pour les requêtes HTTP envoyés au serveur
-OFBiz, mais aussi d'événement de service qui correspondent à
-différentes phase de l'exécution d'un service.  Les différentes phases
-existantes sont "auth", "in-validate", "out-validate", "invoke",
-"commit", or "return".
+Les ECA permettent d'exécuter des traitement à différentes phases de
+l'exécution d'un service.  Les différentes phases existantes sont
+"auth", "in-validate", "out-validate", "invoke", "commit", et
+"return".
 
-L'ensemble des routes sont définit dans un fichier
-\verb=controller.xml=.  Seule les requêtes \verb=POST= et \verb=GET=
-sont traités du fait que le client est uniquement prévu pour être un
-navigateur.  Il n'y a de différences dans le traitement des requêtes.
-Peu importe la méthode choisi cela à pour effet d'appeler l'evénement
-associé.
 
 \subsection{Moteur d'écrans}
 
