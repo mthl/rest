@@ -421,8 +421,52 @@ l'exécution d'un service.  Les différentes phases existantes sont
 "auth", "in-validate", "out-validate", "invoke", "commit", et
 "return".
 
-
 \subsection{Moteur d'écrans}
+
+\begin{figure}
+  \centering
+  \begin{tikzpicture}
+    \umlinterface[]{ViewHandler}{}{
+      \umlvirt{+ setName(name : String) : void} \\
+      \umlvirt{+ getName() : String} \\
+      \umlvirt{+ init(context : ServletContext)} \\
+      \umlvirt{+ render(name : String, page : String, info : String,} \\
+      \umlvirt{\hspace{1.4cm} contentType : String, encoding : String,} \\
+      \umlvirt{\hspace{1.4cm} req : HttpServletRequest, resp : HttpServletResponse) : void}
+    }
+  \end{tikzpicture}
+  \caption{Définition du type gestionnaire de vues}
+  \label{fig:viewhandler}
+\end{figure}
+
+Afin de fournir des écrans, OFBiz possède un DSL pour définir des
+écrans, formulaire, widget auquel est associé un mécanisme de rendu
+générique permettant de générer différents formats de sortie tels que
+HTML, XML, CSV, ou XLS.  Ce mécanisme de rendu est défini par
+l'interface \verb=ViewHandler= défini sur sur la figure
+\ref{fig:viewhandler}.  L'implémentation principale utilisé par la
+plupart des moteur d'écrans existant est la classe
+\verb=MacroScreenViewHandler=.  Elle délègue le rendu au mécanisme de
+templating Apache Freemarker.  Dans le cas du moteur d'écran HTML
+l'inclusion des scripts Javascript permettant d'apporter du dynamisme
+et d'effectuer des appels AJAX \cite{garrett2005ajax} à des services
+OFBiz est fait directement dans la définition des macros Freemarker.
+Chaque vue (\verb=view-map=) définit dans le fichier
+\verb=controller.xml= doit faire référence explicitement à
+l'implémentation du moteur d'écran de son choix dans l'attribut
+\verb=type= qui fait référence à un élément \verb=handler=.
+
+\begin{lstlisting}[language=xml]
+<handler name="screen" type="view"
+         class="org.apache.ofbiz.widget.renderer.macro.MacroScreenViewHandler"/>
+<view-map name="login" type="screen"
+          page="component://common/widget/CommonScreens.xml#login"/>
+\end{lstlisting}
+
+Sauf exception l'ensemble ces éléments sont définis dans le fichier
+\verb=common-controller.xml=.  Il peut définir à la fois des
+gestionnaires de rendu d'écran et des gestionnaires de requêtes HTTP
+couramment appelés \emph{événements} dans le contexte d'OFBiz.
 
 \section{Les applications}
 
