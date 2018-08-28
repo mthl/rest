@@ -7,18 +7,14 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{caption}
-\DeclareCaptionLabelFormat{cont}{#1~#2\alph{ContinuedFloat}}
-\captionsetup[ContinuedFloat]{labelformat=cont}
 \usepackage{tikz}
 \usetikzlibrary{decorations,arrows,shapes,automata}
 \usepackage{listings}
-\lstset {basicstyle=\footnotesize, tabsize=2}
-\tikzumlset{fill class=black!2.5, fill component=white, fill usecase=black!5}
+\lstset{basicstyle=\footnotesize, tabsize=2}
+\tikzumlset{fill class=black!2.5, fill component=white, fill usecase=black!5, fill object=black!5}
 
 \title{Implémentation d'une API HTTP de style REST pour Apache OFBiz}
-
 \author{Mathieu Lirzin}
-
 \date{30 août 2018}
 
 \begin{document}
@@ -103,7 +99,7 @@ que projet a part entière en décembre 2006.
 Techniquement OFBiz est basé sur la plateforme Java et sur
 l'utilisation de \emph{langage spécifique au domaine} (DSL) basé sur
 des grammaires XML.  Concenant le coeur du framework, les
-communications HTTP sont gérés par des Servlets \cite{Chan2017servlet}
+communications HTTP sont gérés par des Servlets \cite{chan2017servlet}
 et les communications avec les base de données se font au moyen de
 l'API Java JDBC.  Au dessus de cela la déclaration des routes HTTP,
 des écrans et des services se fait dans des fichiers XML faisant
@@ -969,7 +965,7 @@ de mapper l'échec d'authentification vers le code d'erreur 401 et
 \section{Proposition}
 
 Actuellement OFBiz gère les requêtes HTTP grâce à une servlet Java
-\cite{Chan2017servlet} définit dans la classe \verb=controlServlet=.
+\cite{chan2017servlet} définit dans la classe \verb=controlServlet=.
 Le traitement des requêtes HTTP considère les méthode \verb=GET= et
 \verb=POST= sans disctinction.  La première voie explorée a été de
 définir une servlet alternative à \verb=controlServlet=.  Cela avait
