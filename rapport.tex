@@ -520,11 +520,10 @@ architectural ayant émergé au début de l'année 1995.  Il s'agit d'un
 modèle idéalisé décrivant comment le \emph{Web} devrait fonctionner
 \cite{fielding2002principled}.  Il a été affiné pendant 5 ans jusqu'à
 être décrit en détails par Roy Fielding dans sa thèse de doctorat
-\cite{fielding2000architectural} en 2000.  Un style architectural est
-un ensemble de contraintes placées sur une architecture logicielle
-c'est à dire une abstraction décrivant les composants, les
-connecteurs, ainsi que les données présents au sein d'un système
-\cite{perry1992foundations}.
+\cite{fielding2000architectural} en 2000.  Ce travail a eu une forte
+résonnance dans les milieux non-académique du fait de l'essor du Web,
+de ses qualités en terme de passage à l'échelle, mais également du
+fait de sa simplicité.
 
 \begin{figure}
   \centering
@@ -575,9 +574,16 @@ connecteurs, ainsi que les données présents au sein d'un système
   \end{tikzpicture}
 }
   \caption{Dérivation du style architectural REST}
+  \label{fig:derivrest}
 \end{figure}
 
-REST est composé des 6 contraintes suivantes:
+Un style architectural est un ensemble de contraintes placées sur une
+architecture logicielle c'est à dire une abstraction décrivant les
+composants, les connecteurs, ainsi que les données présents au sein
+d'un système \cite{perry1992foundations}. REST est composé des 6
+contraintes représentés par les noeuds grisés du graphe de dérivation
+de la figure \ref{fig:derivrest}.  Chacune de ces contraintes est
+explicitée dans les descriptions suivantes:
 
 \begin{description}
 \item[Client-Serveur (CS)] Cette contrainte permet la séparation des
@@ -618,11 +624,33 @@ REST est composé des 6 contraintes suivantes:
   permettant au serveur d'étendre les fonctionnalités du client.
 \end{description}
 
+Cette combinaison de contraintes amène les propriétés architecturales
+suivantes:
+\begin{itemize}
+\item Performance
+\item Passage à l'échelle
+\item Simplicité
+\item Évolution
+\item Visibilité
+\item Portabilité
+\item Fiabilité
+\end{itemize}
+
+Ce style architectural s'oppose principalement au style \emph{Remote
+  Procedure Call} (RPC) qui souffre d'un problème de performance et
+passage à l'échelle.  Ce style RPC se retrouve dans le cadre du Web
+dans l'utilisation du protocole SOAP \cite{box2000simple} et
+correspond au type des appels de services OFBiz. Malgré son succès
+REST reste assez mal compris ainsi son application dans le cadre de
+services Web que nous détaillons dans la partie suivante est souvent
+mal comprise et on perd ainsi les propriétés d'évolution, portabilité,
+et fiabilité.
+
 \section{Architecture Web}
 
 L'architecture Web est une instance du style architectural REST.  En
 fait REST a été conceptualisé conjointement au World Wide Web pour
-permettre de décrire de manière abstraite les enjeux d'un tel système.
+permettre de décrire de manière abstraite les enjeux d'un tel  système.
 Nous présentons ici les différents composants que sont le protocole
 HTTP, les URI, et les formats de données tels HTML, XML, et JSON.
 
