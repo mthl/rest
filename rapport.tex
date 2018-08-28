@@ -653,37 +653,81 @@ HTML, XML, et JSON.
 
 \subsection{Protocole HTTP}
 
+\begin{figure}
+  \centering
+  \begin{tikzpicture}
+    \begin{umlseqdiag}
+      \umlbasicobject{Client}
+      \umlbasicobject[x=8]{Serveur}
+      \begin{umlcall}
+        [padding=3,op={\texttt{GET /}}, return=\texttt{200 OK}]{Client}{Serveur}
+      \end{umlcall}
+      \begin{umlcall}
+        [padding=3, dt=5, op={\texttt{POST /data}}, return=\texttt{201 Created} ]{Client}{Serveur}
+      \end{umlcall}
+      \begin{umlcall}
+        [padding=3, dt=5, op={\texttt{DELETE /data/1780530}}, return=\texttt{204 No Content}]{Client}{Serveur}
+      \end{umlcall}
+    \end{umlseqdiag}
+  \end{tikzpicture}
+  \caption{Protocole HTTP}
+  \label{fig:http}
+\end{figure}
+
 Le protocole \emph{Hypertext Transfer Protocol} (HTTP) est un
 protocole texte utilisé sur le Web pour transmettre les ressources
-HTML, CSS, Javascript.  Ce protocole suit les contraintes définies par
-le style architectural REST.  Il a un rôle particulier dans
-l'architecture \emph{Web} puisqu'il sert à la fois à la communications
-entre les composants \emph{Web} et est l'unique protocole intégrant la
-notion de représentations de ressources.  L'accès aux ressources se
-fait au moyen de 4 méthodes principales \verb=GET=, \verb=POST=,
-\verb=HEAD=, \verb=DELETE= mais également de 5 autres méthodes moins
-courantes \verb=OPTIONS=, \verb=CONNECT=, \verb=TRACE=, \verb=PUT=,
-\verb=PATCH=.
+HTML, CSS, Javascript.  Ce protocole appartient à la couche
+application du modèle OSI et se base sur le protocole TCP dans la pile
+TCP/IP. Il a un rôle particulier dans l'architecture \emph{Web}
+puisqu'il sert à la fois à la communications entre les composants
+\emph{Web} et est l'unique protocole de cette architecture intégrant
+la notion de représentations de ressources.  L'accès aux ressources se
+fait au au travers d'une URI et au moyen de 4 méthodes principales
+\verb=GET=, \verb=POST=, \verb=HEAD=, \verb=DELETE= mais également de
+5 autres méthodes moins courantes \verb=OPTIONS=, \verb=CONNECT=,
+\verb=TRACE=, \verb=PUT=, \verb=PATCH=.  La figure \ref{fig:http}
+montre un exemple de communication entre un client et serveur HTTP.
+Les requêtes envoyées au serveur prenne la forme d'une ligne de
+requête, un ensemble de header, et optionellement une charge utile.
+Ainsi cet exemple de communication pourrait inclure la requête de la
+figure \ref{fig:httpreq} et la réponse de la figure \ref{fig:httpres}.
 
+\begin{figure}[h]
 \begin{verbatim}
-GET /hello.txt HTTP/1.1
+POST /data HTTP/1.1
 Host: www.example.com
-Connection: upgrade
-Upgrade: HTTP/2.0, SHTTP/1.3, IRC/6.9, RTA/x11
+Content-Length: 14
+
+lorem ipsum
 \end{verbatim}
+\caption{Requête HTTP}
+\label{fig:httpreq}
+\end{figure}
 
-La standardisation des types de méthodes permettent à des clients
-génériques de faire des suppositions sur le propriétés de ces
-méthodes.  Par exemple de la méthode \verb=GET= est nullpotent c'est à
-dire qu'elle ne doit pas modifier l'état des ressources, et la méthode
-\verb=POST= est idempotent c'est à dire que la réception de plusieurs
-message ne doit produire qu'une seule action.
+\begin{figure}[h]
+\begin{verbatim}
+HTTP/1.1 201 Created
+Date: Mon, 23 May 2005 22:38:34 GMT
+Content-Type: application/json; charset=UTF-8
+Content-Length: 42
 
-l'URI ne doit pas être l'API mais la représentation des données
-identifié par cette URI.  En pratique cela qu'il faut privélégier la
-récupération d'URL dans les payloads plutôt que concaténer des chaînes
-de caractères qui est un signe que l'URL est l'API.
-%% Comment traiter le versioning?
+{
+  "msg" : "Resource successfully created",
+  "href" : "/hello/data/1780530"
+}
+\end{verbatim}
+\caption{Réponse HTTP}
+\label{fig:httpres}
+\end{figure}
+
+Le fait que les méthodes et les codes de retours soient contraint par
+le protocol permet aux agents de faire des suppositions sur la manière
+de traité la requête et la réponse.  Par exemple la méthode \verb=GET=
+a comme propriété d'être \emph{nullpotent} c'est à dire qu'elle ne
+doit pas modifier l'état des ressources, et la méthode \verb=PUT= a la
+propriété d'être \emph{idempotent} c'est à dire que la réception de
+plusieurs message ne doit produire qu'une seule action.  La méthode
+\verb=POST= n'a aucune de ces propriétés.
 
 Les méchanismes de cache à différents points du réseau
 \cite{fielding1999hypertext}.
@@ -732,6 +776,12 @@ JSON sont les plus courant pour la transmission de données
 structurées.
 
 \subsection{Hypermédia}
+
+l'URI ne doit pas être l'API mais la représentation des données
+identifié par cette URI.  En pratique cela qu'il faut privélégier la
+récupération d'URL dans les payloads plutôt que concaténer des chaînes
+de caractères qui est un signe que l'URL est l'API.
+%% Comment traiter le versioning?
 
 La notion d'\emph{hypermédia} est cruciale dans la réalisation d'une
 API RESTful bien qu'elle soit trop souvent négligé.  Cette notion est
