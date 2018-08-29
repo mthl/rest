@@ -1021,45 +1021,129 @@ Le traitement des requêtes HTTP considère les méthode \verb=GET= et
 définir une servlet alternative à \verb=controlServlet=.  Cela avait
 été fait dans l'idée de définir des définir le support des méthodes
 HTTP et des templates d'URI au moyen de JAX-RS qui s'intègre bien avec
-le méchanisme de Servlet.  Il était également question de séparer les
-routes de l'API et les routes pointant vers les écrans.
-
-OFBiz fournit déjà un routeur HTTP avec l'ensemble des routes définis
-dans \verb=controller.xml= sans distinction de routes HTTP servant à
-appeler un service et celle correspondant à un écran.  De ce fait il a
-semblé pertinent d'adapté la grammaire XML du controlleur plutôt que
-de proposer une implémentation parallèle utilisant un paradigme de
-définition de routes différents des habitudes des développeurs OFBiz.
+le méchanisme de Servlet.  Il était également question dans ce
+contexte de séparer les routes de l'API et les routes pointant vers
+les écrans.  OFBiz fournit déjà un routeur HTTP avec l'ensemble des
+routes définis dans \verb=controller.xml= sans distinction de routes
+HTTP servant à appeler un service et celle correspondant à un écran.
+De ce fait il a semblé pertinent d'adapté la grammaire XML du
+contrôleur plutôt que de proposer une implémentation parallèle
+utilisant un paradigme de définition de routes différents des
+habitudes des développeurs OFBiz.
 
 Étant donné qu'il est hors de propos de déprécier le méchanisme de
-routage actuel, un telle solution étrangère aurait amené les
-développeurs a devoir se poser la question de l'endroit au définir une
-route HTTP qu'il souhaiterait ajouté.  Ainsi la solution qui a été
+routage actuel, un telle solution étrangère aurait amené de la
+complexité accidentelle du fait des différentes options quand à
+l'endroit ou définir une route HTTP.  Ainsi la solution qui a été
 approfondi a été celle d'adapter la grammaire XML définit par le
 schéma
 \href{http://ofbiz.apache.org/dtds/site-conf.xsd}{\nolinkurl{site-conf.xsd}}.
 
+Le choix a été fait de proposer une solution itérative plutôt que
+d'adopter une approche holistique.  En s'inspirant du le modèle de
+maturité de Richardson \cite{fowler2010richardson}, nous avons
+considérer l'introduction de la notion de ressource et de support des
+méthodes HTTP sans nous préoccuper de la problématique de
+l'hypermédia.
+
 \subsection{Modification du controlleur}
+
+La modification du contrôleur a consisté d'une part a ajouté un
+attribut \verb=method= à l'élément \verb=request-map= acceptant un nom
+de méthode HTTP. Cet attribut est optionnel et sa valeur par défault
+est la chaine vide. La sémantique associé à cet attribut est une
+contrainte sur la résolution des requêtes.  Ainsi dans l'exemple de la
+figure \ref{fig:controlmodif} la route \verb=/example= n'est
+accessible qu'au travers de la méthode \verb=GET= et la route
+\verb=/example2= n'est accessible qu'au travers de la méthode
+\verb=POST=.  Le comportement par défault est de gérer l'ensemble des
+méthodes HTTP.  Cela reste donc compatible avec l'implémentation
+précédente sans impliquer de changement majeur dans le schéma XSD.
+
+\begin{figure}
+  \begin{lstlisting}[language=xml]
+<request-map uri="example" method="get">
+   <security https="true" auth="true"/>
+   <event type="java" path="ExamplesHandlers" invoke="getExamples"/>
+   <response name="success" type="view" value="..."/>
+   <response name="error" type="view" value="..."/>
+</request-map>
+
+<request-map uri="example2" method="post">
+   <security https="true" auth="true"/>
+   <event type="java" path="ExamplesHandlers" invoke="postExamples"/>
+   <response name="success" type="view" value="..."/>
+   <response name="error" type="view" value="..."/>
+</request-map>
+  \end{lstlisting}
+  \caption{Modification du contrôleur}
+  \label{fig:controlmodif}
+\end{figure}
+
+Le deuxième travail réalisé à été de supporter les templates d'URI.
+En effet lorsque l'on modélise des ressources cela implique
+généralement de modéliser des collections.  On a donc envie de pouvoir
+identifier de manière générique un élement de cette collection.  Les
+templates d'URI permettent de faire cela.  Afin d'avoir une
+implémentation robuste, nous avons fait le choix de réutiliser la
+classe \verb=URITemplate= développé par Apache CXF.  Cela nous permet
+d'entamer la transition d'un modèle RPC vers un modèle ressources
+comme le montre l'exemple de la figure \ref{fig:urit} qui introduit la
+resources \emph{geos} en lieu et place de l'ensemble de noms
+correspondant à des appels de services.
+
+\begin{figure}
+  \begin{lstlisting}[language=xml]
+<request-map uri="LookupGeo">...</request-map>
+<request-map uri="createGeo">...</request-map>
+<request-map uri="updateGeo">...</request-map>
+<request-map uri="deleteGeo">...</request-map>
+
+<request-map uri="geos" method="get">...</request-map>
+<request-map uri="geos" method="post">...</request-map>
+<request-map uri="geos/{id}" method="update">...</request-map>
+<request-map uri="geos/{id}" method="delete">...</request-map>
+  \end{lstlisting}
+\caption{Conversion des identitifiants géographiques}
+\label{fig:urit}
+\end{figure}
 
 \subsection{Rendu JSON}
 
+En complément de ce travail sur le routage, un travail sur le rendu
+des ressources au moyen de représentations JSON a été amorté.  Cela a
+été fait en utilisant l'abstraction du moteur d'écrans.  Concrétement
+nous avons implémenté un visiteur \cite{gamma1993design} permettant de
+parcourir le modèle des écrans et widgets pour constuire un Objet
+JSON.
+
 \section{Difficultés}
 
-Complexité du framework en particulier du moteur d'écran
+D'un point de vue extérieur l'ensemble des fonctionnalités développée
+au cours des 3/4 mois consacré au développement peut semblé restreint.
+Cependant quelques explications concernant le contexte permettent de
+mieux mesurer les enjeux de la tâche.  En effet le framework OFBiz est
+un framework ayant accumulé de la dette technique et impliquant
+beaucoup de complexité accidentelle. Par exemple le moteur d'écrans a
+accumulé des extensions de son modèle sans architecture adapté
+entrainant une grande difficulté de raisonnement autour de ce modèle.
 
-dettes techniques importantes
+En ce qui concerne mon travail au niveau du contrôleur, un grand frein
+dans le développement était le fait que cela devait s'intégrer dans
+une méthode de plus 800 lignes remplit de mutations, de comparaison à
+null, et avec des chemins d'exécution complexe. Cela a donc impliqué
+un travail important de réusinage faisant usage des nouvelles
+possibilité offertes par Java 8 que sont l'API des streams et l'ajout
+des lambda.
 
-overridden view URI
-
-lenteur et prudence de la communauté
-
-\section{Refactoring}
-
-Découpage de la méthode \verb=doRequest=
-
-Utilisation de l'API des streams et du type \verb=Optional=
-
-\section{Futur développements}
+Un autre point important est le rapport à la communauté OFBiz.  En
+effet le travail communautaire impose une temporalité particulière, et
+les soumission de patches peuvent être plus compliquée que dans
+d'autre contexte lorsqu'il faut convaincre la personne en mesure de
+committé son travail de l'intérêt du code proposé.  Cette lenteur et
+prudence est justifié par le fait que tout modification de code peut
+impacter en premier lieu les utilisateurs, mais aussi les responsables
+du projet qui devront inévitablement maintenir le code ajouté.
 
 \chapter{Conclusion}
 
