@@ -725,9 +725,10 @@ a comme propriété d'être \emph{nullpotent} c'est à dire qu'elle ne
 doit pas modifier l'état des ressources, et la méthode \verb=PUT= a la
 propriété d'être \emph{idempotent} c'est à dire que la réception de
 plusieurs message ne doit produire qu'une seule action.  La méthode
-\verb=POST= n'a aucune de ces propriétés.
-
-Les mécanismes de cache à différents points du réseau
+\verb=POST= n'a aucune de ces propriétés.  La sémantique fixe attachée
+aux méthodes permet aux différents mécanismes de cache d'agir de
+manière efficace au sein de l'architecture Web et donc d'apporter les
+propriétés de performance et de passage à l'échelle
 \cite{fielding1999hypertext}.
 
 \subsection{Uniform Resource Identifier}
