@@ -158,8 +158,8 @@ de l'architecture du framework.
   \centering
   \begin{tikzpicture}
     \umlinterface[]{Container}{}{
-      \umlvirt{+ init(cmds : List<StartupCommand>, name : String,
-        config : String) : void} \\
+      \umlvirt{+ init(cmds : List<StartupCommand>, name : String,} \\
+      \umlvirt{\hspace{1,1cm}config : String) : void} \\
       \umlvirt{+ start() : void} \\
       \umlvirt{+ stop() : void} \\
       \umlvirt{+ getName() : String}
@@ -357,21 +357,20 @@ représenté par la classe \verb=Delegator=.
   \begin{tikzpicture}
     \umlinterface[]{GenericEngine}{}{
       \umlvirt{+ runSync(name : String, m : ModelService,
-        context : Map)} \\
+        context : Map) : Map} \\
       \umlvirt{+ runSyncIgnore(name : String, m : ModelService,
-        context : Map)} \\
-      \umlvirt{+ runAsync(name : String, m : ModelService,
-        context : Map, r : GenericRequester,
-        persist : boolean)} \\
-      \umlvirt{+ runAsync(localName : String, m : ModelService,
-        context : Map, persist : boolean)} \\
+        context : Map) : void} \\
+      \umlvirt{+ runAsync(name : String, m : ModelService, context : Map,} \\
+      \umlvirt{\hspace{2cm}r : GenericRequester, persist : boolean): void} \\
+      \umlvirt{+ runAsync(localName : String, m : ModelService,} \\
+      \umlvirt{\hspace{2cm}persist : boolean): void} \\
       \umlvirt{+ sendCallBacks(m : ModelService,
-        context : Map, mode : int)} \\
+        context : Map, mode : int) : void} \\
       \umlvirt{+ sendCallBacks(m : ModelService,
         context : Map, result : Map,
-        mode : int)} \\
+        mode : int) : void} \\
       \umlvirt{+ sendCallBacks(m : ModelService,
-        context : Map, t : Throwable, mode : int)} \\
+        context : Map, t : Throwable, mode : int) : void} \\
     }
   \end{tikzpicture}
   \caption{Définition du type service}
@@ -418,7 +417,7 @@ l'exécution d'un service.  Les différentes phases existantes sont
     \umlinterface[]{ViewHandler}{}{
       \umlvirt{+ setName(name : String) : void} \\
       \umlvirt{+ getName() : String} \\
-      \umlvirt{+ init(context : ServletContext)} \\
+      \umlvirt{+ init(context : ServletContext) : void} \\
       \umlvirt{+ render(name : String, page : String, info : String,} \\
       \umlvirt{\hspace{1.4cm} contentType : String, encoding : String,} \\
       \umlvirt{\hspace{1.4cm} req : HttpServletRequest, resp : HttpServletResponse) : void}
