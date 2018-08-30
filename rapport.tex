@@ -124,25 +124,24 @@ langage de templating.
 \end{figure}
 
 OFBiz est structuré en séparant le framework, les applications, et les
-plugins.  Le framework fournit les méchanismes de communications
-réseau et d'interfacage entre les différentes applications.  Les
-plugins sont des applications spécifiques qui ont la spécificité de
-dépendre des applications de base mais dont aucune application de base
-ne dépend.  OFBiz est décomposé en plusieurs composants qui sont
-regroupés en plusieurs catégories ou meta-composants. Ainsi les
-composants fondamentaux définissant l'architecture d'OFBiz sont
-contenus dans l'ensemble de composants \emph{Framework}.  Les
-composants fonctionnels fondamentaux tels que la comptabilité, la
-facturation, ou la gestions des stock sont regroupés dans l'ensemble
-de composants \emph{Applications}.  Les composants spécifiques sont
-eux mis dans la catégories \emph{Plugins}. Un point important dans la
-relation entre ces différents composants est qu'il est important que
-les relations de dépendances entre les méta composants soient
-respectés comme cela est représenté sur la figure \ref{fig:compdep}.
-Cela permet entre autre de développer les plugins dans un dépôt
-externe.  Nous allons dans les sections suivantes détailler le contenu
-et l'architecture des deux méta-composants \emph{Framework} et
-\emph{Applications}.
+plugins.  Le framework fournit les mécanismes de communications réseau
+et d'interfacage entre les différentes applications.  Les plugins sont
+des applications spécifiques qui ont la spécificité de dépendre des
+applications de base mais dont aucune application de base ne dépend.
+OFBiz est décomposé en plusieurs composants qui sont regroupés en
+plusieurs catégories ou meta-composants. Ainsi les composants
+fondamentaux définissant l'architecture d'OFBiz sont contenus dans
+l'ensemble de composants \emph{Framework}.  Les composants
+fonctionnels fondamentaux tels que la comptabilité, la facturation, ou
+la gestions des stock sont regroupés dans l'ensemble de composants
+\emph{Applications}.  Les composants spécifiques sont eux mis dans la
+catégories \emph{Plugins}. Un point important dans la relation entre
+ces différents composants est qu'il est important que les relations de
+dépendances entre les méta composants soient respectés comme cela est
+représenté sur la figure \ref{fig:compdep}.  Cela permet entre autre
+de développer les plugins dans un dépôt externe.  Nous allons dans les
+sections suivantes détailler le contenu et l'architecture des deux
+méta-composants \emph{Framework} et \emph{Applications}.
 
 \section{Le framework}
 
@@ -728,7 +727,7 @@ propriété d'être \emph{idempotent} c'est à dire que la réception de
 plusieurs message ne doit produire qu'une seule action.  La méthode
 \verb=POST= n'a aucune de ces propriétés.
 
-Les méchanismes de cache à différents points du réseau
+Les mécanismes de cache à différents points du réseau
 \cite{fielding1999hypertext}.
 
 \subsection{Uniform Resource Identifier}
@@ -1014,17 +1013,16 @@ Le traitement des requêtes HTTP considère les méthode \verb=GET= et
 définir une servlet alternative à \verb=controlServlet=.  Cela avait
 été fait dans l'idée de définir des définir le support des méthodes
 HTTP et des templates d'URI au moyen de JAX-RS qui s'intègre bien avec
-le méchanisme de Servlet.  Il était également question dans ce
-contexte de séparer les routes de l'API et les routes pointant vers
-les écrans.  OFBiz fournit déjà un routeur HTTP avec l'ensemble des
-routes définis dans \verb=controller.xml= sans distinction de routes
-HTTP servant à appeler un service et celle correspondant à un écran.
-De ce fait il a semblé pertinent d'adapté la grammaire XML du
-contrôleur plutôt que de proposer une implémentation parallèle
-utilisant un paradigme de définition de routes différents des
-habitudes des développeurs OFBiz.
+le mécanisme de Servlet. Il était également question dans ce contexte
+de séparer les routes de l'API et les routes pointant vers les écrans.
+OFBiz fournit déjà un routeur HTTP avec l'ensemble des routes définis
+dans \verb=controller.xml= sans distinction de routes HTTP servant à
+appeler un service et celle correspondant à un écran.  De ce fait il a
+semblé pertinent d'adapté la grammaire XML du contrôleur plutôt que de
+proposer une implémentation parallèle utilisant un paradigme de
+définition de routes différents des habitudes des développeurs OFBiz.
 
-Étant donné qu'il est hors de propos de déprécier le méchanisme de
+Étant donné qu'il est hors de propos de déprécier le mécanisme de
 routage actuel, un telle solution étrangère aurait amené de la
 complexité accidentelle du fait des différentes options quand à
 l'endroit ou définir une route HTTP.  Ainsi la solution qui a été
