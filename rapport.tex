@@ -8,7 +8,7 @@
 \usepackage{hyperref}
 \usepackage{caption}
 \usepackage{tikz}
-\usetikzlibrary{decorations,arrows,shapes,automata,positioning,background}
+\usetikzlibrary{decorations,arrows.meta,shapes,automata,positioning,background}
 \usepackage{listings}
 \lstset{basicstyle=\footnotesize, tabsize=2}
 \tikzumlset{fill class=black!2.5, fill component=white, fill usecase=black!5, fill object=black!5}
@@ -143,15 +143,15 @@ langage de templating.
     \node[elems, below=of service8] (service9) {service};
     \node[elems, below=of service9] (service10) {service};
 
-    \tikzstyle{cmpt}=[rectangle, thick, rounded corners, draw=black!80, inner sep=8]
+    \tikzstyle{cmpt}=[rectangle, thick, rounded corners, draw=black!80, inner sep=8];
     \node[cmpt, fit=(webapp1)(webapp2)(container1)(service1)(service2)(entity1),
-      label=above:\emph{cmptA}] (cmpta) {};
+      label=above:\emph{composant A}] (cmpta) {};
     \node[cmpt, fit=(webapp3)(service3)(service4),
-      label=above:\emph{cmptB}] (cmptb) {};
+      label=above:\emph{composant B}] (cmptb) {};
     \node[cmpt, fit=(service5)(service6)(entity3)(entity4)(entity5),
-      label=above:\emph{cmptC}] (cmptc) {};
+      label=above:\emph{composant C}] (cmptc) {};
     \node[cmpt, fit=(webapp4)(service7)(service8)(service9)(service10),
-      label=above:\emph{pluginX}] (pluginx) {};
+      label=above:\emph{plugin X}] (pluginx) {};
 
     \begin{scope}[on background layer]
       \tikzstyle{bg}=[rectangle, rounded corners=10pt, fill=black!10, inner sep=15]
@@ -159,7 +159,7 @@ langage de templating.
       \node[bg, fit=(cmpta) (cmptb) (cmptc), label=above:\emph{\textsc{Applications}}] (apps) {};
     \end{scope}
 
-    \tikzstyle{dep}=[->, thick]
+    \tikzstyle{dep}=[-{Latex[length=7pt]}, densely dashed]
     \draw[dep] (cmpta.south) -- (entity);
     \draw[dep] (cmpta.south) -- (service);
     \draw[dep] (cmpta.south) -- (screen);
