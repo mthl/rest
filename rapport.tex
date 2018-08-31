@@ -562,7 +562,7 @@ développement de service REST. Ces deux aspects ont eu pour objectif
 d'avoir une bonne compréhension des enjeux de ce style architectural,
 et d'avoir une bonne connaissance des solutions existantes pour soit
 en réutiliser une, soit trouver de l'inspiration pour l'implémentation
-développée dans le cadre de OFBiz.
+développée dans le cadre d'OFBiz.
 
 \section{Representational State Tranfer}
 
@@ -572,7 +572,7 @@ modèle idéalisé décrivant comment le \emph{Web} devrait fonctionner
 \cite{fielding2002principled}. Il a été affiné pendant 5 ans jusqu'à
 être décrit en détails par Roy Fielding dans sa thèse de doctorat
 \cite{fielding2000architectural} en 2000. Ce travail a eu une forte
-résonnance dans les milieux non-académique du fait de l'essor du Web,
+résonance dans les milieux non-académiques du fait de l'essor du Web,
 de ses qualités en terme de passage à l'échelle, mais également du
 fait de sa simplicité.
 
@@ -634,7 +634,7 @@ composants, les connecteurs, ainsi que les données présentes au sein
 d'un système \cite{perry1992foundations}. REST est composé des 6
 contraintes représentées par les noeuds grisés du graphe de dérivation
 de la figure \ref{fig:derivrest}. Chacune de ces contraintes est
-explicitée dans les descriptions suivantes:
+explicitée dans la description suivante:
 
 \begin{description}
 \item[Client-Serveur (CS)] Cette contrainte permet la séparation des
@@ -645,19 +645,19 @@ explicitée dans les descriptions suivantes:
   utilisateurs. Dans un contexte distribué cela permet au client et
   au serveur d'évoluer indépendamment.
 
-\item[Serveur sans état (CSS)] Chaque requête envoyé par le client
+\item[Serveur sans état (CSS)] Chaque requête envoyée par le client
   doit pouvoir être traitée de manière indépendante. Cela impose de
   transmettre dans chacune des requêtes les données permettant
   d'authentifier le client. Cela rend l'architecture robuste dans la
   mesure où cela limite les contraintes d'ordre dans l'envoi de
   messages. Dans un contexte avec plusieurs serveurs cela permet de
   passer simplement à l'échelle. Cependant cette redondance
-  d'informations entre les requêtes impose un surcout de transfert de
+  d'informations entre les requêtes impose un sur-coût de transfert de
   données.
 
 \item [Possible mise en cache (\$)] Pour contrecarrer ce sur-coût,
   REST impose de pouvoir spécifier dans les messages si les
-  informations qu'ils contiennent peuvent être garder en cache et
+  informations qu'ils contiennent peuvent être gardées en cache et
   ainsi limiter le nombre de messages transmis sur le réseau.
 
 \item[Interface uniforme (U)] Cette contrainte est centrale à REST et
@@ -668,8 +668,8 @@ explicitée dans les descriptions suivantes:
     \emph{Hypermedia As The Engine Of Application State} (HATEOAS)}
 
 \item[En couches (LS)] Cette contrainte permet de limiter la
-  complexité de l'architecture en revanche elle a l'inconvénient
-  d'avoir un surcôut en terme d'exécution.
+  complexité de l'architecture. En revanche elle a l'inconvénient
+  d'avoir un sur-coût en terme d'exécution.
 
 \item[Code à la demande (COD)] Ceci est une contrainte optionelle
   permettant au serveur d'étendre les fonctionnalités du client.
@@ -693,9 +693,9 @@ passage à l'échelle. Ce style RPC se retrouve dans le cadre du Web
 dans l'utilisation du protocole SOAP \cite{box2000simple} et
 correspond au type des appels de services OFBiz. Malgré son succès
 REST reste assez mal compris ainsi son application dans le cadre de
-services Web que nous détaillons dans la partie suivante est souvent
-mal comprise et on perd ainsi les propriétés d'évolution, portabilité,
-et fiabilité.
+l'architecture Web que nous détaillons dans la partie suivante est
+souvent mal comprise et on perd ainsi les propriétés d'évolution,
+portabilité, et fiabilité.
 
 \section{Architecture Web}
 
@@ -731,21 +731,21 @@ HTML, XML, et JSON.
 
 Le protocole \emph{Hypertext Transfer Protocol} (HTTP) est un
 protocole texte utilisé sur le Web pour transmettre les ressources
-HTML, CSS, Javascript. Ce protocole appartient à la couche
-application du modèle OSI et se base sur le protocole TCP dans la pile
-TCP/IP. Il a un rôle particulier dans l'architecture \emph{Web}
-puisqu'il sert à la fois à la communications entre les composants
-\emph{Web} et est l'unique protocole de cette architecture intégrant
-la notion de représentations de ressources. L'accès aux ressources se
-fait au au travers d'une URI et au moyen de 4 méthodes principales
-\verb=GET=, \verb=POST=, \verb=HEAD=, \verb=DELETE= mais également de
-5 autres méthodes moins courantes \verb=OPTIONS=, \verb=CONNECT=,
-\verb=TRACE=, \verb=PUT=, \verb=PATCH=. La figure \ref{fig:http}
-montre un exemple de communication entre un client et serveur HTTP.
-Les requêtes envoyées au serveur prenne la forme d'une ligne de
-requête, un ensemble de header, et optionellement une charge utile.
-Ainsi cet exemple de communication pourrait inclure la requête de la
-figure \ref{fig:httpreq} et la réponse de la figure \ref{fig:httpres}.
+HTML, CSS, Javascript. Ce protocole appartient à la couche application
+du modèle OSI et se base sur le protocole TCP dans la pile TCP/IP. Il
+a un rôle particulier dans l'architecture \emph{Web} puisqu'il sert à
+la fois à la communications entre les composants \emph{Web} et est
+l'unique protocole de cette architecture intégrant la notion de
+représentations et de ressources. L'accès aux ressources se fait au au
+travers d'une URI et au moyen de 4 méthodes principales \verb=GET=,
+\verb=POST=, \verb=HEAD=, \verb=DELETE= mais également de 5 autres
+méthodes moins courantes \verb=OPTIONS=, \verb=CONNECT=, \verb=TRACE=,
+\verb=PUT=, \verb=PATCH=. La figure \ref{fig:http} montre un exemple
+de communication entre un client et un serveur HTTP.  Les requêtes
+envoyées au serveur prennent la forme d'une ligne de requête, un
+ensemble d'entêtes, et optionellement une charge utile.  Ainsi cet
+exemple de communication pourrait inclure la requête de la figure
+\ref{fig:httpreq} et la réponse de la figure \ref{fig:httpres}.
 
 \begin{figure}[h]
 \begin{verbatim}
@@ -775,35 +775,35 @@ Content-Length: 42
 \label{fig:httpres}
 \end{figure}
 
-Le fait que les méthodes et les codes de retours soient contraint par
-le protocol permet aux agents de faire des suppositions sur la manière
-de traité la requête et la réponse. Par exemple la méthode \verb=GET=
-a comme propriété d'être \emph{nullpotent} c'est à dire qu'elle ne
-doit pas modifier l'état des ressources, et la méthode \verb=PUT= a la
-propriété d'être \emph{idempotent} c'est à dire que la réception de
-plusieurs message ne doit produire qu'une seule action. La méthode
-\verb=POST= n'a aucune de ces propriétés. La sémantique fixe attachée
-aux méthodes permet aux différents mécanismes de cache d'agir de
-manière efficace au sein de l'architecture Web et donc d'apporter les
-propriétés de performance et de passage à l'échelle
-\cite{fielding1999hypertext}.
+Le fait que les méthodes et les codes de retours soient contraints par
+le protocole permet aux agents de faire des suppositions sur la
+manière de traiter la requête et la réponse. Par exemple la méthode
+\verb=GET= a comme propriété d'être \emph{nullpotent} c'est à dire
+qu'elle ne doit pas modifier l'état des ressources, et la méthode
+\verb=PUT= a la propriété d'être \emph{idempotent} c'est à dire que la
+réception de plusieurs message ne doit produire qu'une seule
+action. La méthode \verb=POST= n'a aucune de ces propriétés. La
+sémantique fixe attachée aux méthodes permet aux différents mécanismes
+de cache d'agir de manière efficace au sein de l'architecture Web et
+donc d'apporter les propriétés de performance et de passage à
+l'échelle \cite{fielding1999hypertext}.
 
 \subsection{Uniform Resource Identifier}
 
 Les \emph{Uniform Resource Identifiers} (URI) servent à nommer toute
-sorte des ressources (document, images, service, ...)
-\cite{masinter2005uniform}. Les URI ne sont pas des emplacements et
-ne sont donc pas liées à un serveur spécifique ce qui permet
-d'utiliser des proxies. Les URI permettent uniquement d'accéder à des
-représentations et non directement à des ressources. Cette
-distinction permet une forme de polymorphisme en associant plusieurs
+sorte de ressources (document, images, service, ...)
+\cite{masinter2005uniform}. Les URI ne sont pas des emplacements et ne
+sont donc pas liées à un serveur spécifique ce qui permet d'utiliser
+des proxies. Les URI permettent uniquement d'accéder à des
+représentations et non directement à des ressources. Cette distinction
+permet une forme de polymorphisme en associant plusieurs
 représentations à une même ressource. En pratique l'accès à ces
-représentations se fait au moyen du header \verb=Accept= présent dans
-la requête émise vers une URI, qui dispatche alors vers la
+représentations se fait au moyen de l'entête \verb=Accept= présent
+dans la requête émise vers une URI, qui est dispatchée alors vers la
 représentation la plus adaptée. Les URI peuvent à la fois référencer
 des ressources statiques ou des ressources dynamiques. Une ressource
 $R$ est une fonction $M_r(t)$ associant à un temps $t$ une entité ou
-valeurs. L'ensemble des entités ou valeurs appartenant au codomaine
+valeurs. L'ensemble des entités ou valeurs appartenant au co-domaine
 sont équivalentes en terme de leur sémantique. Même si ces ressources
 pointent sur la même valeur il s'agit bien de 2 ressources distinctes.
 Ce qui identifie une ressource c'est la sémantique associé à son URI.
@@ -813,42 +813,43 @@ Ce qui identifie une ressource c'est la sémantique associé à son URI.
 Lors d'une requête, il est possible pour le client de spécifier le
 type contenu souhaité au moyen du header \verb=Accept= cependant il
 faut que le serveur recevant cette requête soit en mesure de fournir
-le format de donnée souhaité. Dans la pratique les formats XML et
-JSON sont les plus courants pour la transmission de données
-structurées. Un point important est que le format représente les
-données transmises sous forme de structures arborescentes pouvant être
-mis en correspondance avec les structures de données présentes dans la
-plupart des langages de programmation. A fin de permettre
+le format de donnée souhaité. Dans la pratique les formats XML et JSON
+sont les plus courants pour la transmission de données structurées. Un
+point important est que le format représente les données transmises
+sous forme de structures arborescentes pouvant être mis en
+correspondance avec les structures de données présentes dans la
+plupart des langages de programmation. Afin de permettre
 l'implémentation de l'hypermédia qui est décrit dans la section
 suivante, il est également important que le format choisi puisse être
-associé à une sémantique. Cela est le cas par exemple du format HTML
-mais pas de JSON.
+associé à une sémantique. Cela est nativement le cas par exemple du
+format HTML mais pas de JSON.
 
 \subsection{Hypermédia}
 
-La notion d'\emph{hypermédia} est une extension de l'\emph{hypertexte}
-à d'autres médias tels que les images, le son, et les vidéos. Il
-désigne un réseau d'information accessible de manière non-linéaire et
+La notion d'\emph{hypermédia} est l'extension de l'\emph{hypertexte} à
+d'autres médias tels que les images, le son, et les vidéos. Il désigne
+un réseau d'information accessible de manière non-linéaire et
 interactive au moyen de liens. Cette notion est cruciale dans la
 réalisation d'une API HTTP RESTful bien qu'elle soit trop souvent
-négligé. En suivant les principes de l'architecture REST, les URI ne
+négligée. En suivant les principes de l'architecture REST, les URI ne
 devraient pas constitué l'API. L'API devrait être idéalement un point
-d'entrée unique avec l'ensemble des ressources accessible en tant que
-liens Hypermédia fournits par cette ressource dans le payload. Cela
-permet de répondre en parti à la problématique du versioning en
-limitant la surface d'attaque de l'API, et rendant l'accès aux
-ressources essentiellement dynamique. L'hypermédia permet d'apporter
-les propriétés de découvrabilité et faible couplage.
+d'entrée unique avec l'ensemble des ressources accessibles en tant que
+liens \emph{hypermédia} fournits dans la représentation contenu dans
+la charge utile de la réponse. Cela permet de répondre en parti à la
+problématique du versioning en limitant la surface d'attaque de l'API,
+et en rendant l'accès aux ressources essentiellement
+dynamique. L'\emph{hypermédia} apporte les propriétés de
+découvrabilité et de faible couplage.
 
 \section{Implémentations existantes}
 
 En parallèle de cette analyse théorique, nous avons également étudié
-les différentes solutions adoptés pour implémenter des API RESTful.
+les différentes solutions adoptées pour implémenter des API RESTful.
 Nous nous intéressons ici à plusieurs frameworks et bibliothèques
-ayant alimenté la réflexion autout des choix d'implémentations qui ont
-été fait pour l'intégration de REST dans OFBiz. Nous présentons donc
-succintement les spécifications JAX-RS et OpenAPI ainsi que le
-framework Vert.x.
+ayant alimentés la réflexion autout des choix d'implémentations qui
+ont été faits pour l'intégration de REST dans OFBiz. Nous présentons
+donc successivement la spécifications JAX-RS ainsi que les framework
+Vert.x et Camel.
 
 \subsection{JAX-RS}
 
@@ -873,9 +874,9 @@ méthodes Java pour une route donnée.
 Asynchrone. Il s'inspire grandement de ce qui a été fait dans
 \emph{Node.js} avec l'utilisation intensive de callback dans des
 requêtes HTTP et les appels vers la base de données. Un point fort de
-Vert.x est le fait que les traitements asynchrone soit bien intégré à
+Vert.x est le fait que les traitements asynchrones soientt bien intégrés à
 l'API. Cela permet d'écrire des traitements de requêtes de manière
-relativment déclaratives grâce à des callbacks tout en ayant de bonnes
+relativement déclarative grâce à des callbacks tout en ayant de bonnes
 performances. À la différence de JAX-RS, il n'y a pas de standard
 pouvant donner une bonne confiance dans la pérénnité de Vert.x
 d'autant que ce projet créé en 2011 reste relativement jeune.
@@ -885,7 +886,7 @@ d'autant que ce projet créé en 2011 reste relativement jeune.
 Apache camel est un framework implémentant un ensemble de patterns de
 communications par envoi de messages décrits dans l'ouvrage «
 Enterprise Integration Patterns » \cite{hohpe2003enterprise}. Une
-solution intéressante proposé par ce framework et montré dans la
+solution intéressante proposé par ce framework et montrée dans la
 figure \ref{fig:restdsl} est la définition d'un langage spécifique
 REST transposable à la fois en Java et en XML permettant de décrire
 les routes et les handlers de traitement des types de requêtes
@@ -926,7 +927,7 @@ rest("/customers/")
 \section{Analyse des besoins}
 
 Afin de répondre au mieux aux besoins de ce stage, nous avons effectué
-une analyse des besoins décomposer d'une part dans des besoins
+une analyse des besoins décomposée d'une part dans des besoins
 fonctionnels pour décrire les fonctionnalités que devra avoir l'API
 REST, et les besoins non-fonctionnels d'autre part pour décrire des
 besoins qualitatifs ou des contraintes d'environnement ou de
@@ -962,8 +963,8 @@ HTTP et suivant le style architectural REST. Actuellement les
 traitements mis à disposition par OFBiz sont fournis au travers du
 moteur de services accessible au moyen d'une interface HTTP de type
 \emph{Remote Procedure Call} (RPC) et du moteur d'entités qui lui
-n'est pas directement accessible par le réseau. Le besoin premier
-sous jacent à la création d'une API REST est de fournir une interface
+n'est pas directement accessible par le réseau. Le besoin premier sous
+jacent à la création d'une API REST est de fournir une interface
 orienté ressources aux moteurs de services et d'entités. L'accès aux
 ressources se fait au moyen d'une \emph{Uniform Resource Identifier}
 (URI) à laquelle le client HTTP envoit une requête HTTP avec une
@@ -982,50 +983,49 @@ de la figure \ref{fig:needs}.
 
 \subsection{Besoins non-fonctionnels}
 
-La solution proposés devra s'intégrer dans le framework. Ainsi il est
-important de peser tout ajout de dépendances. En effet le fait de
-dépendre d'un autre framework a l'avantage de ne pas avoir à
+La solution proposée devra s'intégrer dans le framework OFBiz. Ainsi
+il est important de peser tout ajout de dépendance. En effet le fait
+de dépendre d'un autre framework a l'avantage de ne pas avoir à
 réimplémenter les services fournit par ce framework mais impose
 d'avoir une forte confiance quant à la pérénnité de cette dépendance
 autant en terme de qualité du code, et de la maintenance. Ainsi
-certain framework bien que correspondant au critère technique seront
-négligé du fait de leur immaturité ou de l'instabilité de leur
-gouvernance.
-
-La solution proposé devra être validé étape après étape par la
-communauté au moyen de discussions sur la liste de diffusion
+certains frameworks bien que pouvant correspondre aux critères
+techniques seront négligés du fait de leur immaturité ou de
+l'instabilité de leur gouvernance.  La solution proposée devra être
+validée étape après étape par la communauté au moyen de discussions
+sur la liste de diffusion
 \footnote{\href{mailto:dev@ofbiz.apache.org}{\nolinkurl{dev@ofbiz.apache.org}}}
 et de revue de codes sur le gestionnaire de ticket
 JIRA\footnote{\url{https://issues.apache.org/jira/projects/OFBIZ}}. C'est
 en cela que le mode de développement de ce stage est agile dans la
-mesure les remarques emanant de la communauté peuvent arrivé à tout
-moment et donc amené un changement de direction ou de besoins.
-
+mesure où les remarques émanant de la communauté peuvent arrivées à
+tout moment et donc amenées un changement de direction ou de besoins.
 Le code écrit devra être soumis à la licence Apache 2.0 avec une
 signature d'un accord de license de
-contributeur\footnote{\url{https://www.apache.org/licenses/icla.pdf}} (ICLA)
-permettant d'apporter des garanties en terme de « propriété
+contributeur\footnote{\url{https://www.apache.org/licenses/icla.pdf}}
+(ICLA) permettant d'apporter des garanties en terme de « propriété
 intellectuelle ».
 
 \section{Propositions passées}
 
 Cela fait plusieurs années que l'intégration d'un moyen d'accéder aux
 services et entitées au moyen d'une API HTTP de style REST est en
-discussion au sein de la communauté des développeurs de OFBiz. En
-effet c'est en 2011 qu'Adrian Crum proposa un premier
+discussion au sein de la communauté des développeurs d'OFBiz. En effet
+c'est en 2011 qu'Adrian Crum proposa un premier
 prototype\footnote{\url{https://issues.apache.org/jira/browse/OFBIZ-4274}}. La
 première idée était de permettre de faire du \emph{CRUD} sur les
 entités aux travers des méthodes HTTP. Il a été ensuite question de
-permettre d'appeler des services et de faire correspondre le
-dictionnaire d'entrée et de sorties du service avec les
-représentations JSON et XML. Cependant la conversion des codes
-d'erreurs d'appel de services vers des codes d'erreur HTTP semble
-difficilement automatisable. En effet les types d'errreur de services
-sont \emph{Success}, \emph{Fail}, et \emph{Error}. Lorsque l'appel
-d'un service échoue du fait de la non-authentification de l'appelant
-le code de retour est \emph{Fail} ce qui implique qu'il ne peut être
+permettre d'appeler des services et de faire correspondre les
+\emph{Map} d'entrées et de sorties du service avec les représentations
+JSON et XML. Cependant la conversion des codes d'erreurs d'appels de
+services vers des codes d'erreur HTTP semble difficilement
+automatisable. En effet les types d'errreurs de services sont
+\emph{Success}, \emph{Failure}, et \emph{Error}. Lorsque l'appel d'un
+service échoue du fait de la non-authentification de l'appelant le
+code de retour est \emph{Fail} ce qui implique qu'il ne peut être
 distinguer d'une erreur d'exécution et que donc il n'y a pas de moyen
-de mapper l'échec d'authentification vers le code d'erreur 401 et
+de faire une correspondre l'échec d'authentification vers le code
+d'erreur 401.
 
 \section{Proposition}
 
@@ -1034,29 +1034,27 @@ Actuellement OFBiz gère les requêtes HTTP grâce à une servlet Java
 Le traitement des requêtes HTTP considère les méthode \verb=GET= et
 \verb=POST= sans disctinction. La première voie explorée a été de
 définir une servlet alternative à \verb=controlServlet=. Cela avait
-été fait dans l'idée de définir des définir le support des méthodes
-HTTP et des templates d'URI au moyen de JAX-RS qui s'intègre bien avec
-le mécanisme de Servlet. Il était également question dans ce contexte
-de séparer les routes de l'API et les routes pointant vers les écrans.
-OFBiz fournit déjà un routeur HTTP avec l'ensemble des routes définis
-dans \verb=controller.xml= sans distinction de routes HTTP servant à
-appeler un service et celle correspondant à un écran. De ce fait il a
-semblé pertinent d'adapté la grammaire XML du contrôleur plutôt que de
-proposer une implémentation parallèle utilisant un paradigme de
-définition de routes différents des habitudes des développeurs OFBiz.
-
-Étant donné qu'il est hors de propos de déprécier le mécanisme de
-routage actuel, un telle solution étrangère aurait amené de la
-complexité accidentelle du fait des différentes options quand à
-l'endroit ou définir une route HTTP. Ainsi la solution qui a été
-approfondi a été celle d'adapter la grammaire XML définit par le
-schéma
-\href{http://ofbiz.apache.org/dtds/site-conf.xsd}{\nolinkurl{site-conf.xsd}}.
-
-Le choix a été fait de proposer une solution itérative plutôt que
-d'adopter une approche holistique. En s'inspirant du le modèle de
-maturité de Richardson \cite{fowler2010richardson}, nous avons
-considérer l'introduction de la notion de ressource et de support des
+été fait dans l'idée de définir le support des méthodes HTTP et des
+templates d'URI au moyen de la spécification JAX-RS qui s'intègre bien
+avec le mécanisme de servlet. Il était également question dans ce
+contexte de séparer les routes de l'API et les routes pointant vers
+les écrans.  OFBiz fournit déjà un routeur HTTP avec l'ensemble des
+routes définis dans \verb=controller.xml= sans distinction de routes
+HTTP servant à appeler un service et celle correspondant à un
+écran. De ce fait il a semblé pertinent d'adapter la grammaire XML du
+contrôleur plutôt que de proposer une implémentation parallèle
+utilisant un paradigme de définition de routes différents des
+habitudes des développeurs OFBiz.  Étant donné qu'il est hors de
+propos de déprécier le mécanisme de routage actuel, un telle solution
+étrangère aurait amenée de la complexité accidentelle du fait des
+différentes options quand à l'endroit où définir une route HTTP. Ainsi
+la solution qui a été approfondie a été celle d'adapter la grammaire
+XML définit par le schéma
+\href{http://ofbiz.apache.org/dtds/site-conf.xsd}{\nolinkurl{site-conf.xsd}}. Le
+choix a été fait de proposer une solution itérative plutôt que
+d'adopter une approche holistique. En s'inspirant du modèle de
+maturité REST de Richardson \cite{fowler2010richardson}, nous avons
+considéré l'introduction de la notion de ressource et de support des
 méthodes HTTP sans nous préoccuper de la problématique de
 l'hypermédia.
 
@@ -1125,39 +1123,41 @@ correspondant à des appels de services.
 \subsection{Rendu JSON}
 
 En complément de ce travail sur le routage, un travail sur le rendu
-des ressources au moyen de représentations JSON a été amorté. Cela a
+des ressources au moyen de représentations JSON a été amorçé. Cela a
 été fait en utilisant l'abstraction du moteur d'écrans. Concrétement
 nous avons implémenté un visiteur \cite{gamma1993design} permettant de
-parcourir le modèle des écrans et widgets pour constuire un Objet
+parcourir le modèle des écrans et widgets pour constuire un objet
 JSON.
 
 \section{Difficultés}
 
-D'un point de vue extérieur l'ensemble des fonctionnalités développée
-au cours des 3/4 mois consacré au développement peut semblé restreint.
-Cependant quelques explications concernant le contexte permettent de
-mieux mesurer les enjeux de la tâche. En effet le framework OFBiz est
-un framework ayant accumulé de la dette technique et impliquant
-beaucoup de complexité accidentelle. Par exemple le moteur d'écrans a
-accumulé des extensions de son modèle sans architecture adapté
-entrainant une grande difficulté de raisonnement autour de ce modèle.
+D'un point de vue extérieur l'ensemble des fonctionnalités développées
+au cours des 3/4 mois consacrés au développement peut semblé
+restreint.  Cependant quelques explications concernant le contexte
+permettent de mieux mesurer les enjeux de la tâche. En effet le
+framework OFBiz est un framework ayant accumulé une dette technique
+importante et impliquant beaucoup de complexité accidentelle. Par
+exemple le moteur d'écrans a accumulé des extensions de son modèle
+sans architecture adapté entrainant une grande difficulté de
+raisonnement autour de ce modèle.
 
 En ce qui concerne mon travail au niveau du contrôleur, un grand frein
-dans le développement était le fait que cela devait s'intégrer dans
-une méthode de plus 800 lignes remplit de mutations, de comparaison à
-null, et avec des chemins d'exécution complexe. Cela a donc impliqué
-un travail important de réusinage faisant usage des nouvelles
-possibilité offertes par Java 8 que sont l'API des streams et l'ajout
-des lambda.
+dans le développement a été le fait que cela impliquait une
+modification d'une méthode de plus 800 lignes rempli de mutations, de
+comparaison à \verb=null=, et avec des chemins d'exécution
+complexe. Cela a donc impliqué un travail important de ré-usinage
+faisant usage des nouvelles possibilités offertes par Java 8 que sont
+l'API des streams et l'ajout des lambda.
 
 Un autre point important est le rapport à la communauté OFBiz. En
 effet le travail communautaire impose une temporalité particulière, et
-les soumission de patches peuvent être plus compliquée que dans
-d'autre contexte lorsqu'il faut convaincre la personne en mesure de
-committé son travail de l'intérêt du code proposé. Cette lenteur et
-prudence est justifié par le fait que tout modification de code peut
-impacter en premier lieu les utilisateurs, mais aussi les responsables
-du projet qui devront inévitablement maintenir le code ajouté.
+les soumissions de patches peuvent être plus compliquées que dans
+d'autres contextes.  En effet lorsqu'il faut convaincre la personne en
+mesure de valider son travail de l'intérêt du code proposé cela peut
+prendre du temps. Cette lenteur et prudence est justifié par le fait
+que tout modification de code impact tous les utilisateurs, mais aussi
+les responsables du projet qui devront inévitablement maintenir le
+code ajouté.
 
 \chapter{Conclusion}
 
@@ -1166,12 +1166,12 @@ logiciel libre dans un cadre professionnel. Étant donné les
 difficultés rencontrées qui ont été explicitées dans la section
 précédente, il n'a pas été possible pour moi d'aller jusqu'au bout de
 l'objectif de développer une API REST pour OFBiz. Cependant la
-réflexion développé et partagé avec la communauté OFBiz autour de la
+réflexion développée et partagée avec la communauté OFBiz autour de la
 manière d'intégrer une telle API et les premiers développements
 réalisés sont en mesure de fournir une ligne directrice pour une
 reprise du projet. En cela je considère ce stage comme un succès. À un
 niveau personnel j'ai apprécié le fait que mes compétences et
-connaissances techniques aient pu être mise en perspective de
+connaissances techniques aient pu être mises en perspective de
 problématiques fonctionnelles; le fonctionnel étant la raison d'ếtre
 d'un framework comme OFBiz.
 
