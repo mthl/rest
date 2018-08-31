@@ -58,8 +58,8 @@ présenté dans un troisième temps.
 
 Néréide est une société de service en logiciel libre fondée en 2004
 spécialisée dans l'intégration du progiciel de gestion intégré Apache
-OFBiz.  Il s'agit d'une société coopérative et participative (SCOP)
-dont le siège social est situé à Tours.  Les activités de la société
+OFBiz. Il s'agit d'une société coopérative et participative (SCOP)
+dont le siège social est situé à Tours. Les activités de la société
 se décomposent en différents axes:
 
 \begin{description}
@@ -82,7 +82,7 @@ commun une expertise fonctionnelle sur OFBiz.
 
 Apache \emph{Open For Business} (OFBiz) est un framework Web ayant
 pour but de faciliter la construction de progiciels de gestion
-intégré.  Cet objectif est réalisé au moyen d'un modèle de données
+intégré. Cet objectif est réalisé au moyen d'un modèle de données
 générique et d'un ensemble de modules dédiés à des tâches communes à la
 plupart des entreprises, telles que la comptabilité, la facturation,
 ou la gestion des stocks.
@@ -98,10 +98,10 @@ que projet à part entière en décembre 2006.
 
 Techniquement OFBiz est basé sur la plateforme Java et sur
 l'utilisation de \emph{langage spécifique au domaine} (DSL) basé sur
-des grammaires XML.  Concenant le coeur du framework, les
+des grammaires XML. Concenant le coeur du framework, les
 communications HTTP sont gérés par des Servlets \cite{chan2017servlet}
 et les communications avec les bases de données se font au moyen de
-l'API Java JDBC.  Au dessus de cela, la déclaration des routes HTTP,
+l'API Java JDBC. Au dessus de cela, la déclaration des routes HTTP,
 des écrans et des services se fait dans des fichiers XML faisant
 référence à des implementations de services généralement en Java et
 Groovy. Les écrans sont quant à eux basés sur Freemarker qui est un
@@ -184,15 +184,15 @@ applications de base mais dont aucune application de base ne dépend.
 OFBiz est décomposé en plusieurs composants qui sont regroupés en
 plusieurs catégories ou meta-composants. Ainsi les composants
 fondamentaux définissant l'architecture d'OFBiz sont contenus dans
-l'ensemble de composants \emph{Framework}.  Les composants
-fonctionnels fondamentaux tels que la comptabilité, la facturation, ou
-la gestion des stock sont regroupés dans l'ensemble de composants
-\emph{Applications}.  Les composants spécifiques sont eux mis dans la
+l'ensemble de composants \emph{Framework}. Les composants fonctionnels
+fondamentaux tels que la comptabilité, la facturation, ou la gestion
+des stock sont regroupés dans l'ensemble de composants
+\emph{Applications}. Les composants spécifiques sont eux mis dans la
 catégories \emph{Plugins}. Un point important dans la relation entre
 ces différents composants est qu'il est important que les relations de
 dépendances entre les méta composants soient respectés comme cela est
-représenté sur la figure \ref{fig:compdep}.  Cela permet entre autre
-de développer les plugins dans un dépôt externe.  Nous allons dans les
+représenté sur la figure \ref{fig:compdep}. Cela permet entre autre de
+développer les plugins dans un dépôt externe. Nous allons dans les
 sections suivantes détailler le contenu et l'architecture des deux
 méta-composants \emph{Framework} et \emph{Applications}.
 
@@ -261,7 +261,7 @@ fonctionnalités de OFBiz. Un composant est une agglomération de
 containers, entités, services, écrans, et applications Web. Un
 composant est définit au moyen d'une structure XML stockée dans le
 fichier \verb=ofbiz-component.xml= qui est à la racine du répertoire
-contenant l'ensemble des définitions qu'il contient.  La figure
+contenant l'ensemble des définitions qu'il contient. La figure
 \ref{fig:ofbizcomponent} montre l'exemple du composant \emph{Webtools}
 qui fait référence à deux fichiers contenant des définitions
 d'entités, à un fichier de service et à une application Web.
@@ -386,21 +386,22 @@ présente une partie du fichier \verb=controller.xml= du composant
 
 Un point crucial d'un framework comme OFBiz est l'accès aux bases de
 données. Pour cela OFBiz possède un moteur d'entités pour communiquer
-avec les systèmes de gestion de base de données relationnelles. Ce moteur d'entités
-permet à la fois de définir des schémas adaptés au différent SGBD au
-moyen d'un modèle entité-relation avec des types de données génériques
-associés à des types concrets adaptés à l'implémnentation cible. Un
-deuxième aspect est la construction de requêtes SQL au sein des
-programmes Java et Groovy au moyen d'un DSL utilisant le pattern
-\emph{builder} \cite{gamma1993design}. Lors que ces requêtes sont
-envoyés, leur résultat retourne des valeurs « actives » c'est à dire
-gardant une référence sur la connexion à la base de données pour
-pouvoir sauvegarder en base les modifications faites en sur ces
-objets. Cela correspond au pattern architectural \emph{active record}
-\cite{fowler2002patterns}. La figure \ref{fig:genericvalue}
-représente les relations entre ces valeurs « actives » représentées par
-la classe \verb=GenericValue= et la connexion à la base de données
-représenté par la classe \verb=Delegator=.
+avec les systèmes de gestion de base de données relationnelles. Ce
+moteur d'entités permet à la fois de définir des schémas adaptés au
+différent SGBD au moyen d'un modèle entité-relation avec des types de
+données génériques associés à des types concrets adaptés à
+l'implémnentation cible. Un deuxième aspect est la construction de
+requêtes SQL au sein des programmes Java et Groovy au moyen d'un DSL
+utilisant le pattern \emph{builder} \cite{gamma1993design}. Lors que
+ces requêtes sont envoyés, leur résultat retourne des valeurs «
+actives » c'est à dire gardant une référence sur la connexion à la
+base de données pour pouvoir sauvegarder en base les modifications
+faites en sur ces objets. Cela correspond au pattern architectural
+\emph{active record} \cite{fowler2002patterns}. La figure
+\ref{fig:genericvalue} représente les relations entre ces valeurs «
+actives » représentées par la classe \verb=GenericValue= et la
+connexion à la base de données représenté par la classe
+\verb=Delegator=.
 
 \subsection{Moteur de services}
 
@@ -431,21 +432,21 @@ représenté par la classe \verb=Delegator=.
 
 OFBiz est basé sur une architecture orientée service (SOA). La notion
 de moteur de service est définit par l'interface Java
-\verb=GenericEngine= représentée sur la figure \ref{fig:serviceengine}.
-Un service peut être appelé en lui passant un contexte en entrée, il
-renvoie alors une \emph{Map} permettant de récupérer le type de retour
-conventionnellement nommé "success", "error", ou "failure" ainsi que les
-données renvoyées par le service. Il est possible d'exécuter un
-service soit de manière synchrone avec les méthodes \verb=runSync= ou
-\verb=runSyncIgnore= soit de manière asynchrone avec les méthodes
-\verb=runAsync=. Les méthodes \verb=sendCallBacks= permettent
-d'exécuter des traitements associés de manière \emph{ad hoc} à un
-service. Ces méthodes sont considérées comme obsolètes et on été
-remplacées par l'utilisation des \emph{Event Condition Access} (ECA)
-décrit plutard. Dans la pratique les services sont exécutés la plupart
-du temps de manière synchrone. Un service a accès au moteur d'entités
-pour manipuler les données et au moteur de services pour appeler
-d'autres services.
+\verb=GenericEngine= représentée sur la figure
+\ref{fig:serviceengine}.  Un service peut être appelé en lui passant
+un contexte en entrée, il renvoie alors une \emph{Map} permettant de
+récupérer le type de retour conventionnellement nommé "success",
+"error", ou "failure" ainsi que les données renvoyées par le
+service. Il est possible d'exécuter un service soit de manière
+synchrone avec les méthodes \verb=runSync= ou \verb=runSyncIgnore=
+soit de manière asynchrone avec les méthodes \verb=runAsync=. Les
+méthodes \verb=sendCallBacks= permettent d'exécuter des traitements
+associés de manière \emph{ad hoc} à un service. Ces méthodes sont
+considérées comme obsolètes et on été remplacées par l'utilisation des
+\emph{Event Condition Access} (ECA) décrit plutard. Dans la pratique
+les services sont exécutés la plupart du temps de manière
+synchrone. Un service a accès au moteur d'entités pour manipuler les
+données et au moteur de services pour appeler d'autres services.
 
 Il existe plusieurs implémentations de cette interface parmi
 lesquelles on trouve les classes \texttt{EntityAutoEngine},
@@ -513,7 +514,7 @@ couramment appelés \emph{événements} dans le contexte d'OFBiz.
 Après avoir décrit les éléments définis dans le méta-composant
 \emph{Framework}, nous présentons le méta-composant
 \emph{Applications} contenant des composants métiers c'est à dire des
-composants associé à un type d'application fonctionnelle. Ainsi nous
+composants associé à un type d'application fonctionnel. Ainsi nous
 avons les composants suivants:
 
 \begin{description}
@@ -642,12 +643,12 @@ explicitée dans les descriptions suivantes:
   au serveur d'évoluer indépendamment.
 
 \item[Serveur sans état (CSS)] Chaque requête envoyé par le client
-  doit pouvoir être traitée de manière indépendante.  Cela impose de
+  doit pouvoir être traitée de manière indépendante. Cela impose de
   transmettre dans chacune des requêtes les données permettant
-  d'authentifier le client.  Cela rend l'architecture robuste dans la
+  d'authentifier le client. Cela rend l'architecture robuste dans la
   mesure où cela limite les contraintes d'ordre dans l'envoi de
-  messages.  Dans un contexte avec plusieurs serveurs cela permet de
-  passer simplement à l'échelle.  Cependant cette redondance
+  messages. Dans un contexte avec plusieurs serveurs cela permet de
+  passer simplement à l'échelle. Cependant cette redondance
   d'informations entre les requêtes impose un surcout de transfert de
   données.
 
@@ -685,7 +686,7 @@ suivantes:
 
 Ce style architectural s'oppose principalement au style \emph{Remote
   Procedure Call} (RPC) qui souffre d'un problème de performance et
-passage à l'échelle.  Ce style RPC se retrouve dans le cadre du Web
+passage à l'échelle. Ce style RPC se retrouve dans le cadre du Web
 dans l'utilisation du protocole SOAP \cite{box2000simple} et
 correspond au type des appels de services OFBiz. Malgré son succès
 REST reste assez mal compris ainsi son application dans le cadre de
@@ -695,7 +696,7 @@ et fiabilité.
 
 \section{Architecture Web}
 
-L'architecture Web est une instance du style architectural REST.  En
+L'architecture Web est une instance du style architectural REST. En
 fait REST a été conceptualisé conjointement au World Wide Web pour
 permettre de décrire de manière abstraite les enjeux d'un tel système.
 Nous présentons ici les différents composants de cet architecture que
@@ -727,16 +728,16 @@ HTML, XML, et JSON.
 
 Le protocole \emph{Hypertext Transfer Protocol} (HTTP) est un
 protocole texte utilisé sur le Web pour transmettre les ressources
-HTML, CSS, Javascript.  Ce protocole appartient à la couche
+HTML, CSS, Javascript. Ce protocole appartient à la couche
 application du modèle OSI et se base sur le protocole TCP dans la pile
 TCP/IP. Il a un rôle particulier dans l'architecture \emph{Web}
 puisqu'il sert à la fois à la communications entre les composants
 \emph{Web} et est l'unique protocole de cette architecture intégrant
-la notion de représentations de ressources.  L'accès aux ressources se
+la notion de représentations de ressources. L'accès aux ressources se
 fait au au travers d'une URI et au moyen de 4 méthodes principales
 \verb=GET=, \verb=POST=, \verb=HEAD=, \verb=DELETE= mais également de
 5 autres méthodes moins courantes \verb=OPTIONS=, \verb=CONNECT=,
-\verb=TRACE=, \verb=PUT=, \verb=PATCH=.  La figure \ref{fig:http}
+\verb=TRACE=, \verb=PUT=, \verb=PATCH=. La figure \ref{fig:http}
 montre un exemple de communication entre un client et serveur HTTP.
 Les requêtes envoyées au serveur prenne la forme d'une ligne de
 requête, un ensemble de header, et optionellement une charge utile.
@@ -773,12 +774,12 @@ Content-Length: 42
 
 Le fait que les méthodes et les codes de retours soient contraint par
 le protocol permet aux agents de faire des suppositions sur la manière
-de traité la requête et la réponse.  Par exemple la méthode \verb=GET=
+de traité la requête et la réponse. Par exemple la méthode \verb=GET=
 a comme propriété d'être \emph{nullpotent} c'est à dire qu'elle ne
 doit pas modifier l'état des ressources, et la méthode \verb=PUT= a la
 propriété d'être \emph{idempotent} c'est à dire que la réception de
-plusieurs message ne doit produire qu'une seule action.  La méthode
-\verb=POST= n'a aucune de ces propriétés.  La sémantique fixe attachée
+plusieurs message ne doit produire qu'une seule action. La méthode
+\verb=POST= n'a aucune de ces propriétés. La sémantique fixe attachée
 aux méthodes permet aux différents mécanismes de cache d'agir de
 manière efficace au sein de l'architecture Web et donc d'apporter les
 propriétés de performance et de passage à l'échelle
@@ -788,19 +789,19 @@ propriétés de performance et de passage à l'échelle
 
 Les \emph{Uniform Resource Identifiers} (URI) servent à nommer toute
 sorte des ressources (document, images, service, ...)
-\cite{masinter2005uniform}.  Les URI ne sont pas des emplacements et
+\cite{masinter2005uniform}. Les URI ne sont pas des emplacements et
 ne sont donc pas liées à un serveur spécifique ce qui permet
-d'utiliser des proxies.  Les URI permettent uniquement d'accéder à des
-représentations et non directement à des ressources.  Cette
+d'utiliser des proxies. Les URI permettent uniquement d'accéder à des
+représentations et non directement à des ressources. Cette
 distinction permet une forme de polymorphisme en associant plusieurs
-représentations à une même ressource.  En pratique l'accès à ces
+représentations à une même ressource. En pratique l'accès à ces
 représentations se fait au moyen du header \verb=Accept= présent dans
 la requête émise vers une URI, qui dispatche alors vers la
-représentation la plus adaptée.  Les URI peuvent à la fois référencer
-des ressources statiques ou des ressources dynamiques.  Une ressource
+représentation la plus adaptée. Les URI peuvent à la fois référencer
+des ressources statiques ou des ressources dynamiques. Une ressource
 $R$ est une fonction $M_r(t)$ associant à un temps $t$ une entité ou
-valeurs.  L'ensemble des entités ou valeurs appartenant au codomaine
-sont équivalentes en terme de leur sémantique.  Même si ces ressources
+valeurs. L'ensemble des entités ou valeurs appartenant au codomaine
+sont équivalentes en terme de leur sémantique. Même si ces ressources
 pointent sur la même valeur il s'agit bien de 2 ressources distinctes.
 Ce qui identifie une ressource c'est la sémantique associé à son URI.
 
@@ -809,12 +810,12 @@ Ce qui identifie une ressource c'est la sémantique associé à son URI.
 Lors d'une requête, il est possible pour le client de spécifier le
 type contenu souhaité au moyen du header \verb=Accept= cependant il
 faut que le serveur recevant cette requête soit en mesure de fournir
-le format de donnée souhaité.  Dans la pratique les formats XML et
+le format de donnée souhaité. Dans la pratique les formats XML et
 JSON sont les plus courants pour la transmission de données
-structurées.  Un point important est que le format représente les
+structurées. Un point important est que le format représente les
 données transmises sous forme de structures arborescentes pouvant être
 mis en correspondance avec les structures de données présentes dans la
-plupart des langages de programmation.  A fin de permettre
+plupart des langages de programmation. A fin de permettre
 l'implémentation de l'hypermédia qui est décrit dans la section
 suivante, il est également important que le format choisi puisse être
 associé à une sémantique. Cela est le cas par exemple du format HTML
@@ -823,17 +824,17 @@ mais pas de JSON.
 \subsection{Hypermédia}
 
 La notion d'\emph{hypermédia} est une extension de l'\emph{hypertexte}
-à d'autres médias tels que les images, le son, et les vidéos.  Il
+à d'autres médias tels que les images, le son, et les vidéos. Il
 désigne un réseau d'information accessible de manière non-linéaire et
-interactive au moyen de liens.  Cette notion est cruciale dans la
+interactive au moyen de liens. Cette notion est cruciale dans la
 réalisation d'une API HTTP RESTful bien qu'elle soit trop souvent
-négligé.  En suivant les principes de l'architecture REST, les URI ne
-devraient pas constitué l'API.  L'API devrait être idéalement un point
+négligé. En suivant les principes de l'architecture REST, les URI ne
+devraient pas constitué l'API. L'API devrait être idéalement un point
 d'entrée unique avec l'ensemble des ressources accessible en tant que
 liens Hypermédia fournits par cette ressource dans le payload. Cela
 permet de répondre en parti à la problématique du versioning en
 limitant la surface d'attaque de l'API, et rendant l'accès aux
-ressources essentiellement dynamique.  L'hypermédia permet d'apporter
+ressources essentiellement dynamique. L'hypermédia permet d'apporter
 les propriétés de découvrabilité et faible couplage.
 
 \section{Implementations existantes}
@@ -842,7 +843,7 @@ En parallèle de cette analyse théorique, nous avons également étudié
 les différentes solutions adoptés pour implémenter des API RESTful.
 Nous nous intéressons ici à plusieurs frameworks et bibliothèques
 ayant alimenté la réflexion autout des choix d'implémentations qui ont
-été fait pour l'intégration de REST dans OFBiz.  Nous présentons donc
+été fait pour l'intégration de REST dans OFBiz. Nous présentons donc
 succintement les spécifications JAX-RS et OpenAPI ainsi que le
 framework Vert.x.
 
@@ -853,10 +854,10 @@ RESTful » \cite{pericas2013jax}. Cette spécification est intégrée dans
 \emph{JavaEE} et possède plusieurs implémentations dont Jersey qui est
 l'implémentation de référence, RESTeasy, Restlet, et Apache CXF.
 L'utilisation de Jersey est impossible du fait de l'incompatibilité de
-sa license avec celle d'OFBiz.  Du fait de son intégration dans la
+sa license avec celle d'OFBiz. Du fait de son intégration dans la
 communauté Apache, CXF semble être une implémentation adapté à une
-utilisation dans OFBiz.  L'avantage de cette solution est une
-intégration et adoption forte dans l'univers JavaEE.  Du fait qu'OFBiz
+utilisation dans OFBiz. L'avantage de cette solution est une
+intégration et adoption forte dans l'univers JavaEE. Du fait qu'OFBiz
 est déjà couplé au JDK ce choix ne présente pas un grand risque. Cette
 spécification utilise un système d'annotation comprenant les
 annotations \verb=@Path=, \verb=@GET=, \verb=@POST=, \verb=@Produces=,
@@ -866,13 +867,13 @@ méthodes Java pour une route donnée.
 \subsection{Vert.x}
 
 \emph{Vert.x} est un framework permettant de créer des API Web
-Asynchrone.  Il s'inspire grandement de ce qui a été fait dans
+Asynchrone. Il s'inspire grandement de ce qui a été fait dans
 \emph{Node.js} avec l'utilisation intensive de callback dans des
 requêtes HTTP et les appels vers la base de données. Un point fort de
 Vert.x est le fait que les traitements asynchrone soit bien intégré à
 l'API. Cela permet d'écrire des traitements de requêtes de manière
 relativment déclaratives grâce à des callbacks tout en ayant de bonnes
-performances.  À la différence de JAX-RS, il n'y a pas de standard
+performances. À la différence de JAX-RS, il n'y a pas de standard
 pouvant donner une bonne confiance dans la pérénnité de Vert.x
 d'autant que ce projet créé en 2011 reste relativement jeune.
 
@@ -926,7 +927,7 @@ une analyse des besoins décomposer d'une part dans des besoins
 fonctionnels pour décrire les fonctionnalités que devra avoir l'API
 REST, et les besoins non-fonctionnels d'autre part pour décrire des
 besoins qualitatifs ou des contraintes d'environnement ou de
-développement.  Étant donné le mode de développement agile imposé par
+développement. Étant donné le mode de développement agile imposé par
 le caractère communautaire du projet, cette analyse des besoins n'est
 pas à voir comme un cahier des charges complet, mais comme une
 description précise minimale de ce qui est attendu en terme de
@@ -954,36 +955,36 @@ développement et de manière de travailler.
 \end{figure}
 
 L'objectif de ce stage est de créer une API basée sur le protocole
-HTTP et suivant le style architectural REST.  Actuellement les
+HTTP et suivant le style architectural REST. Actuellement les
 traitements mis à disposition par OFBiz sont fournis au travers du
 moteur de services accessible au moyen d'une interface HTTP de type
 \emph{Remote Procedure Call} (RPC) et du moteur d'entités qui lui
-n'est pas directement accessible par le réseau.  Le besoin premier
+n'est pas directement accessible par le réseau. Le besoin premier
 sous jacent à la création d'une API REST est de fournir une interface
-orienté ressources aux moteurs de services et d'entités.  L'accès aux
+orienté ressources aux moteurs de services et d'entités. L'accès aux
 ressources se fait au moyen d'une \emph{Uniform Resource Identifier}
 (URI) à laquelle le client HTTP envoit une requête HTTP avec une
 méthode (GET/POST/PUT...) adapté à la sémantique du traitement que le
-client HTTP veut effectué.  Les requêtes utilisant les méthodes
+client HTTP veut effectué. Les requêtes utilisant les méthodes
 POST/PUT incluent une charge utile prenant la forme d'une
 représentation de ressource, permettant de créer ou modifier des
-données sur le serveur.  Lors du traitement d'une requête par le
+données sur le serveur. Lors du traitement d'une requête par le
 serveur, cela a pour effet d'appeler des services OFBiz et/ou de faire
 des accès en base de données au moyen du moteur d'entités pour
-manipuler des entités.  À partir de ces traitements le serveur envoit
+manipuler des entités. À partir de ces traitements le serveur envoit
 ensuite une représentation de la ressource requêtée avec un code
-d'erreur adapté à la sémantique du traitement effectué.  Ceci est
+d'erreur adapté à la sémantique du traitement effectué. Ceci est
 représenté de manière simplifié par le diagramme des cas d'utilisation
 de la figure \ref{fig:needs}.
 
 \subsection{Besoins non-fonctionnels}
 
 La solution proposés devra s'intégrer dans le framework. Ainsi il est
-important de peser tout ajout de dépendances.  En effet le fait de
+important de peser tout ajout de dépendances. En effet le fait de
 dépendre d'un autre framework a l'avantage de ne pas avoir à
 réimplémenter les services fournit par ce framework mais impose
 d'avoir une forte confiance quant à la pérénnité de cette dépendance
-autant en terme de qualité du code, et de la maintenance.  Ainsi
+autant en terme de qualité du code, et de la maintenance. Ainsi
 certain framework bien que correspondant au critère technique seront
 négligé du fait de leur immaturité ou de l'instabilité de leur
 gouvernance.
@@ -1007,17 +1008,17 @@ intellectuelle ».
 
 Cela fait plusieurs années que l'intégration d'un moyen d'accéder aux
 services et entitées au moyen d'une API HTTP de style REST est en
-discussion au sein de la communauté des développeurs de OFBiz.  En
+discussion au sein de la communauté des développeurs de OFBiz. En
 effet c'est en 2011 qu'Adrian Crum proposa un premier
 prototype\footnote{\url{https://issues.apache.org/jira/browse/OFBIZ-4274}}. La
 première idée était de permettre de faire du \emph{CRUD} sur les
-entités aux travers des méthodes HTTP.  Il a été ensuite question de
+entités aux travers des méthodes HTTP. Il a été ensuite question de
 permettre d'appeler des services et de faire correspondre le
 dictionnaire d'entrée et de sorties du service avec les
-représentations JSON et XML.  Cependant la conversion des codes
+représentations JSON et XML. Cependant la conversion des codes
 d'erreurs d'appel de services vers des codes d'erreur HTTP semble
-difficilement automatisable.  En effet les types d'errreur de services
-sont \emph{Success}, \emph{Fail}, et \emph{Error}.  Lorsque l'appel
+difficilement automatisable. En effet les types d'errreur de services
+sont \emph{Success}, \emph{Fail}, et \emph{Error}. Lorsque l'appel
 d'un service échoue du fait de la non-authentification de l'appelant
 le code de retour est \emph{Fail} ce qui implique qu'il ne peut être
 distinguer d'une erreur d'exécution et que donc il n'y a pas de moyen
@@ -1028,15 +1029,15 @@ de mapper l'échec d'authentification vers le code d'erreur 401 et
 Actuellement OFBiz gère les requêtes HTTP grâce à une servlet Java
 \cite{chan2017servlet} définit dans la classe \verb=controlServlet=.
 Le traitement des requêtes HTTP considère les méthode \verb=GET= et
-\verb=POST= sans disctinction.  La première voie explorée a été de
-définir une servlet alternative à \verb=controlServlet=.  Cela avait
+\verb=POST= sans disctinction. La première voie explorée a été de
+définir une servlet alternative à \verb=controlServlet=. Cela avait
 été fait dans l'idée de définir des définir le support des méthodes
 HTTP et des templates d'URI au moyen de JAX-RS qui s'intègre bien avec
 le mécanisme de Servlet. Il était également question dans ce contexte
 de séparer les routes de l'API et les routes pointant vers les écrans.
 OFBiz fournit déjà un routeur HTTP avec l'ensemble des routes définis
 dans \verb=controller.xml= sans distinction de routes HTTP servant à
-appeler un service et celle correspondant à un écran.  De ce fait il a
+appeler un service et celle correspondant à un écran. De ce fait il a
 semblé pertinent d'adapté la grammaire XML du contrôleur plutôt que de
 proposer une implémentation parallèle utilisant un paradigme de
 définition de routes différents des habitudes des développeurs OFBiz.
@@ -1044,13 +1045,13 @@ définition de routes différents des habitudes des développeurs OFBiz.
 Étant donné qu'il est hors de propos de déprécier le mécanisme de
 routage actuel, un telle solution étrangère aurait amené de la
 complexité accidentelle du fait des différentes options quand à
-l'endroit ou définir une route HTTP.  Ainsi la solution qui a été
+l'endroit ou définir une route HTTP. Ainsi la solution qui a été
 approfondi a été celle d'adapter la grammaire XML définit par le
 schéma
 \href{http://ofbiz.apache.org/dtds/site-conf.xsd}{\nolinkurl{site-conf.xsd}}.
 
 Le choix a été fait de proposer une solution itérative plutôt que
-d'adopter une approche holistique.  En s'inspirant du le modèle de
+d'adopter une approche holistique. En s'inspirant du le modèle de
 maturité de Richardson \cite{fowler2010richardson}, nous avons
 considérer l'introduction de la notion de ressource et de support des
 méthodes HTTP sans nous préoccuper de la problématique de
@@ -1062,12 +1063,12 @@ La modification du contrôleur a consisté d'une part a ajouté un
 attribut \verb=method= à l'élément \verb=request-map= acceptant un nom
 de méthode HTTP. Cet attribut est optionnel et sa valeur par défault
 est la chaine vide. La sémantique associé à cet attribut est une
-contrainte sur la résolution des requêtes.  Ainsi dans l'exemple de la
+contrainte sur la résolution des requêtes. Ainsi dans l'exemple de la
 figure \ref{fig:controlmodif} la route \verb=/example= n'est
 accessible qu'au travers de la méthode \verb=GET= et la route
 \verb=/example2= n'est accessible qu'au travers de la méthode
-\verb=POST=.  Le comportement par défault est de gérer l'ensemble des
-méthodes HTTP.  Cela reste donc compatible avec l'implémentation
+\verb=POST=. Le comportement par défault est de gérer l'ensemble des
+méthodes HTTP. Cela reste donc compatible avec l'implémentation
 précédente sans impliquer de changement majeur dans le schéma XSD.
 
 \begin{figure}
@@ -1092,11 +1093,11 @@ précédente sans impliquer de changement majeur dans le schéma XSD.
 
 Le deuxième travail réalisé à été de supporter les templates d'URI.
 En effet lorsque l'on modélise des ressources cela implique
-généralement de modéliser des collections.  On a donc envie de pouvoir
-identifier de manière générique un élement de cette collection.  Les
-templates d'URI permettent de faire cela.  Afin d'avoir une
+généralement de modéliser des collections. On a donc envie de pouvoir
+identifier de manière générique un élement de cette collection. Les
+templates d'URI permettent de faire cela. Afin d'avoir une
 implémentation robuste, nous avons fait le choix de réutiliser la
-classe \verb=URITemplate= développé par Apache CXF.  Cela nous permet
+classe \verb=URITemplate= développé par Apache CXF. Cela nous permet
 d'entamer la transition d'un modèle RPC vers un modèle ressources
 comme le montre l'exemple de la figure \ref{fig:urit} qui introduit la
 resources \emph{geos} en lieu et place de l'ensemble de noms
@@ -1121,8 +1122,8 @@ correspondant à des appels de services.
 \subsection{Rendu JSON}
 
 En complément de ce travail sur le routage, un travail sur le rendu
-des ressources au moyen de représentations JSON a été amorté.  Cela a
-été fait en utilisant l'abstraction du moteur d'écrans.  Concrétement
+des ressources au moyen de représentations JSON a été amorté. Cela a
+été fait en utilisant l'abstraction du moteur d'écrans. Concrétement
 nous avons implémenté un visiteur \cite{gamma1993design} permettant de
 parcourir le modèle des écrans et widgets pour constuire un Objet
 JSON.
@@ -1132,7 +1133,7 @@ JSON.
 D'un point de vue extérieur l'ensemble des fonctionnalités développée
 au cours des 3/4 mois consacré au développement peut semblé restreint.
 Cependant quelques explications concernant le contexte permettent de
-mieux mesurer les enjeux de la tâche.  En effet le framework OFBiz est
+mieux mesurer les enjeux de la tâche. En effet le framework OFBiz est
 un framework ayant accumulé de la dette technique et impliquant
 beaucoup de complexité accidentelle. Par exemple le moteur d'écrans a
 accumulé des extensions de son modèle sans architecture adapté
@@ -1146,11 +1147,11 @@ un travail important de réusinage faisant usage des nouvelles
 possibilité offertes par Java 8 que sont l'API des streams et l'ajout
 des lambda.
 
-Un autre point important est le rapport à la communauté OFBiz.  En
+Un autre point important est le rapport à la communauté OFBiz. En
 effet le travail communautaire impose une temporalité particulière, et
 les soumission de patches peuvent être plus compliquée que dans
 d'autre contexte lorsqu'il faut convaincre la personne en mesure de
-committé son travail de l'intérêt du code proposé.  Cette lenteur et
+committé son travail de l'intérêt du code proposé. Cette lenteur et
 prudence est justifié par le fait que tout modification de code peut
 impacter en premier lieu les utilisateurs, mais aussi les responsables
 du projet qui devront inévitablement maintenir le code ajouté.
