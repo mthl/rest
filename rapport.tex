@@ -26,7 +26,7 @@
   société Néréide. Ce stage a consisté à mettre en place une API HTTP
   basée sur le style architectural REST pour les échanges entre
   différents composants logiciels du framework Apache OFBiz pour
-  réorienté l'Architecture Orienté Service (SOA) de ce framework.
+  réorienter l'Architecture Orienté Service (SOA) de ce framework.
 \end{abstract}
 
 \tableofcontents
@@ -43,15 +43,15 @@ composants logiciels du framework Apache OFBiz. Cela a consisté dans
 une première phase à réaliser un état de l'art de l'utilisation de ce
 style architectural, puis à étudier les principes d'architectures
 orientées services (SOA) utilisés dans le framework Apache OFBiz.
-dans une deuxième phase l'API HTTP basée sur le style REST a été
+Dans une deuxième phase l'API HTTP basée sur le style REST a été
 implementée au sein du framework Apache OFBiz en suivant les principes
 SOA. Ces améliorations ont été réalisées en interaction avec la
-communauté Apache OFBiz afin de permettre leurs intégration dans les
+communauté Apache OFBiz afin de permettre leurs intégrations dans les
 prochaines versions.
 
-Nous allons dans un premier temps faire une présentation la société
+Nous allons dans un premier temps faire une présentation de la société
 d'accueil. Dans un deuxième temps nous présenterons le framework sur
-lequel s'est basé le travail effectué lors de ce stage qui sera lui
+lequel s'est basé le travail effectué lors de ce stage qui sera, lui,
 présenté dans un troisième temps.
 
 \chapter{Présentation de l'entreprise}
@@ -60,17 +60,17 @@ Néréide est une société de service en logiciel libre fondée en 2004
 spécialisée dans l'intégration du progiciel de gestion intégré Apache
 OFBiz.  Il s'agit d'une société coopérative et participative (SCOP)
 dont le siège social est situé à Tours.  Les activités de la société
-se décompose en différents axes:
+se décomposent en différents axes:
 
 \begin{description}
 \item[Dévéloppement spécifique] L'intégration du framework OFBiz
-  implique généralement des développement spécifique pour s'adapter au
+  implique généralement des développements spécifiques pour s'adapter au
   différents composants du système d'information existant.
 \item[Maintenance et support applicatif (TMA)] Prestation de support
-  et de maintenance corrective et/ou evolutive pour les développement
+  et de maintenance corrective et/ou évolutive pour les développements
   spécifiques précédemment fait
 \item[Administration système] mettre en place un élément système, un
-  réseau, intégrer et migrer des composant systèmes.
+  réseau, intégrer et migrer des composants systèmes.
 \end{description}
 
 Néréide s'appuie sur le réseau Libre Entreprise dont elle fait partie
@@ -82,8 +82,8 @@ commun une expertise fonctionnelle sur OFBiz.
 
 Apache \emph{Open For Business} (OFBiz) est un framework Web ayant
 pour but de faciliter la construction de progiciels de gestion
-intégré.  Cet objectif est réalisé au moyen d'un modèle de donnée
-générique et d'un ensemble de modules dédiés à des tâches commune à la
+intégré.  Cet objectif est réalisé au moyen d'un modèle de données
+générique et d'un ensemble de modules dédiés à des tâches communes à la
 plupart des entreprises, telles que la comptabilité, la facturation,
 ou la gestion des stocks.
 
@@ -92,7 +92,7 @@ l'idée de développer une solution commune aux différentes
 problématiques rencontrées par les entreprises en utilisant un modèle
 de développement en logiciel libre. En janvier 2006 OFBiz a été accepté
 dans l'incubateur de la fondation Apache avant d'être accepté en tant
-que projet a part entière en décembre 2006.
+que projet à part entière en décembre 2006.
 
 \section{Architecture générale}
 
@@ -100,11 +100,11 @@ Techniquement OFBiz est basé sur la plateforme Java et sur
 l'utilisation de \emph{langage spécifique au domaine} (DSL) basé sur
 des grammaires XML.  Concenant le coeur du framework, les
 communications HTTP sont gérés par des Servlets \cite{chan2017servlet}
-et les communications avec les base de données se font au moyen de
-l'API Java JDBC.  Au dessus de cela la déclaration des routes HTTP,
+et les communications avec les bases de données se font au moyen de
+l'API Java JDBC.  Au dessus de cela, la déclaration des routes HTTP,
 des écrans et des services se fait dans des fichiers XML faisant
 référence à des implementations de services généralement en Java et
-Groovy.  Les écrans sont quant à eux basés sur Freemarker qui est un
+Groovy. Les écrans sont quant à eux basés sur Freemarker qui est un
 langage de templating.
 
 \begin{figure}
@@ -177,8 +177,8 @@ langage de templating.
 \end{figure}
 
 OFBiz est structuré en séparant le framework, les applications, et les
-plugins.  Le framework fournit les mécanismes de communications réseau
-et d'interfacage entre les différentes applications.  Les plugins sont
+plugins. Le framework fournit les mécanismes de communications réseau
+et d'interfacage entre les différentes applications. Les plugins sont
 des applications spécifiques qui ont la spécificité de dépendre des
 applications de base mais dont aucune application de base ne dépend.
 OFBiz est décomposé en plusieurs composants qui sont regroupés en
@@ -232,21 +232,21 @@ de l'architecture du framework.
   \label{fig:containertype}
 \end{figure}
 
-Un container est l'élément de plus bas niveau que définit OFBiz.  Un
-container est processus tournant en tâche de fond pouvant être
-initialisé, démarré et arreté.  Concrètement cela est représenté par
-l'interface \verb=Container= représenté sur la figure
-\ref{fig:containertype}. OFBiz ne définit par défault qu'un seul
+Un container est l'élément de plus bas niveau que définit OFBiz. Un
+container est un processus tournant en tâche de fond pouvant être
+initialisé, démarré et arreté. Concrètement cela est représenté par
+l'interface \verb=Container= représentée sur la figure
+\ref{fig:containertype}. OFBiz ne définit par défaut qu'un seul
 container dans un fichier \verb=ofbiz-container.xml= et il est
-possible pour chacun des composants de définir leur propres
-containers.  L'intérêt de cette abstraction est de permettre de lié
+possible pour chacun des composants de définir leurs propres
+containers. L'intérêt de cette abstraction est de permettre de lier
 l'exécution un daemon externe au lancement de OFBiz. Ainsi le plugin
 OFBiz Camel définit un container pour le runtime de Apache Camel en
-charge de faire communiquer les différents points de sorties.  Un
+charge de faire communiquer les différents points de sorties. Un
 container est paramétré par un ensemble de phases décrites dans
-l'attribut \verb=loaders= du container.  Cet attribut détermine à
-quelles phases ce container doit être démarré.  Les 3 phases suivantes
-sont définis:
+l'attribut \verb=loaders= du container. Cet attribut détermine à
+quelles phases ce container doit être démarré. Les trois phases suivantes
+sont définies:
 \begin{description}
 \item[main] la phase d'exécution de ofbiz
 \item[load-data] la phase de chargement des données dans la base de
@@ -258,8 +258,8 @@ sont définis:
 
 Un composant est une abstraction permettant de séparer les différentes
 fonctionnalités de OFBiz. Un composant est une agglomération de
-containers, entités, services, écrans, et applications Web.  Un
-composant est définit au moyen d'un structure XML stocké dans le
+containers, entités, services, écrans, et applications Web. Un
+composant est définit au moyen d'une structure XML stockée dans le
 fichier \verb=ofbiz-component.xml= qui est à la racine du répertoire
 contenant l'ensemble des définitions qu'il contient.  La figure
 \ref{fig:ofbizcomponent} montre l'exemple du composant \emph{Webtools}
@@ -292,39 +292,39 @@ d'entités, à un fichier de service et à une application Web.
   \label{fig:ofbizcomponent}
 \end{figure}
 
-l'élément \verb=resource-loader= définit de quelle manière ce
+L'élément \verb=resource-loader= définit de quelle manière ce
 composant sera chargé par OFBiz. L'élément \verb=classpath= définit le
-chemin vers des ressources tel que les traductions de label contenu
-dans le dossier pointé par l'attribut \verb=location=.  Concernant les
+chemin vers des ressources telles que les traductions de label contenues
+dans le dossier pointé par l'attribut \verb=location=. Concernant les
 éléments \verb=entity-resource= il est possible d'avoir des types
 "model" ou "data". La différence étant que "model" contient des
 définitions d'entités et "data" contient des exemples de données qui
-serve à fournir des données d'exemples.
+servent à fournir des données d'exemples.
 
 \subsection{Applications Web}
 
 Chaque composant peut définir des applications web qui sont une
-extension du modèle des servlets sont monté dans un serveur
+extension du modèle des servlets et sont montés dans un serveur
 d'applications partagé par tous les composants. Généralement un
 composant possède une application mais il est possible d'en avoir
-plusieurs dans un même composant.  Dans le cas du méta-composant
-\emph{Framework} il n'y a qu'une seule application Web qui est associé
-au composant \emph{Webtools}. Les composants contenu dans
-\emph{Applications} on presque tous au moins une application Web
-associé.  Il est a noté que bien qu'OFBiz soit basé sur l'architecture
+plusieurs dans un même composant. Dans le cas du méta-composant
+\emph{Framework} il n'y a qu'une seule application Web qui est associée
+au composant \emph{Webtools}. Les composants contenus dans
+\emph{Applications} ont presque tous au moins une application Web
+associés. Il est a noter que bien qu'OFBiz soit basé sur l'architecture
 des servlets il n'est pas possible de déployer les différentes
 applications Web dans un serveur d'application externe dans la mesure
 où le processus de compilation d'OFBiz embarque dans un même JAR
 l'ensemble des applications web ainsi que le serveur d'application.
-Classiquement la définitions des routes pour les servlet se fait dans
-un fichier \verb=web.xml=.  Dans le cas d'OFBiz ce routage est délégué
+Classiquement la définition des routes pour les servlet se fait dans
+un fichier \verb=web.xml=. Dans le cas d'OFBiz ce routage est délégué
 à un fichier \verb=controller.xml= associant les différents
 traitements à des routes HTTP ainsi que les écrans qui seront
-retournée suite à ces traitements. Seules les requêtes \verb=POST= et
-\verb=GET= sont traités du fait que le client est uniquement prévu
-pour être un navigateur.  Il n'y a de différences dans le traitement
-des requêtes.  Peu importe la méthode choisi cela à pour effet
-d'appeler l'evénement associé.  La figure \ref{fig:controller}
+retournés suite à ces traitements. Seules les requêtes \verb=POST= et
+\verb=GET= sont traitées du fait que le client est uniquement prévu
+pour être un navigateur. Il n'y a pas de différences dans le traitement
+des requêtes. Peu importe la méthode choisie cela a pour effet
+d'appeler l'événement associé. La figure \ref{fig:controller}
 présente une partie du fichier \verb=controller.xml= du composant
 \emph{Webtools}.
 
