@@ -857,12 +857,11 @@ sa license avec celle d'OFBiz.  Du fait de son intégration dans la
 communauté Apache, CXF semble être une implémentation adapté à une
 utilisation dans OFBiz.  L'avantage de cette solution est une
 intégration et adoption forte dans l'univers JavaEE.  Du fait qu'OFBiz
-est déjà couplé au JDK ce choix ne présente pas un grand risque.
-
-Cette spécification utilise un système d'annotations comprenant les
+est déjà couplé au JDK ce choix ne présente pas un grand risque. Cette
+spécification utilise un système d'annotation comprenant les
 annotations \verb=@Path=, \verb=@GET=, \verb=@POST=, \verb=@Produces=,
-\verb=@Consumes= permettant de définir les méthodes à appeler pour une
-route et une méthode données.
+\verb=@Consumes= permettant d'associer les méthodes HTTP à des
+méthodes Java pour une route donnée.
 
 \subsection{Vert.x}
 
@@ -881,13 +880,12 @@ d'autant que ce projet créé en 2011 reste relativement jeune.
 
 Apache camel est un framework implémentant un ensemble de patterns de
 communications par envoi de messages décrits dans l'ouvrage «
-Enterprise Integration Patterns » \cite{hohpe2003enterprise}.
-
-Une solution intéressante proposé par ce framework et montré dans la
-figure \ref{fig:restdsl} est la définition d'un langage spécifique REST
-transposable à la fois en Java et en XML permettant de décrire les
-routes et les handlers de traitement des types de requêtes associés à
-ces routes.
+Enterprise Integration Patterns » \cite{hohpe2003enterprise}. Une
+solution intéressante proposé par ce framework et montré dans la
+figure \ref{fig:restdsl} est la définition d'un langage spécifique
+REST transposable à la fois en Java et en XML permettant de décrire
+les routes et les handlers de traitement des types de requêtes
+associés à ces routes.
 
 \begin{figure}
   \ContinuedFloat*
