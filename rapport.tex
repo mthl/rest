@@ -815,41 +815,19 @@ structurées.
 
 \subsection{Hypermédia}
 
-l'URI ne doit pas être l'API mais la représentation des données
-identifié par cette URI.  En pratique cela qu'il faut privélégier la
-récupération d'URL dans les payloads plutôt que concaténer des chaînes
-de caractères qui est un signe que l'URL est l'API.
-%% Comment traiter le versioning?
-
-La notion d'\emph{hypermédia} est cruciale dans la réalisation d'une
-API RESTful bien qu'elle soit trop souvent négligé.  Cette notion est
-une extension du contexte d'\emph{hypertext} au formats d'image, de
-son, et de vidéos.  Il désigne un réseau d'information accessible de
-manière non-linéaire et interactive au moyen de liens.
-%% Hypermedia is defined by the presence of application control information embedded within, or as a layer above , the presentation of information  <<modern-web-archi>>.
-
-Pour satisfaire la contraintes d'interface uniforme de REST, Il est
-nécessaire d'implémenter l'hypermédia pour rendre les services
-découvrables. Pour cela il a été proposé de combiner la méthode
-\verb=OPTIONS= pour décrire les actions possibles sur une ressource au
-moyen du header HTTP \verb=Allow= listant l'ensemble des Méthodes
-supportées avec des URIs dans le corps de la réponses.
-
-\begin{verbatim}
-$ curl -i -X OPTIONS http://example.com/resources/1
-HTTP/1.1 200 OK
-Allow: GET, HEAD, POST, DELETE, [...]
-Content-Length: 0
-\end{verbatim}
-
-Dans le contexte du \emph{Web} l'hypermédia a été choisi pour sa
-simplicité et généricité.  Cela a été fait dans l'objectif de rendre
-la participation au \emph{Web} accessible au plus grand nombre.
-L'hypermedia permet également de stocker les différentes informations
-liées sur des serveurs différents et permet donc au \emph{Web} d'être
-distribué.
-
-Découvrabilité, faible couplage, mise à jour simplifié.
+La notion d'\emph{hypermédia} est une extension de l'\emph{hypertexte}
+à d'autres médias tels que les images, le son, et les vidéos.  Il
+désigne un réseau d'information accessible de manière non-linéaire et
+interactive au moyen de liens.  Cette notion est cruciale dans la
+réalisation d'une API HTTP RESTful bien qu'elle soit trop souvent
+négligé.  En suivant les principes de l'architecture REST, les URI ne
+devraient pas constitué l'API.  L'API devrait être idéalement un point
+d'entrée unique avec l'ensemble des ressources accessible en tant que
+liens Hypermédia fournits par cette ressource dans le payload. Cela
+permet de répondre en parti à la problématique du versioning en
+limitant la surface d'attaque de l'API, et rendant l'accès aux
+ressources essentiellement dynamique.  L'hypermédia permet d'apporter
+les propriétés de découvrabilité et faible couplage.
 
 \section{Implementations existantes}
 
