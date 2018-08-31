@@ -809,9 +809,16 @@ Ce qui identifie une ressource c'est la sémantique associé à son URI.
 Lors d'une requête, il est possible pour le client de spécifier le
 type contenu souhaité au moyen du header \verb=Accept= cependant il
 faut que le serveur recevant cette requête soit en mesure de fournir
-le format de donnée souhaité.  Dans la pratique les formats XML est
-JSON sont les plus courant pour la transmission de données
-structurées.
+le format de donnée souhaité.  Dans la pratique les formats XML et
+JSON sont les plus courants pour la transmission de données
+structurées.  Un point important est que le format représente les
+données transmises sous forme de structures arborescentes pouvant être
+mis en correspondance avec les structures de données présentes dans la
+plupart des langages de programmation.  A fin de permettre
+l'implémentation de l'hypermédia qui est décrit dans la section
+suivante, il est également important que le format choisi puisse être
+associé à une sémantique. Cela est le cas par exemple du format HTML
+mais pas de JSON.
 
 \subsection{Hypermédia}
 
