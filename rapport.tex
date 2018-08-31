@@ -186,7 +186,7 @@ plusieurs catégories ou meta-composants. Ainsi les composants
 fondamentaux définissant l'architecture d'OFBiz sont contenus dans
 l'ensemble de composants \emph{Framework}.  Les composants
 fonctionnels fondamentaux tels que la comptabilité, la facturation, ou
-la gestions des stock sont regroupés dans l'ensemble de composants
+la gestion des stock sont regroupés dans l'ensemble de composants
 \emph{Applications}.  Les composants spécifiques sont eux mis dans la
 catégories \emph{Plugins}. Un point important dans la relation entre
 ces différents composants est qu'il est important que les relations de
@@ -385,20 +385,20 @@ présente une partie du fichier \verb=controller.xml= du composant
 \end{figure}
 
 Un point crucial d'un framework comme OFBiz est l'accès aux bases de
-données.  Pour cela OFBiz possède un moteur d'entités pour communiquer
-à les système de base de données relationnelles.  Ce moteur d'entités
+données. Pour cela OFBiz possède un moteur d'entités pour communiquer
+avec les systèmes de gestion de base de données relationnelles. Ce moteur d'entités
 permet à la fois de définir des schémas adaptés au différent SGBD au
 moyen d'un modèle entité-relation avec des types de données génériques
-associé à des types concrets adaptés à l'implémnentation cible. Un
+associés à des types concrets adaptés à l'implémnentation cible. Un
 deuxième aspect est la construction de requêtes SQL au sein des
 programmes Java et Groovy au moyen d'un DSL utilisant le pattern
 \emph{builder} \cite{gamma1993design}. Lors que ces requêtes sont
 envoyés, leur résultat retourne des valeurs « actives » c'est à dire
 gardant une référence sur la connexion à la base de données pour
 pouvoir sauvegarder en base les modifications faites en sur ces
-objets.  Cela correspond au pattern architectural \emph{active record}
-\cite{fowler2002patterns}.  La figure \ref{fig:genericvalue}
-représente les relations entre ces valeurs « actives » représenté par
+objets. Cela correspond au pattern architectural \emph{active record}
+\cite{fowler2002patterns}. La figure \ref{fig:genericvalue}
+représente les relations entre ces valeurs « actives » représentées par
 la classe \verb=GenericValue= et la connexion à la base de données
 représenté par la classe \verb=Delegator=.
 
@@ -429,35 +429,35 @@ représenté par la classe \verb=Delegator=.
   \label{fig:serviceengine}
 \end{figure}
 
-OFBiz est basé sur une architecture orientée service (SOA).  La notion
+OFBiz est basé sur une architecture orientée service (SOA). La notion
 de moteur de service est définit par l'interface Java
-\verb=GenericEngine= représenté sur la figure \ref{fig:serviceengine}.
+\verb=GenericEngine= représentée sur la figure \ref{fig:serviceengine}.
 Un service peut être appelé en lui passant un contexte en entrée, il
 renvoie alors une \emph{Map} permettant de récupérer le type de retour
-conventionnellement nommé "success", "error", ou "fail" ainsi que les
-données renvoyées par le service.  Il est possible d'exécuter un
+conventionnellement nommé "success", "error", ou "failure" ainsi que les
+données renvoyées par le service. Il est possible d'exécuter un
 service soit de manière synchrone avec les méthodes \verb=runSync= ou
 \verb=runSyncIgnore= soit de manière asynchrone avec les méthodes
-\verb=runAsync=.  Les méthodes \verb=sendCallBacks= permettent
-d'exécuter des traitements associé de manière \emph{ad hoc} à un
-service. Ces méthodes sont considéré comme obsolètes et on été
-remplacée par l'utilisation des \emph{Event Condition Access} (ECA)
+\verb=runAsync=. Les méthodes \verb=sendCallBacks= permettent
+d'exécuter des traitements associés de manière \emph{ad hoc} à un
+service. Ces méthodes sont considérées comme obsolètes et on été
+remplacées par l'utilisation des \emph{Event Condition Access} (ECA)
 décrit plutard. Dans la pratique les services sont exécutés la plupart
-du temps de manière synchrone.  Un service à accès au moteur d'entités
-pour manipulés les données et au moteur de services pour appeler
+du temps de manière synchrone. Un service a accès au moteur d'entités
+pour manipuler les données et au moteur de services pour appeler
 d'autres services.
 
 Il existe plusieurs implémentations de cette interface parmi
 lesquelles on trouve les classes \texttt{EntityAutoEngine},
-\texttt{StandardJavaEngine}, et \texttt{GroovyEngine}.  Cela permet
+\texttt{StandardJavaEngine}, et \texttt{GroovyEngine}. Cela permet
 d'écrire des services dans différents langages de programmation ou
 même par des services distant ce qui est le cas du moteur de services
 \verb=XMLRPCClientEngine=. Il est possible pour les plugins de fournir
-leur propre implémentation de services à fin de faire communiquer
+leur propre implémentation de services afin de faire communiquer
 OFBiz avec d'autres composants logiciels.
 
-Les ECA permettent d'exécuter des traitement à différentes phases de
-l'exécution d'un service.  Les différentes phases existantes sont
+Les ECA permettent d'exécuter des traitements à différentes phases de
+l'exécution d'un service. Les différentes phases existantes sont
 "auth", "in-validate", "out-validate", "invoke", "commit", et
 "return".
 
@@ -482,16 +482,16 @@ l'exécution d'un service.  Les différentes phases existantes sont
 Afin de fournir des écrans, OFBiz possède un DSL pour définir des
 écrans, formulaire, widget auquel est associé un mécanisme de rendu
 générique permettant de générer différents formats de sortie tels que
-HTML, XML, CSV, ou XLS.  Ce mécanisme de rendu est défini par
+HTML, XML, CSV, ou XLS. Ce mécanisme de rendu est défini par
 l'interface \verb=ViewHandler= défini sur sur la figure
-\ref{fig:viewhandler}.  L'implémentation principale utilisé par la
+\ref{fig:viewhandler}. L'implémentation principale utilisée par la
 plupart des moteur d'écrans existant est la classe
-\verb=MacroScreenViewHandler=.  Elle délègue le rendu au mécanisme de
-templating Apache Freemarker.  Dans le cas du moteur d'écran HTML
+\verb=MacroScreenViewHandler=. Elle délègue le rendu au mécanisme de
+templating Apache Freemarker. Dans le cas du moteur d'écran HTML
 l'inclusion des scripts Javascript permettant d'apporter du dynamisme
 et d'effectuer des appels AJAX \cite{garrett2005ajax} à des services
 OFBiz est fait directement dans la définition des macros Freemarker.
-Chaque vue (\verb=view-map=) définit dans le fichier
+Chaque vue (\verb=view-map=) définie dans le fichier
 \verb=controller.xml= doit faire référence explicitement à
 l'implémentation du moteur d'écran de son choix dans l'attribut
 \verb=type= qui fait référence à un élément \verb=handler=.
@@ -503,8 +503,8 @@ l'implémentation du moteur d'écran de son choix dans l'attribut
           page="component://common/widget/CommonScreens.xml#login"/>
 \end{lstlisting}
 
-Sauf exception l'ensemble ces éléments sont définis dans le fichier
-\verb=common-controller.xml=.  Il peut définir à la fois des
+Sauf exception l'ensemble de ces éléments sont définis dans le fichier
+\verb=common-controller.xml=. Il peut définir à la fois des
 gestionnaires de rendu d'écran et des gestionnaires de requêtes HTTP
 couramment appelés \emph{événements} dans le contexte d'OFBiz.
 
@@ -513,7 +513,7 @@ couramment appelés \emph{événements} dans le contexte d'OFBiz.
 Après avoir décrit les éléments définis dans le méta-composant
 \emph{Framework}, nous présentons le méta-composant
 \emph{Applications} contenant des composants métiers c'est à dire des
-composants associé à un type d'application fonctionnels.  Ainsi nous
+composants associé à un type d'application fonctionnelle. Ainsi nous
 avons les composants suivants:
 
 \begin{description}
@@ -521,21 +521,21 @@ avons les composants suivants:
   comptabilité.
 \item[commonext] est une extension du composant \emph{common} du
   \emph{Framework} contenant des dépendances fonctionnelles
-\item[content] définit des service et écrans pour créer des contenus
+\item[content] définit des services et écrans pour créer des contenus
   divers tel que des articles, photos, vidéos, pour par exemple
   maintenir un blog.
 \item[datamodel] contient la définition des entités
   applicatives et des relations entre ces entités.
-\item[humanres] définit des service et écrans pour la gestion du
+\item[humanres] définit des services et écrans pour la gestion du
   personnel
-\item[manufacturing] définit des service et écrans pour la gestion des
+\item[manufacturing] définit des services et écrans pour la gestion des
   processus industriel et de stockage.
-\item[marketing] définit des service et écrans pour la communication
+\item[marketing] définit des services et écrans pour la communication
   d'entreprise
-\item[order] définit des service et écrans pour le traitement des commandes
-\item[party] définit des service et écrans pour la gestions des
+\item[order] définit des services et écrans pour le traitement des commandes
+\item[party] définit des services et écrans pour la gestion des
   partenaires et clients.
-\item[product] définit des service et écrans pour la gestions du
+\item[product] définit des services et écrans pour la gestion du
   catalogue de produit et services.
 \item[securityext] est une extension du composant \emph{security} qui
   définit des services ayant des dépendances fonctionnelles.
@@ -544,30 +544,30 @@ avons les composants suivants:
 \end{description}
 
 Cet ensemble de composants est le coeur fonctionnel d'OFBiz, il sert
-de socle pour les composants spécifiques qui sont définit dans au
+de socle pour les composants spécifiques qui sont définit au
 niveau des plugins.
 
 \chapter{État de l'art}
 
 Nous présentons dans ce chapitre le contenu de l'étude faite lors de
-la première phase de ce stage.  Cette étude à consisté d'une part à
+la première phase de ce stage. Cette étude à consisté d'une part à
 étudier de manière théorique le style architectural REST notamment au
-travers des travaux de Roy Fielding.  D'autre part cela a consisté à
+travers des travaux de Roy Fielding. D'autre part cela a consisté à
 étudier des solutions existantes permettant de faciliter le
-développement de service REST.  Ces deux aspects ont eu pour objectif
+développement de service REST. Ces deux aspects ont eu pour objectif
 d'avoir une bonne compréhension des enjeux de ce style architectural,
 et d'avoir une bonne connaissance des solutions existantes pour soit
 en réutiliser une, soit trouver de l'inspiration pour l'implémentation
-développé dans le cadre de OFBiz.
+développée dans le cadre de OFBiz.
 
 \section{Representational State Tranfer}
 
 \emph{Representational State Transfer} (REST) est un style
-architectural ayant émergé au début de l'année 1995.  Il s'agit d'un
+architectural ayant émergé au début de l'année 1995. Il s'agit d'un
 modèle idéalisé décrivant comment le \emph{Web} devrait fonctionner
-\cite{fielding2002principled}.  Il a été affiné pendant 5 ans jusqu'à
+\cite{fielding2002principled}. Il a été affiné pendant 5 ans jusqu'à
 être décrit en détails par Roy Fielding dans sa thèse de doctorat
-\cite{fielding2000architectural} en 2000.  Ce travail a eu une forte
+\cite{fielding2000architectural} en 2000. Ce travail a eu une forte
 résonnance dans les milieux non-académique du fait de l'essor du Web,
 de ses qualités en terme de passage à l'échelle, mais également du
 fait de sa simplicité.
@@ -626,10 +626,10 @@ fait de sa simplicité.
 
 Un style architectural est un ensemble de contraintes placées sur une
 architecture logicielle c'est à dire une abstraction décrivant les
-composants, les connecteurs, ainsi que les données présents au sein
+composants, les connecteurs, ainsi que les données présentes au sein
 d'un système \cite{perry1992foundations}. REST est composé des 6
-contraintes représentés par les noeuds grisés du graphe de dérivation
-de la figure \ref{fig:derivrest}.  Chacune de ces contraintes est
+contraintes représentées par les noeuds grisés du graphe de dérivation
+de la figure \ref{fig:derivrest}. Chacune de ces contraintes est
 explicitée dans les descriptions suivantes:
 
 \begin{description}
@@ -638,7 +638,7 @@ explicitée dans les descriptions suivantes:
   Typiquement il est important de ne pas lier une interface
   utilisateur aux services rendus par le serveur, pour permettre la
   réutilisabilité des services et la variété des interfaces
-  utilisateurs.  Dans un contexte distribué cela permet au client et
+  utilisateurs. Dans un contexte distribué cela permet au client et
   au serveur d'évoluer indépendamment.
 
 \item[Serveur sans état (CSS)] Chaque requête envoyé par le client
