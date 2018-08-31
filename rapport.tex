@@ -790,36 +790,19 @@ Les \emph{Uniform Resource Identifiers} (URI) servent à nommer toute
 sorte des ressources (document, images, service, ...)
 \cite{masinter2005uniform}.  Les URI ne sont pas des emplacements et
 ne sont donc pas liées à un serveur spécifique ce qui permet
-d'utiliser des proxies.  Comme montré sur la figure \ref{fig:resrep}
-les URI permettent uniquement d'accéder à des représentations et non
-directement à des ressources.  Cette distinction permet une forme de
-polymorphisme en associant plusieurs représentations à une même
-ressource.  En pratique l'accès à ces représentations se fait au moyen
-du header \verb=Accept= présent dans la requête émise vers une URI,
-qui dispatche alors vers la représentation la plus adaptée.
-
-\begin{figure}
-  \centering
-  \begin{tikzpicture}
-    \tikzstyle{n}= [draw,rectangle,rounded corners=3pt]
-    \node[n, circle] (c) at (0, 0) {Client};
-    \node[n] (rep) at (4, 0) {Représentation};
-    \node[n] (res) at (9, 0) {Ressource};
-    \draw[->] (c) edge [bend left] node [above] {envoit} (rep);
-    \draw[->] (rep) edge [bend left] node [below] {recoit} (c);
-    \draw[<->] (rep) edge node [above] {met à jour} (res);
-  \end{tikzpicture}
-  \caption{Relation ressource/représentation}
-  \label{fig:resrep}
-\end{figure}
-
-Les URI peuvent à la fois référencer des ressources statiques ou des
-ressources dynamiques.  Une ressource $R$ est une fonction $M_r(t)$
-associant à un temps $t$ une entité ou valeurs.  L'ensemble des
-entités ou valeurs appartenant au codomaine sont équivalentes en terme
-de leur sémantique.  Même si ces ressources pointent sur la même
-valeur il s'agit bien de 2 ressources distinctes.  Ce qui identifie
-une ressource c'est la sémantique associé à son URI.
+d'utiliser des proxies.  Les URI permettent uniquement d'accéder à des
+représentations et non directement à des ressources.  Cette
+distinction permet une forme de polymorphisme en associant plusieurs
+représentations à une même ressource.  En pratique l'accès à ces
+représentations se fait au moyen du header \verb=Accept= présent dans
+la requête émise vers une URI, qui dispatche alors vers la
+représentation la plus adaptée.  Les URI peuvent à la fois référencer
+des ressources statiques ou des ressources dynamiques.  Une ressource
+$R$ est une fonction $M_r(t)$ associant à un temps $t$ une entité ou
+valeurs.  L'ensemble des entités ou valeurs appartenant au codomaine
+sont équivalentes en terme de leur sémantique.  Même si ces ressources
+pointent sur la même valeur il s'agit bien de 2 ressources distinctes.
+Ce qui identifie une ressource c'est la sémantique associé à son URI.
 
 \subsection{Formats de données}
 
