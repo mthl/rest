@@ -1,2 +1,8 @@
 *.html
 rapport__*.png
+/rapport.aux
+/rapport.bbl
+/rapport.blg
+/rapport.log
+/rapport.out
+/rapport.toc
