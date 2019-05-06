@@ -1,0 +1,432 @@
+\documentclass{beamer}
+\usefonttheme{serif}
+\beamertemplatenavigationsymbolsempty
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{pgfgantt}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{tikz}
+\usetikzlibrary{decorations,arrows.meta,shapes,automata,fit,positioning}
+\usepackage{tikz-uml}
+\tikzumlset{fill class=black!10, fill component=white, fill usecase=black!20, fill object=black!20}
+\usepackage{listings}
+\lstset{basicstyle=\footnotesize, tabsize=2}
+\usepackage{amsmath}
+
+\title{Implémentation d'une \textsc{api http} de style \textsc{rest} pour Apache OFBiz}
+\author{Mathieu Lirzin}
+\date{14 septembre 2018}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\section*{Introduction}
+
+\begin{frame}{Introduction}
+  Présentation de mon stage de fin d'études effectué au sein de la
+  société Néréide.
+  \begin{itemize}
+  \item Stage d'une durée de 5 mois (2 Avril $\rightarrow$ 30 Août)
+  \item Objectif d'implémenter une \textsc{api} \textsc{http}
+  \item Étude du style architectural \textsc{rest} et du framework OFBiz
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Plan}
+  \tableofcontents
+\end{frame}
+
+\AtBeginSection[]
+{
+  \begin{frame}
+    \frametitle{Plan}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+\section{Présentation de l'entreprise}
+
+\begin{frame}{Présentation de l'entreprise}
+  \begin{center}
+    \includegraphics[height=3cm]{logo_nereide}
+  \end{center}
+  Néréide est une société de service en logiciel libre fondée en 2004
+  spécialisée dans l'intégration du progiciel de gestion intégré
+  Apache OFBiz.
+  \begin{itemize}
+  \item Société coopérative et participative (\textsc{scop})
+  \item 11 salariés
+  \item Réseau Libre Entreprise
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Activités de l'entreprise}
+  \begin{itemize}
+  \item Dévéloppement spécifique
+  \item Maintenance et support applicatif (\textsc{tma})
+  \item Administration système
+  \item Développement communautaire
+  \end{itemize}
+\end{frame}
+
+\section{Présentation d'OFBiz}
+
+\begin{frame}{Présentation d'OFBiz}
+  \begin{center}
+    \includegraphics[height=2cm]{logo_ofbiz}
+  \end{center}
+  Apache \emph{Open For Business} (OFBiz) est un framework Web ayant
+  pour but de faciliter la construction de progiciels de gestion
+  intégré créé en 2001.
+  \begin{itemize}
+  \item Basé sur la plateforme Java
+  \item Architecture \textsc{soa}, Modèle de données générique
+  \item Polyglotte: Java, Groovy, \textsc{dsl xml}, Freemarker, Javascript.
+  \item Publié sous licence Apache 2
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Architecture d'OFBiz}
+  \begin{center}
+    \resizebox{0.9\textwidth}{!} {%
+    \begin{tikzpicture}
+      \tikzstyle{engine}=[draw, thick, rectangle, node distance=10pt, fill=white];
+      \node[engine] (entity) {entity engine};
+      \node[engine, right=of entity] (service) {service engine};
+      \node[engine, right=of service] (screen) {screen engine};
+
+      \tikzstyle{elem}=[rounded rectangle, node distance=7pt];
+      \tikzstyle{elemc}=[fill=black!30, elem];
+      \tikzstyle{elems}=[fill=red!30, elem];
+      \tikzstyle{eleme}=[fill=yellow!30, elem];
+      \tikzstyle{elemw}=[fill=blue!30, elem];
+      \node[elemw] at (0,7) (webapp1) {webapp};
+      \node[elemw, below=of webapp1] (webapp2) {webapp};
+      \node[elemc, below=of webapp2] (container1) {container};
+      \node[elems, below=of container1] (service1) {service};
+      \node[elems, below=of service1] (service2) {service};
+      \node[eleme, below=of service2] (entity1) {entity};
+
+      \node[elemw, node distance=40pt, right=of webapp1] (webapp3) {webapp};
+      \node[elems, below=of webapp3] (service3) {service};
+      \node[elems, below=of service3] (service4) {service};
+
+      \node[eleme, node distance=40pt, right=of webapp3] (entity3) {entity};
+      \node[eleme, below=of entity3] (entity4) {entity};
+      \node[eleme, below=of entity4] (entity5) {entity};
+      \node[elems, below=of entity5] (service5) {service};
+      \node[elems, below=of service5] (service6) {service};
+
+      \node[elemw, node distance=60pt, right=of entity3] (webapp4) {webapp};
+      \node[elems, below=of webapp4] (service7) {service};
+      \node[elems, below=of service7] (service8) {service};
+      \node[elems, below=of service8] (service9) {service};
+      \node[elems, below=of service9] (service10) {service};
+
+      \tikzstyle{cmpt}=[rectangle, thick, rounded corners, draw=black!80, inner sep=8];
+      \node[cmpt, fit=(webapp1)(webapp2)(container1)(service1)(service2)(entity1),
+        label=above:\emph{composant A}] (cmpta) {};
+      \node[cmpt, fit=(webapp3)(service3)(service4),
+        label=above:\emph{composant B}] (cmptb) {};
+      \node[cmpt, fit=(service5)(service6)(entity3)(entity4)(entity5),
+        label=above:\emph{composant C}] (cmptc) {};
+      \node[cmpt, fit=(webapp4)(service7)(service8)(service9)(service10),
+        label=above:\emph{plugin X}] (pluginx) {};
+
+      \begin{scope}[on background layer]
+        \tikzstyle{bg}=[rectangle, rounded corners=10pt, fill=black!10, inner sep=15]
+        \node[bg, fit=(entity) (service) (screen), label=right:\emph{\textsc{Framework}}] (framework) {};
+        \node[bg, fit=(cmpta) (cmptb) (cmptc), label=above:\emph{\textsc{Applications}}] (apps) {};
+      \end{scope}
+
+      \tikzstyle{dep}=[-{Latex[length=7pt]}, densely dashed]
+      \draw[dep] (cmpta.south) -- (entity);
+      \draw[dep] (cmpta.south) -- (service);
+      \draw[dep] (cmpta.south) -- (screen);
+      \draw[dep] (cmptb.south) -- (service);
+      \draw[dep] (cmptb.south) -- (screen);
+      \draw[dep] (cmptc.south) -- (entity);
+      \draw[dep] (cmptc.south) -- (service);
+      \draw[dep] (pluginx.south) -- (screen);
+      \draw[dep] (pluginx.south) -- (service);
+      \draw[dep] (pluginx) -- (cmptc.east);
+      \draw[dep] (cmptb) -- (cmpta.east);
+    \end{tikzpicture}%
+    }
+  \end{center}
+\end{frame}
+
+\begin{frame}{Architecture du framework}
+  \begin{center}
+    \begin{tikzpicture}
+      \tikzstyle{level}= [draw, thick, rectangle,fill=white, text centered]
+      \node[level] (entity) at (0, 0) {entity engine};
+      \node[level] (service) at (0, 2) {service engine};
+      \node[level] (screen) at (0, 4) {screen engine};
+      \tikzstyle{dep}=[-{Latex[length=7pt]}, densely dashed]
+      \draw[dep] (screen) -- (service);
+      \draw[dep] (service) -- (entity);
+
+      \begin{scope}[on background layer]
+        \tikzstyle{bg}=[rectangle, rounded corners=10pt, fill=black!10, inner sep=15]
+        \node[bg, fit=(entity) (service) (screen)] (framework) {};
+      \end{scope}
+    \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+
+\begin{frame}[fragile]{Définition d'un composant}
+  \scriptsize
+\begin{verbatim}
+<ofbiz-component name="webtools"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation=".../ofbiz-component.xsd">
+  <resource-loader name="main" type="component"/>
+  <classpath type="dir" location="config"/>
+
+  <entity-resource type="data" reader-name="seed" loader="main"
+                   location="data/WebtoolsSecurityPermissionSeedData.xml"/>
+  <entity-resource type="data" reader-name="demo" loader="main"
+                   location="data/WebtoolsSecurityGroupDemoData.xml"/>
+  <service-resource type="model" loader="main"
+                    location="servicedef/services.xml"/>
+  <webapp name="webtools"
+          title="WebTools"
+          menu-name="secondary"
+          server="default-server"
+          location="webapp/webtools"
+          base-permission="OFBTOOLS,WEBTOOLS"
+          mount-point="/webtools"/>
+</ofbiz-component>
+\end{verbatim}
+\end{frame}
+
+\section{Representational State Transfert}
+
+\begin{frame}{\textsc{rest}}
+  Le style architectural \textsc{rest} a été décrit en 2000 par Roy
+  Fielding dans sa thèse de doctorat \emph{Architectural styles and
+    the design of network-based software architectures}.
+
+  \begin{itemize}
+  \item Hypermédia distribué
+  \item Adoption facile
+  \item Extensible
+  \item Passage à l'échelle d'Internet
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Dérivation de contraintes}
+  \begin{center}
+    \begin{tikzpicture}
+      \tikzstyle{as}= [draw,rectangle,rounded corners=3pt, font=\scshape]
+      \tikzstyle{asc}= [as, fill=black!20]
+      \tikzstyle{cst}= [right,scale=0.7]
+      \node[as] (o) at (0, 10) [circle,fill] {};
+      \node[as] (RR) at (-5, 8) {rr};
+      \node[asc] (cache) at (-5, 6) {\$};
+
+      \node[asc] (CS) at (-3, 8) {cs};
+      \node[asc] (CSS) at (-3, 6) {css};
+      \node[as] (CcacheSS) at (-3, 4) {c\$ss};
+
+      \node[asc] (LS) at (0, 8) {ls};
+      \node[as] (LCS) at (0, 6) {lcs};
+      \node[as] (LCcacheSS) at (0, 4)  {lc\$ss};
+
+      \node[as] (VM) at (2.8, 8) {vm};
+      \node[asc] (COD) at (2.8, 6) {cod};
+      \node[as] (LCODCcacheSS) at (2.8, 4) {lcodc\$ss};
+
+      \node[asc] (U) at (5, 8)  {u};
+      \node[as] (REST) at (5, 4) {rest};
+
+      \draw[->] (o) edge [bend right=15] node[cst, left]{replicated} (RR);
+      \draw[->] (o) edge [bend right=10] node[cst]{separated} (CS);
+      \draw[->] (o) edge node[cst]{layered} (LS);
+      \draw[->] (o) edge [bend left=2] node[cst]{programmable} (VM);
+      \draw[->] (o) edge [bend left=15] node[cst,yshift=10]{uniform interface} (U);
+      \draw[->] (RR) edge node[cst]{on-demand} (cache);
+      \draw[->] (cache) edge node[cst, left]{cacheable} (CcacheSS);
+      \draw[->] (CS) edge node[cst]{stateless} (CSS);
+      \draw[->] (CSS) edge node[cst]{reliable} (CcacheSS);
+      \draw[->] (LS) edge (LCS);
+      \draw[->] (LCS) edge node[cst]{shared} (LCcacheSS);
+      \draw[->] (VM) edge (COD);
+      \draw[->] (COD) edge node[cst]{extensible} (LCODCcacheSS);
+      \draw[->] (U) edge node[cst, text width=3cm, left,xshift=25, yshift=30]{simple visible reusable} (REST);
+      \draw[->] (CS.east) edge node[cst, sloped, text
+        width=2cm, centered]{intermediate processing} (LCS);
+      \draw[->] (CS.east) edge[bend left=15, pos=0.75] node[cst]{mobile} (COD);
+      \draw[->] (CcacheSS) edge node[cst,centered, yshift=10]{scalable} (LCcacheSS);
+      \draw[->] (LCcacheSS) edge node[cst,left, text width=0.5cm]{multi-org} (LCODCcacheSS);
+      \draw[->] (LCODCcacheSS) edge  (REST);
+    \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Hypermedia As The Engine Of the Application State}
+  \begin{center}
+    \footnotesize
+    \begin{tikzpicture}[]
+      \tikzstyle{state}=[state with output, text width=1.4cm, text
+        centered, node distance=1.5cm]
+      \tikzstyle{trans}=[font=\ttfamily]
+      \tikzstyle{every lower node part}=[font=\ttfamily]
+      \node[state,initial] (q_0) at (0, 0) {$q_0$ \nodepart{lower} /};
+      \node[state,right=of q_0] (q_1) {$q_1$ \nodepart{lower} /users};
+      \node[state,right=of q_1] (q_2) {$q_2$ \nodepart{lower} /users/14};
+      \path[->] (q_0) edge [bend left] node[trans,above] {GET /users} (q_1)
+      (q_1) edge [bend left] node[trans,above] {GET /users/14} (q_2)
+      (q_2) edge [loop below] node[trans,below] {PUT /users/14} ()
+
+    \end{tikzpicture}
+  \end{center}
+  État de l'application $\neq$ État de la ressource
+\end{frame}
+
+\section{Réalisations}
+
+\begin{frame}{Organisation}
+  \begin{center}
+    \begin{ganttchart}[
+        hgrid=true,
+        vgrid={*1{dotted}}
+      ]{1}{10}
+      \gantttitle{Avril}{2}
+      \gantttitle{Mai}{2}
+      \gantttitle{Juin}{2}
+      \gantttitle{Juillet}{2}
+      \gantttitle{Août}{2}\\
+      \ganttbar{Étude de \textsc{rest}}{1}{2} \\
+      \ganttbar{Étude d'OFBiz}{2}{4}  \\
+      \ganttbar{Implémentation}{4}{9} \\
+      \ganttbar{Rapport}{10}{10}
+    \end{ganttchart}
+  \end{center}
+  \begin{itemize}
+  \item Développement en intéraction avec la communauté
+  \item Mode pseudo “Agile”
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Richardson maturity model}
+  \begin{center}
+    \begin{tikzpicture}
+      \tikzstyle{level}= [rectangle,rounded corners=3pt,text width=6cm,fill=black!20]
+      \node[level] (l0) at (0, 0) {\emph{Level 0}: The swamp of POX};
+      \node[level] (l1) at (0, 1) {\emph{Level 1}: Resources};
+      \node[level] (l2) at (0, 2) {\emph{Level 2}: \textsc{http} verbs};
+      \node[level] (l3) at (0, 3) {\emph{Level 3}: Hypermedia controls};
+      \node (begin) at (4, 0) {};
+      \node (end) at (4, 4) {\textbf{The glory of \textsc{rest}}};
+      \draw[->, thick] (begin.south) to (end);
+    \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Choix techniques}
+
+  \begin{center}
+  \scriptsize
+\begin{verbatim}
+<request-map uri="LookupGeo">...</request-map>
+<request-map uri="createGeo">...</request-map>
+<request-map uri="updateGeo">...</request-map>
+<request-map uri="deleteGeo">...</request-map>
+
+<request-map uri="geos" method="get">...</request-map>
+<request-map uri="geos" method="post">...</request-map>
+<request-map uri="geos/{id}" method="update">...</request-map>
+<request-map uri="geos/{id}" method="delete">...</request-map>
+\end{verbatim}
+  \end{center}
+
+  \begin{itemize}
+  \item Pas de dépendances à des frameworks externes
+  \item Intégration au contrôleur existant
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Moteur d'écran \textsc{json}}
+  OFBiz fournit un \textsc{dsl} pour définir des écrans générique qui
+  peuvent être rendu en \textsc{html}, \textsc{xml}, \textsc{csv}, ou
+  \textsc{xls}.
+
+  \begin{center}
+    \scriptsize
+\begin{verbatim}
+<form name="ComponentList" type="list" separate-columns="true"
+      title="Component List" list-name="componentList" target=""
+      odd-row-style="alternate-row" header-row-style="header-row-2"
+      default-table-style="basic-table hover-bar">
+  <field name="compName">
+    <hyperlink description="${compName}"
+               target="TestSuiteInfo?compName=${compName}"/>
+  </field>
+  <field name="rootLocation"><display/></field>
+  <field name="enabled"><display/></field>
+  <field name="webAppName"><display/></field>
+</form>
+\end{verbatim}
+  \end{center}
+
+  \begin{itemize}
+  \item Implémentation partiel du rendu \textsc{json}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Difficultés}
+  \begin{itemize}
+  \item Complexité du framework
+  \item Dette technique importante
+    \begin{itemize}
+    \item Méthode \texttt{doRequest} de 800 lignes
+    \item Mutations et tests à \emph{null}
+    \end{itemize}
+  \item Traitement spécial des \textsc{uri} avec un chemin composé
+    (ex. \texttt{/foo/bar/baz})
+  \item Latence des retours de la communauté
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Ré-usinage}
+  \begin{itemize}
+  \item Découpage de la méthode \texttt{doRequest}
+  \item Utilisation de lambda et l'\textsc{api} des stream
+  \item Ajout de tests unitaires
+  \end{itemize}
+\end{frame}
+
+\section*{Conclusion}
+
+\begin{frame}{Conclusion}
+  \begin{block}{}
+    Ce stage a rempli mon objectif de découvrir le développement de
+    logiciel libre dans un cadre professionnel.
+  \end{block}
+
+  \begin{block}{}
+    Les premiers développements réalisés ont été intégrés dans OFBiz
+    et sont en mesure de fournir une ligne directrice pour une reprise
+    du projet.
+  \end{block}
+
+  \begin{block}{}
+    Mise en perspective de la \emph{technique} avec des problématiques
+    fonctionnelles.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Fin}
+  Merci de votre attention. Questions?
+\end{frame}
+
+\end{document}
